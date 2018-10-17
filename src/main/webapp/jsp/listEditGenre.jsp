@@ -7,12 +7,17 @@
 <title>Edit Genre</title>
 </head>
 <body>
-<div   class = "pageBody" align = "center">
+<div class="item2" style = "background-color: white; "></div>
+ <div class="item4"></div>
+
+	 <div class="item3">
+	 <div class = "pageContentMovie" style = "margin-left: 50px; " >
 <c:if test = "${exception == 1001}">
     <fmt:message key = "key.incorrectData" bundle = "${lang}"/>
 </c:if>
-                <div style = "width:70%; height:50;  border: 1px solid black;" >
-                             <form name="addGenre" accept-charset="UTF-8"  method="post" action="addGenre" >
+ <div class = "editGenreBlock" >
+ <h5></h5>
+                             <form name="addGenre" accept-charset="UTF-8"  method="post" action="addGenre"  >
                               <input name = "genreId"  hidden="false"  type="text" size="25"  style = "text-align: center" value = "0" required>
                               <c:forEach items="${languages}" var ="language">
                              <input name = "characteristicLanguageId" hidden="false" type="text" size="25" value ="${language.id}">${language.name}
@@ -21,9 +26,10 @@
                                 </c:forEach>
                                 <input type ="submit" value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"/>
                              </form>
-                          </div>
+ </div>
            <c:forEach items="${genres}" var="genre">
-                <div style = "width:70%; height:50;  border: 1px solid black;" >
+                <div class = "editGenreBlock" >
+                 <h5></h5>
                    <form name="editGenre" accept-charset="UTF-8"  method="post" action="editGenre" >
                        <input name = "genreId"  hidden="false"  type="text" size="25"  style = "text-align: center" value = "${genre.id}" required>
                        <input name = "name" type="text" size="25" style = "text-align: center" value = "${genre.name}" required>

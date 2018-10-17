@@ -9,13 +9,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="/js/uploadImage.js"></script>
 </head>
-<body>
-	<div   class = "pageBody" align = "center">
+<div class="item2" style = "background-color: white; "></div>
+ <div class="item4"></div>
+
+	 <div class="item3" >
+         <div class = "pageContentMovie" style = "margin-left: 50px; margin-top: 50px; ">
 	<c:if test = "${exception == 1001}">
         <fmt:message key = "key.incorrectData" bundle = "${lang}"/>
     </c:if>
-             <div style = "width:70%; height:600;" >
-				<form id = "uploadImageForm" name = "uploadImageForm" action="/uploadUserImage" method="post" enctype="multipart/form-data" onclick = "this.target = 'hiddenframe'" style = "float: left;">
+				<form id = "uploadImageForm" name = "uploadImageForm" action="/uploadUserImage" method="post" enctype="multipart/form-data" onclick = "this.target = 'hiddenframe'" class = "imgUpload" style = "float: left;">
 					<img id = "img_up"
 					  <c:if test = "${imageURL eq null}">
 					  src = "${user.imageURL}"
@@ -24,7 +26,7 @@
 					  src = "${imageURL}"
 					   </c:if>
 					    onerror="this.src = '/css/img/default-user-img.jpg'" width="300" height="400" />
-					<p></p>
+					  <div style = "margin-bottom:10px;"></div>
 					<input type="file" name="file" id="file" onchange="previewFile()" />
 					<input type=hidden name=MAX_FILE_SIZE value=64000>
 					 <noscript>
@@ -50,16 +52,18 @@
                                      </c:if>
 
 					<input name = "userId" hidden="false" type="text" size="25" value ="${user.id}"/>
-					<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.loginAut" bundle = "${lang}"/></h3>
-					<input name = "login" type="text" size="25" value ="${user.login}" style = "text-align: center" required>
-					<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.mail" bundle = "${lang}"/></h3>
-					<input  name = "mail" type="text" size="25" value ="${user.mail}" style = "text-align: center" >
-					<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.birthDate" bundle = "${lang}"/></h3>
-					<input name = "birthDate"  type="text" size="25" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${user.birthDate}" pattern = "${dateFormat}"/>" style = "text-align: center" required>
-                    <h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.role" bundle = "${lang}"/></h3>
+					<h3><fmt:message key = "key.loginAut" bundle = "${lang}"/></h3>
+					<input class = "textField" name = "login" type="text" size="25" value ="${user.login}" disabled>
+					<h3><fmt:message key = "key.registrationDate" bundle = "${lang}"/>:</h3>
+					<h3><custom:formatDate value = "${user.registrationDate}" pattern = "${dateFormat}"/></h3>
+					<h3><fmt:message key = "key.mail" bundle = "${lang}"/></h3>
+					<input class = "textField" name = "mail" type="text" maxlength="32" value ="${user.mail}" pattern = "^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$" required />
+					<h3><fmt:message key = "key.birthDate" bundle = "${lang}"/></h3>
+					<input class = "textField" name = "birthDate"  type="text" maxlength="10" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${user.birthDate}" pattern = "${dateFormat}"/>" required />
 
+                    <h3><fmt:message key = "key.role" bundle = "${lang}"/></h3>
 
-					 <select name = "roleId" style = "width:200px;">
+					 <select name = "roleId"  class = "textField"  >
                      	<option value=1
                      	<c:if test = "${user.roleId == commonUser}">
                      	selected
@@ -75,19 +79,19 @@
                      	<fmt:message key = "key.roleAdmin" bundle = "${lang}"/></option>
                      	</c:if>
                      </select>
-					 <h3><fmt:message key = "key.registrationDate" bundle = "${lang}"/>:   <custom:formatDate value = "${user.registrationDate}" pattern = "${dateFormat}"/></h3>
-                     <p></p>
+  <div style = "margin-bottom:10px;"></div>
+
 					 <input type ="submit" onclick="getImageURL()" value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"/>
                 </form>
 			    <form  accept-charset="UTF-8" name="editUserPassword" method="post" action="editUserPassword?id=${user.id}" >
 						<input name = "userId" hidden="false" type="text" size="25" value ="${user.id}">
-						<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.oldPassword" bundle = "${lang}"/></h3>
-                        <input name = "oldPassword" type="password" size="25" value ="" style = "text-align: center" required>
-						<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.newPassword" bundle = "${lang}"/></h3>
-						<input  name = "newPassword" type="password" size="25" value ="" style = "text-align: center" required>
-						<h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.newPasswordRepeat" bundle = "${lang}"/></h3>
-						<input  name = "newPasswordRepeat" type="password" size="25" value ="" style = "text-align: center" required>
-						<p></p>
+						<h3><fmt:message key = "key.oldPassword" bundle = "${lang}"/></h3>
+                        <input class = "textField" name = "oldPassword" type="password" maxlength="24" value ="" required />
+						<h3><fmt:message key = "key.newPassword" bundle = "${lang}"/></h3>
+						<input class = "textField" name = "newPassword" type="password" maxlength="24" value ="" required />
+						<h3><fmt:message key = "key.newPasswordRepeat" bundle = "${lang}"/></h3>
+						<input class = "textField" name = "newPasswordRepeat" type="password" maxlength="24" value =""  required />
+						<div style = "margin-bottom:10px;"></div>
 						<input type ="submit" value ="<fmt:message key = "key.changePassword" bundle = "${lang}"/>"/>
 				</form>
 			</div>

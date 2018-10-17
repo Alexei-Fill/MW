@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>${movie.name}</title>
+	<title>${human.name} ${human.surname}</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="/js/uploadImage.js"></script>
 </head>
@@ -20,7 +20,7 @@
   				  src = "${imageURL}"
   				  </c:if>
   				  onerror="this.src = '/css/img/thumb.png'" />
-                  <p></p>
+                  <div style = "margin-bottom:10px;"></div>
                   <input type="file" name="file" id="file"  accept="image/*" onchange="previewFile()" />
                   <input type=hidden name=MAX_FILE_SIZE value=64000>
                   <noscript>
@@ -69,13 +69,16 @@
 							<h3>${language.name}</h3>
 							<h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
 							<input  class = "textField" name = "name${language.id}" type="text" maxlength="24" value ="${human.name}" required/>
+							<h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
+                            <input  class = "textField" name = "surname${language.id}" type="text" maxlength="45" value ="${human.surname}" />
+                            <h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
+     						<input  class = "textField" name = "patronymic${language.id}" type="text" maxlength="32" value ="${human.patronymic}" />
 							<h4><fmt:message key = "key.descriptionOfMovie" bundle = "${lang}"/></h4>
 							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="biography${language.id}" required>${human.biography}</textarea>
 																	<h3> </h3>
                             </div>
 						</c:forEach>
-
-					<p></p>
+ <div style = "margin-bottom:10px;"></div>
 					<input type ="submit" onclick="getImageURL()"  value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"  />
 
 				</div>

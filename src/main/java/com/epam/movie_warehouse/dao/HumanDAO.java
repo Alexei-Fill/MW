@@ -16,10 +16,11 @@ public class HumanDAO {
     private static final String SHOW_HUMAN_BY_ID = "SELECT * FROM HUMAN H, CHARACTERISTICS_OF_HUMAN CH where  CH.HUMAN_ID = H.HUMAN_ID  " +
             " and H.HUMAN_ID = ? and CH.LANGUAGE_ID = ?";
     private static final String ADD_HUMAN = "INSERT INTO HUMAN (HUMAN_BIRTH_DATE, HUMAN_IMAGE_URL) VALUES (?, ?)";
-    private static final String ADD_CHARACTERISTIC_OF_HUMAN = "INSERT INTO CHARACTERISTICS_OF_HUMAN (HUMAN_NAME, HUMAN_BIOGRAPHY, HUMAN_ID, LANGUAGE_ID)" +
-            " VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_HUMAN = "UPDATE HUMAN H, CHARACTERISTICS_OF_HUMAN CH SET H.HUMAN_BIRTH_DATE = ?, " +
-            "H.HUMAN_IMAGE_URL = ?, CH.HUMAN_NAME = ?, CH.HUMAN_BIOGRAPHY = ?  WHERE CH.HUMAN_ID = H.HUMAN_ID and H.HUMAN_ID = ? and CH.LANGUAGE_ID = ?";
+    private static final String ADD_CHARACTERISTIC_OF_HUMAN = "INSERT INTO CHARACTERISTICS_OF_HUMAN (HUMAN_NAME, HUMAN_SURNAME," +
+            " HUMAN_PATRONYMIC, HUMAN_BIOGRAPHY, HUMAN_ID, LANGUAGE_ID)  VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_HUMAN = "UPDATE HUMAN H, CHARACTERISTICS_OF_HUMAN CH SET CH.HUMAN_NAME = ?, " +
+            " CH.HUMAN_SURNAME = ?, CH.HUMAN_PATRONYMIC = ?, CH.HUMAN_BIOGRAPHY = ?, H.HUMAN_BIRTH_DATE = ?, H.HUMAN_IMAGE_URL = ?  " +
+            "WHERE CH.HUMAN_ID = H.HUMAN_ID and H.HUMAN_ID = ? and CH.LANGUAGE_ID = ?";
     private static final String CHECK_LINKS_HUMAN_TO_MOVIE = "SELECT * FROM ROLE_HUMAN_IN_MOVIE WHERE HUMAN_ID = ?";
     private static final String DELETE_HUMAN = "DELETE from HUMAN WHERE HUMAN_ID = ?";
     private static final String DELETE_HUMAN_CHARACTERISTIC = "DELETE from CHARACTERISTICS_OF_HUMAN WHERE HUMAN_ID = ?";
@@ -128,8 +129,8 @@ public class HumanDAO {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_HUMAN)) {
             getHumanCharacteristic(human, preparedStatement);
-            preparedStatement.setLong(3, human.getId());
-            preparedStatement.setLong(4, languageId);
+            preparedStatement.setLong(5, human.getId());
+            preparedStatement.setLong(6, languageId);
             preparedStatement.executeUpdate();
         }
         connectionPull.putBack(connection);
@@ -138,11 +139,11 @@ public class HumanDAO {
     public void updateHuman (Human human, int languageId) throws SQLException {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HUMAN)){
-            getHumanParameters(human, preparedStatement);
-            preparedStatement.setString(3, human.getName());
-            preparedStatement.setString(4, human.getBiography());
-            preparedStatement.setLong(5, human.getId());
-            preparedStatement.setLong(6, languageId);
+            getHumanCharacteristic(human, preparedStatement);
+            preparedStatement.setDate(5, Date.valueOf(human.getBirthDate()));
+            preparedStatement.setString(6, human.getImageURL());
+            preparedStatement.setLong(7, human.getId());
+            preparedStatement.setLong(8, languageId);
             preparedStatement.executeUpdate();
         }
         connectionPull.putBack(connection);
@@ -155,33 +156,18 @@ public class HumanDAO {
 
     private void getHumanCharacteristic (Human human, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, human.getName());
-        preparedStatement.setString(2, human.getBiography());
+        preparedStatement.setString(2, human.getSurname());
+        preparedStatement.setString(3, human.getPatronymic());
+        preparedStatement.setString(4, human.getBiography());
     }
-
-
-//    public Human getHumanFromDBLN(String lastName) {
-//        final String sqlScript = "SELECT * FROM CHARACTERISTICS_OF_HUMAN where LAST_NAME  like\'%" + lastName + "%\'";
-//        try (Connection connection = connectionPull.retrieve();
-//             PreparedStatement pr = connection.prepareStatement(sqlScript);
-//             ResultSet res = pr.executeQuery()) {
-//            HumanDAO humanDAO = new HumanDAO();
-//            while (res.next()){
-//                human = new Human();
-//                human = humanDAO.setHumanCharacteristic(human, res);
-//                human = humanDAO.getHumanPar(human, connection);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return human;
-//    }
-///
 
     private Human setHumanParameters (Human human, ResultSet resultSet) throws SQLException {
         human.setId(resultSet.getLong("HUMAN_ID"));
         human.setImageURL(resultSet.getString("HUMAN_IMAGE_URL"));
         human.setBirthDate(LocalDate.parse(resultSet.getDate("HUMAN_BIRTH_DATE").toString()));
         human.setName(resultSet.getString("HUMAN_NAME"));
+        human.setSurname(resultSet.getString("HUMAN_SURNAME"));
+        human.setPatronymic(resultSet.getString("HUMAN_PATRONYMIC"));
         human.setBiography(resultSet.getString("HUMAN_BIOGRAPHY"));
         return human;
     }

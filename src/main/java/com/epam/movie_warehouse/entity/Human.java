@@ -6,6 +6,8 @@ public class Human {
     private long id;
     private String imageURL;
     private String name;
+    private String surname;
+    private String patronymic;
     private LocalDate birthDate;
     private String biography;
     private int roleId;
@@ -58,12 +60,30 @@ public class Human {
         this.roleId = roleId;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
     @Override
     public String toString() {
         return "Human{" +
                 "id=" + id +
                 ", imageURL='" + imageURL + '\'' +
                 ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", patronymic='" + patronymic + '\'' +
                 ", birthDate=" + birthDate +
                 ", biography='" + biography + '\'' +
                 ", roleId=" + roleId +

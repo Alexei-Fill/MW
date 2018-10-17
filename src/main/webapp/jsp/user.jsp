@@ -11,10 +11,12 @@
 <link href="/css/userEdit.css"  rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<div  style = "position: absolute; top:17%; width:100%">
-         <div style = "width:100%;" align = "center">
-                                     <div style = "width:70%; height:600;" >
-                                         <img src = "${user.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'"  width="300" height="400" style = "float: left;"/>
+<div class="item2" style = "background-color: white; "></div>
+ <div class="item4"></div>
+
+	 <div class="item3" >
+         <div class = "pageContentMovie" style = "margin-left: 50px; margin-top: 50px; ">
+                                         <img src = "${user.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'"  class = "imgUser"/>
                                           <input name = "userId" hidden="false" type="text" size="25" value ="${user.id}">
                                          <h3 style = "margin-top: 0.3; margin-bottom: 0.3;"><fmt:message key = "key.loginAut" bundle = "${lang}"/></h3>
                                          <h3 style = "margin-top: 0.3; margin-bottom: 0.3; color:red;">${user.login}</h3>
@@ -37,7 +39,6 @@
               <div class="delete-container">
                   <a href="javascript:PopUpShow()"><fmt:message key = "key.delete" bundle = "${lang}"/></a>
               </div>
-
             </c:if>
            <c:if test="${authorizedUser.id != user.id}">
                 <c:if test = "${authorizedUser.roleId == admin}">

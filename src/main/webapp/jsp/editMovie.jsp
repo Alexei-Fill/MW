@@ -20,7 +20,7 @@
   				  src = "${imageURL}"
   				  </c:if>
   				 onerror="this.src = '/css/img/thumb.png'" />
-                  <p></p>
+                  <div style = "margin-bottom:10px;"></div>
                   <input type="file" name="file" id="file"  accept="image/*" onchange="previewFile()" />
                   <input type=hidden name=MAX_FILE_SIZE value=64000>
                   <noscript>
@@ -85,7 +85,7 @@
 							</c:if>
 						 </c:if>
 					  </c:forEach>
-					  > ${human.name}
+					  > ${human.name} ${human.surname}
 				</c:forEach>
 				<h4><fmt:message key = "key.directorsOfMovie" bundle = "${lang}"/></h4>
 				<c:forEach items="${humans}" var="human">
@@ -97,7 +97,7 @@
 								</c:if>
 							</c:if>
 						</c:forEach>
-						> ${human.name}
+						> ${human.name} ${human.surname}
 					</c:forEach>
 					<h4><fmt:message key = "key.screenwritersOfMovie" bundle = "${lang}"/></h4>
 					<c:forEach items="${humans}" var="human">
@@ -109,7 +109,7 @@
 								</c:if>
 							</c:if>
 						</c:forEach>
-						> ${human.name}
+						> ${human.name} ${human.surname}
 					</c:forEach>
 					<p></p>
 					<div >
@@ -127,7 +127,7 @@
 											</div>
                         </c:forEach>
 					</div>
-					<p></p>
+				 <div style = "margin-bottom:10px;"></div>
 					<input type ="submit" onclick="getImageURL()"  value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"  />
 			</form>
 	</div>

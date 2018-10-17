@@ -36,8 +36,7 @@ public class DeleteMovieService implements Service {
             movieDAO.deleteLinksUsersOnMovie(movieId);
             movieDAO.deleteMovie(movieId);
             logger.info("Movie was deleted movieId = " + movieId);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_MOVIES_ADMIN_URI);
-            requestDispatcher.forward(request, response);
+            response.sendRedirect(LIST_MOVIES_ADMIN_URI);
         }
     }
 }

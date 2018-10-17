@@ -40,11 +40,10 @@ public class DeleteUserService implements Service {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            userDAO.deleteLinksMoviesOfUser(user);
+            userDAO.deleteLinksMoviesOfUser(userById);
             userDAO.deleteUser(userById);
             userLogger.info("User was deleted " + user);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestForward);
-            requestDispatcher.forward(request, response);
+            response.sendRedirect(requestForward);
         }
     }
 

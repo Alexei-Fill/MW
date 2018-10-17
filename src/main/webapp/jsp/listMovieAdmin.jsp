@@ -49,21 +49,21 @@
                                          <h><fmt:message key = "key.actorsOfMovie" bundle = "${lang}"/>: </h>
                                         <c:forEach items="${movie.movieCrew}" var="human">
                                         <c:if test="${human.roleId eq actor}">
-                                        <a href = "/human?humanId=${human.id}">${human.name}</a>
+                                        <a href = "/human?humanId=${human.id}">${human.name} ${human.surname}</a>
                                         </c:if>
                                         </c:forEach>
                                          <p></p>
                                          <h><fmt:message key = "key.directorsOfMovie" bundle = "${lang}"/>: </h>
                                         <c:forEach items="${movie.movieCrew}" var="human">
                                         <c:if test="${human.roleId eq director}">
-                                        <a href = "/human?humanId=${human.id}">${human.name}</a>
+                                        <a href = "/human?humanId=${human.id}">${human.name} ${human.surname}</a>
                                         </c:if>
                                         </c:forEach>
                                         <p></p>
                                         <h><fmt:message key = "key.screenwritersOfMovie" bundle = "${lang}"/>: </h>
                                         <c:forEach items="${movie.movieCrew}" var="human">
                                         <c:if test="${human.roleId eq screenwriter}">
-                                         <a href = "/human?humanId=${human.id}">${human.name}</a>
+                                         <a href = "/human?humanId=${human.id}">${human.name} ${human.surname}</a>
                                         </c:if>
                                         </c:forEach>
                                         <p></p>

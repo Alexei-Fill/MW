@@ -16,6 +16,8 @@ public final class MovieWarehouseConstant {
     public static final int PASSWORD_MAX_LENGTH = 24;
     public static final int PASSWORD_MIN_LENGTH = 6;
     public static final int MAIL_MAX_LENGTH = 32;
+    public static final int SURNAME_MAX_LENGTH = 45;
+    public static final int PATRONYMIC_MAX_LENGTH = 32;
     public static final int MAIL_MIN_LENGTH = 6;
     public static final int BIG_TEXT_MAX_LENGTH = 10240;
     public static final int itsNotLiked = 0;
@@ -94,6 +96,8 @@ public final class MovieWarehouseConstant {
     public static final String DURATION = "duration";
     public static final String RELEASE_DATE = "releaseDate";
     public static final String NAME = "name";
+    public static final String SURNAME = "surname";
+    public static final String PATRONYMIC = "patronymic";
     public static final String DESCRIPTION = "description";
     public static final String BIOGRAPHY = "biography";
     public static final String COUNTRY = "country";

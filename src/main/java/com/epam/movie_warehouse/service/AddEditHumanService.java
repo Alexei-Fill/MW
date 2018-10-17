@@ -62,6 +62,8 @@ public class AddEditHumanService implements Service {
 
     private void setMultiLanguageParameters(Human human, HttpServletRequest request, int languageId) throws ValidationException {
         human.setName(validateName(request.getParameter(NAME + languageId)));
+        human.setSurname(validateSurname(request.getParameter(SURNAME + languageId)));
+        human.setPatronymic(validatePatronymic(request.getParameter(PATRONYMIC + languageId)));
         human.setBiography(validateBiography(request.getParameter(BIOGRAPHY + languageId)));
     }
 }

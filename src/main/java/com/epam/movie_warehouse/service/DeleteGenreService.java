@@ -31,8 +31,8 @@ public class DeleteGenreService implements Service {
             if (!genreDAO.checkLinksGenreToMovie(genreId)) {
                 genreDAO.deleteGenre(genreId);
                 logger.info("Genre was deleted  genreId =" +  genreId);
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);
-                requestDispatcher.forward(request, response);
+                response.sendRedirect(LIST_GENRE_URI);
+
             }else {
                 logger.info("Genre has not been deleted genreId = " +  genreId);
                 throw new SQLException(YOU_HAVE_LINKS);

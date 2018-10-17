@@ -15,10 +15,15 @@ width:960px;
 border: 1px solid black;
 height:300px;
 }
+.pageContentUser{
+overflow: auto;
+ height:130px;
+ border: 1px solid black;
+}
 .pageContentMovie{
 width:90%;
 }
-h1, h4, p{
+h1, h4, h3, p{
 margin-bottom:0;
 margin-top:0;
 }
@@ -37,6 +42,20 @@ width:150px;
 height:200px;
 margin-left: 30px;
 float: left;
+}
+.imgListUser {
+width:100px;
+height:128px;
+margin-left: 70px;
+margin-top: 1px;
+float: left;
+}
+.imgUser {
+width:310px;
+height:400px;
+float: left;
+padding:2px;
+border: 3px solid  #11c116;
 }
 .imgUpload{
 width:360px;
@@ -70,3 +89,14 @@ height:200px;
 overflow: hidden;
 text-overflow: clip;
 }
+.movieLink{
+float:left;
+width:200px;
+margin:5px;
+border: 1px solid  #11c116;
+}
+.editGenreBlock{
+height:50px;
+border: 1px solid #11c116;
+}
+

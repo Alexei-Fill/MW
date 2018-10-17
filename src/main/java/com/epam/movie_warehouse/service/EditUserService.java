@@ -36,7 +36,6 @@ public class EditUserService implements Service {
         } else {
             String requestURI = request.getRequestURI();
             if (requestURI.equalsIgnoreCase(EDIT_USER_URI)) {
-                user.setLogin(validateLogin(request.getParameter(LOGIN)));
                 user.setMail(validateMail(request.getParameter(MAIL)));
                 user.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
                 user.setImageURL(request.getParameter(IMG_URL));
