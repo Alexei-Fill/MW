@@ -1,0 +1,88 @@
+2018-10-08 00:47:58,996 http-bio-8889-exec-1 DEBUG Initializing configuration org.apache.logging.log4j.core.config.properties.PropertiesConfiguration@1dbcce8
+2018-10-08 00:47:59,060 http-bio-8889-exec-1 DEBUG Installed 1 script engine
+2018-10-08 00:48:00,987 http-bio-8889-exec-1 DEBUG Oracle Nashorn version: 1.8.0_172, language: ECMAScript, threading: Not Thread Safe, compile: true, names: [nashorn, Nashorn, js, JS, JavaScript, javascript, ECMAScript, ecmascript], factory class: jdk.nashorn.api.scripting.NashornScriptEngineFactory
+2018-10-08 00:48:00,988 http-bio-8889-exec-1 DEBUG PluginManager 'Core' found 115 plugins
+2018-10-08 00:48:00,989 http-bio-8889-exec-1 DEBUG PluginManager 'Level' found 0 plugins
+2018-10-08 00:48:00,997 http-bio-8889-exec-1 DEBUG Building Plugin[name=property, class=org.apache.logging.log4j.core.config.Property].
+2018-10-08 00:48:01,023 http-bio-8889-exec-1 TRACE TypeConverterRegistry initializing.
+2018-10-08 00:48:01,024 http-bio-8889-exec-1 DEBUG PluginManager 'TypeConverter' found 26 plugins
+2018-10-08 00:48:01,037 http-bio-8889-exec-1 DEBUG createProperty(name="filename", value="target/rolling/rollingtest.log")
+2018-10-08 00:48:01,038 http-bio-8889-exec-1 DEBUG Building Plugin[name=properties, class=org.apache.logging.log4j.core.config.PropertiesPlugin].
+2018-10-08 00:48:01,047 http-bio-8889-exec-1 DEBUG configureSubstitutor(={filename=target/rolling/rollingtest.log}, Configuration(PropertiesConfig))
+2018-10-08 00:48:01,047 http-bio-8889-exec-1 DEBUG PluginManager 'Lookup' found 13 plugins
+2018-10-08 00:48:01,049 http-bio-8889-exec-1 DEBUG Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+2018-10-08 00:48:01,050 http-bio-8889-exec-1 DEBUG createAppenderRef(ref="RollingFile", level="null", Filter=null)
+2018-10-08 00:48:01,063 http-bio-8889-exec-1 DEBUG Building Plugin[name=logger, class=org.apache.logging.log4j.core.config.LoggerConfig].
+2018-10-08 00:48:01,082 http-bio-8889-exec-1 DEBUG createLogger(additivity="false", level="ALL", name="com.epam.movie_warehouse", includeLocation="null", ={RollingFile}, ={}, Configuration(PropertiesConfig), Filter=null)
+2018-10-08 00:48:01,087 http-bio-8889-exec-1 DEBUG Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+2018-10-08 00:48:01,088 http-bio-8889-exec-1 DEBUG createAppenderRef(ref="STDOUT", level="null", Filter=null)
+2018-10-08 00:48:01,088 http-bio-8889-exec-1 DEBUG Building Plugin[name=root, class=org.apache.logging.log4j.core.config.LoggerConfig$RootLogger].
+2018-10-08 00:48:01,090 http-bio-8889-exec-1 DEBUG createLogger(additivity="null", level="ALL", includeLocation="null", ={STDOUT}, ={}, Configuration(PropertiesConfig), Filter=null)
+2018-10-08 00:48:01,091 http-bio-8889-exec-1 DEBUG Building Plugin[name=loggers, class=org.apache.logging.log4j.core.config.LoggersPlugin].
+2018-10-08 00:48:01,093 http-bio-8889-exec-1 DEBUG createLoggers(={com.epam.movie_warehouse, root})
+2018-10-08 00:48:01,094 http-bio-8889-exec-1 DEBUG Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+2018-10-08 00:48:01,103 http-bio-8889-exec-1 DEBUG PatternLayout$Builder(pattern="%d %p %C{1.} [%t] %m%n", PatternSelector=null, Configuration(PropertiesConfig), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+2018-10-08 00:48:01,103 http-bio-8889-exec-1 DEBUG PluginManager 'Converter' found 42 plugins
+2018-10-08 00:48:01,147 http-bio-8889-exec-1 DEBUG Building Plugin[name=TimeBasedTriggeringPolicy, class=org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy].
+2018-10-08 00:48:01,152 http-bio-8889-exec-1 DEBUG TimeBasedTriggeringPolicy$Builder(interval="2", modulate="true", maxRandomDelay="null")
+2018-10-08 00:48:01,152 http-bio-8889-exec-1 DEBUG Building Plugin[name=SizeBasedTriggeringPolicy, class=org.apache.logging.log4j.core.appender.rolling.SizeBasedTriggeringPolicy].
+2018-10-08 00:48:01,153 http-bio-8889-exec-1 DEBUG createPolicy(size="100MB")
+2018-10-08 00:48:01,200 http-bio-8889-exec-1 DEBUG Building Plugin[name=Policies, class=org.apache.logging.log4j.core.appender.rolling.CompositeTriggeringPolicy].
+2018-10-08 00:48:01,201 http-bio-8889-exec-1 DEBUG createPolicy(={TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=2, modulate=true), SizeBasedTriggeringPolicy(size=104857600)})
+2018-10-08 00:48:01,202 http-bio-8889-exec-1 DEBUG Building Plugin[name=DefaultRolloverStrategy, class=org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy].
+2018-10-08 00:48:01,209 http-bio-8889-exec-1 DEBUG DefaultRolloverStrategy$Builder(max="5", min="null", fileIndex="null", compressionLevel="null", ={}, stopCustomActionsOnError="null", tempCompressedFilePattern="null", Configuration(PropertiesConfig))
+2018-10-08 00:48:01,210 http-bio-8889-exec-1 DEBUG Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.RollingFileAppender].
+2018-10-08 00:48:01,220 http-bio-8889-exec-1 DEBUG RollingFileAppender$Builder(fileName="target/rolling/rollingtest.log", filePattern="target/rolling2/test1-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz", append="null", locking="null", Policies(CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=2, modulate=true), SizeBasedTriggeringPolicy(size=104857600)])), DefaultRolloverStrategy(DefaultRolloverStrategy(min=1, max=5, useMax=true)), advertise="null", advertiseUri="null", createOnDemand="null", filePermissions="null", fileOwner="null", fileGroup="null", bufferedIo="null", bufferSize="null", immediateFlush="null", ignoreExceptions="null", PatternLayout(%d %p %C{1.} [%t] %m%n), name="RollingFile", Configuration(PropertiesConfig), Filter=null)
+2018-10-08 00:48:01,232 http-bio-8889-exec-1 TRACE New file 'target/rolling/rollingtest.log' created = true
+2018-10-08 00:48:01,248 http-bio-8889-exec-1 DEBUG Starting RollingFileManager target/rolling/rollingtest.log
+2018-10-08 00:48:01,253 http-bio-8889-exec-1 DEBUG PluginManager 'FileConverter' found 2 plugins
+2018-10-08 00:48:01,257 http-bio-8889-exec-1 DEBUG Setting prev file time to 2018-10-08T00:48:01.231+0600
+2018-10-08 00:48:01,262 http-bio-8889-exec-1 DEBUG Initializing triggering policy CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=2, modulate=true), SizeBasedTriggeringPolicy(size=104857600)])
+2018-10-08 00:48:01,272 http-bio-8889-exec-1 TRACE PatternProcessor.getNextTime returning 2018/10/08-00:48:02.000, nextFileTime=2018/10/08-00:48:01.000, prevFileTime=1970/01/01-06:00:00.000, current=2018/10/08-00:48:01.271, freq=EVERY_SECOND
+2018-10-08 00:48:01,276 http-bio-8889-exec-1 TRACE PatternProcessor.getNextTime returning 2018/10/08-00:48:02.000, nextFileTime=2018/10/08-00:48:01.000, prevFileTime=2018/10/08-00:48:01.000, current=2018/10/08-00:48:01.276, freq=EVERY_SECOND
+2018-10-08 00:48:01,277 http-bio-8889-exec-1 DEBUG Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+2018-10-08 00:48:01,278 http-bio-8889-exec-1 DEBUG PatternLayout$Builder(pattern="%m%n", PatternSelector=null, Configuration(PropertiesConfig), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+2018-10-08 00:48:01,278 http-bio-8889-exec-1 DEBUG Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.ConsoleAppender].
+2018-10-08 00:48:01,282 http-bio-8889-exec-1 DEBUG ConsoleAppender$Builder(target="null", follow="null", direct="null", bufferedIo="null", bufferSize="null", immediateFlush="null", ignoreExceptions="null", PatternLayout(%m%n), name="STDOUT", Configuration(PropertiesConfig), Filter=null)
+2018-10-08 00:48:01,283 http-bio-8889-exec-1 WARN Unable to instantiate org.fusesource.jansi.WindowsAnsiOutputStream
+2018-10-08 00:48:01,284 http-bio-8889-exec-1 DEBUG Starting OutputStreamManager SYSTEM_OUT.false.false
+2018-10-08 00:48:01,285 http-bio-8889-exec-1 DEBUG Building Plugin[name=appenders, class=org.apache.logging.log4j.core.config.AppendersPlugin].
+2018-10-08 00:48:01,286 http-bio-8889-exec-1 DEBUG createAppenders(={RollingFile, STDOUT})
+2018-10-08 00:48:01,288 http-bio-8889-exec-1 DEBUG Configuration org.apache.logging.log4j.core.config.properties.PropertiesConfiguration@1dbcce8 initialized
+2018-10-08 00:48:01,288 http-bio-8889-exec-1 DEBUG Starting configuration org.apache.logging.log4j.core.config.properties.PropertiesConfiguration@1dbcce8
+2018-10-08 00:48:01,289 http-bio-8889-exec-1 DEBUG Started configuration org.apache.logging.log4j.core.config.properties.PropertiesConfiguration@1dbcce8 OK.
+2018-10-08 00:48:01,294 http-bio-8889-exec-1 TRACE Stopping org.apache.logging.log4j.core.config.DefaultConfiguration@14a5188...
+2018-10-08 00:48:01,294 http-bio-8889-exec-1 TRACE DefaultConfiguration notified 1 ReliabilityStrategies that config will be stopped.
+2018-10-08 00:48:01,296 http-bio-8889-exec-1 TRACE DefaultConfiguration stopping root LoggerConfig.
+2018-10-08 00:48:01,296 http-bio-8889-exec-1 TRACE DefaultConfiguration notifying ReliabilityStrategies that appenders will be stopped.
+2018-10-08 00:48:01,297 http-bio-8889-exec-1 TRACE DefaultConfiguration stopping remaining Appenders.
+2018-10-08 00:48:01,297 http-bio-8889-exec-1 DEBUG Shutting down OutputStreamManager SYSTEM_OUT.false.false-1
+2018-10-08 00:48:01,298 http-bio-8889-exec-1 DEBUG Shut down OutputStreamManager SYSTEM_OUT.false.false-1, all resources released: true
+2018-10-08 00:48:01,300 http-bio-8889-exec-1 DEBUG Appender DefaultConsole-1 stopped with status true
+2018-10-08 00:48:01,300 http-bio-8889-exec-1 TRACE DefaultConfiguration stopped 1 remaining Appenders.
+2018-10-08 00:48:01,301 http-bio-8889-exec-1 TRACE DefaultConfiguration cleaning Appenders from 1 LoggerConfigs.
+2018-10-08 00:48:01,301 http-bio-8889-exec-1 DEBUG Stopped org.apache.logging.log4j.core.config.DefaultConfiguration@14a5188 OK
+2018-10-08 00:48:01,304 http-bio-8889-exec-1 TRACE Reregistering MBeans after reconfigure. Selector=org.apache.logging.log4j.core.selector.ClassLoaderContextSelector@5348b5
+2018-10-08 00:48:01,305 http-bio-8889-exec-1 TRACE Reregistering context (1/1): '1863cbd' org.apache.logging.log4j.core.LoggerContext@1dfe90b
+2018-10-08 00:48:01,306 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd'
+2018-10-08 00:48:01,307 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=StatusLogger'
+2018-10-08 00:48:01,307 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=ContextSelector'
+2018-10-08 00:48:01,308 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=Loggers,name=*'
+2018-10-08 00:48:01,309 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=Appenders,name=*'
+2018-10-08 00:48:01,310 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=AsyncAppenders,name=*'
+2018-10-08 00:48:01,310 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=AsyncLoggerRingBuffer'
+2018-10-08 00:48:01,311 http-bio-8889-exec-1 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=1863cbd,component=Loggers,name=*,subtype=RingBuffer'
+2018-10-08 00:48:01,314 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd
+2018-10-08 00:48:01,331 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=StatusLogger
+2018-10-08 00:48:01,334 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=ContextSelector
+2018-10-08 00:48:01,337 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=Loggers,name=
+2018-10-08 00:48:01,338 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=Loggers,name=com.epam.movie_warehouse
+2018-10-08 00:48:01,340 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=Appenders,name=STDOUT
+2018-10-08 00:48:01,366 http-bio-8889-exec-1 DEBUG Registering MBean org.apache.logging.log4j2:type=1863cbd,component=Appenders,name=RollingFile
+2018-10-08 00:48:01,371 http-bio-8889-exec-1 TRACE Using default SystemClock for timestamps.
+2018-10-08 00:48:01,373 http-bio-8889-exec-1 TRACE Using DummyNanoClock for nanosecond timestamps.
+2018-10-08 00:48:01,373 http-bio-8889-exec-1 DEBUG Reconfiguration complete for context[name=1863cbd] at URI D:\Alexei\JavaEPAM\work\target\classes\log4j2-test.properties (org.apache.logging.log4j.core.LoggerContext@1dfe90b) with optional ClassLoader: null
+2018-10-08 00:48:01,374 http-bio-8889-exec-1 DEBUG Shutdown hook enabled. Registering a new one.
+2018-10-08 00:48:01,376 http-bio-8889-exec-1 DEBUG LoggerContext[name=1863cbd, org.apache.logging.log4j.core.LoggerContext@1dfe90b] started OK.
+2018-10-08 00:48:08,245 http-bio-8889-exec-1 DEBUG AsyncLogger.ThreadNameStrategy=CACHED
+2018-10-08 00:48:08,250 http-bio-8889-exec-1 TRACE Using default SystemClock for timestamps.

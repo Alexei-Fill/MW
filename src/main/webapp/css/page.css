@@ -1,0 +1,72 @@
+
+a {
+   color: #11c116;
+
+}
+.pageContent{
+overflow: auto;
+width:960px;
+height:200px;
+border: 1px solid black;
+}
+.pageContentHum{
+overflow: auto;
+width:960px;
+border: 1px solid black;
+height:300px;
+}
+.pageContentMovie{
+width:90%;
+}
+h1, h4, p{
+margin-bottom:0;
+margin-top:0;
+}
+.textField{
+width:250px;
+text-align:center;
+}
+.textArea{
+width:450px;
+}
+.languageBorder{
+border: 1px dashed  #11c116;
+}
+.imgList {
+width:150px;
+height:200px;
+margin-left: 30px;
+float: left;
+}
+.imgUpload{
+width:360px;
+height:460px;
+margin-top:2px;
+}
+.name{
+color: #ff0505;
+}
+.imgPageDiv{
+width:360px;
+height:510px;
+float: right;
+margin:5px;
+}
+.imgPage{
+width:360;
+height:460;
+margin:5px;
+}
+.titles{
+margin:10px;
+text-align: left;
+}
+.text{
+margin:10px;
+text-align: justify;
+}
+.textBioList{
+height:200px;
+overflow: hidden;
+text-overflow: clip;
+}
