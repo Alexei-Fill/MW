@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><fmt:message key = "key.main" bundle = "${lang}"/></title>
+<title><fmt:message key = "key.allGenres" bundle = "${lang}"/></title>
 <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -24,7 +24,7 @@
 		</ul>
 	</div>
         <c:if test="${hiddenMessage == 1}">
-            <h1>Ничего не найдено</h1>
+            <h1><fmt:message key = "key.notFound" bundle = "${lang}"/></h1>
          </c:if>
 		   <div class="item4">
             <a href="/addMovie"><fmt:message key = "key.addMovie" bundle = "${lang}"/></a>
@@ -36,7 +36,7 @@
                            <h hidden="false" >${movie.id}</h>
 
                            <h1><a style = "margin-top: 0.3; margin-bottom: 0.3;" href = "/movie?movieId=${movie.id}">${movie.name}</a></h1>
-                           <h4 ><fmt:message key = "key.imdbIdOfMovie" bundle = "${lang}"/>: ${movie.imdbID}
+                           <h4 ><fmt:message key = "key.imdbOfMovie" bundle = "${lang}"/>: ${movie.imdbID}
                            <fmt:message key = "key.countryOfMovie" bundle = "${lang}"/>: ${movie.country}</h4>
 
                            <h4 ><fmt:message key = "key.ageLimitOfMovie" bundle = "${lang}"/>: ${movie.ageLimit}</h4>

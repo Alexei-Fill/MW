@@ -27,10 +27,10 @@ public class ContextListener implements ServletContextListener {
         }
         context.setAttribute(SITE_LANGUAGE, languages);
         context.setAttribute(GENRES, genres);
-        context.setAttribute("admin", ADMIN);
-        context.setAttribute("commonUser", COMMON_USER);
-        context.setAttribute("notLike", itsNotLiked);
-        context.setAttribute("like", itsLiked);
+        context.setAttribute(ADMIN, ADMIN_ROLE_ID);
+        context.setAttribute(COMMON_USER, COMMON_USER_ROLE_ID);
+        context.setAttribute(NOT_LIKE, itsNotLiked);
+        context.setAttribute(LIKE, itsLiked);
         context.setAttribute(ACTOR, ACTOR_ROLE_ID);
         context.setAttribute(DIRECTOR, DIRECTOR_ROLE_ID);
         context.setAttribute(SCREENWRITER, SCREENWRITER_ROLE_ID);

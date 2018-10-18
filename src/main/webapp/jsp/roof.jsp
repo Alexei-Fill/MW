@@ -17,12 +17,12 @@
 		<fmt:setBundle basename = "local" var = "lang"/>
 		<ul  class = "ulroof" align = "center">
 		<li class = "liroof listLiHover">
-        			    <a class = "aroof" href="#">Lang</a>
+        			    <a class = "aroof" href="#"><fmt:message key = "key.lang" bundle = "${lang}"/></a>
         			    <div></div>
         			    <ul class="ulList" >
         			    <c:forEach items="${siteLanguages}" var="siteLanguage">
                         		           			        <li class = "ulListLi">
-                        		    <a class = "aroof" href = "/setLocal?localId=${siteLanguage.id}"> ${siteLanguage.local}</a>
+                        		    <a class = "aroof" href = "/setLocal?localId=${siteLanguage.id}"> ${siteLanguage.name}</a>
                         		        			        </li>
 
                         		</c:forEach>
@@ -73,7 +73,7 @@
                         			    <div></div>
                         			    <ul class="ulList" >
                         			    <li class = "ulListLi">
-                                         <a class = "aroof" href = "/showMyUser">My cab</a>
+                                         <a class = "aroof" href = "/showMyUser"><fmt:message key = "key.myCab" bundle = "${lang}"/></a>
                                          </li>
                                          <li class = "ulListLi">
                                          <a class = "aroof" href = "/logOut"><fmt:message key = "key.logout" bundle = "${lang}"/></a>

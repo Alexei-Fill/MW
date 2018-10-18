@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${movie.name}" /></title>
+<title>${movie.name}</title>
 <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 <script src="/js/userLike.js"></script>
 <script src="/js/userVote.js"></script>
@@ -30,14 +30,11 @@
 	 <div class = "imgPageDiv">
 <img src = "${movie.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'"  class = "imgPage"/>
 <div id = "movie_id" hidden="false">${movie.id}</div>
-                      <b id =  "vote_count" style = "font-size:24px;">${movie.countOfLikes}</b><input id =  "vote_status" height= "20px" width= "20px" src=
+                      <b id =  "vote_count" style = "font-size:24px;">${movie.countOfLikes}</b>
+                      <input id =  "vote_status" height= "20px" width= "20px" src=
                          <c:if test="${liked == notLike}">"/css/img/notLike.png" value = "notLike" </c:if>
                         <c:if test="${liked == like}">"/css/img/like.png"   value = "like"</c:if>
-                        onclick="vote()" type="image"
-                         <c:if test="${authorizedUser == null}">
-                        disabled
-                        </c:if>
-                         />
+                        onclick="vote()" type="image" />
 
 
                     <input id ="grade_but" name ="grade_but" type="radio" onclick="putGrade()" value="1" <c:if test="${grade eq 1}"> checked</c:if>
@@ -69,7 +66,7 @@
 
 </div>
                         <h1 class = "name">${movie.name}</h1>
-                        <p class= "titles"><b><fmt:message key = "key.imdbIdOfMovie" bundle = "${lang}"/>:</b> ${movie.imdbID}</p>
+                        <p class= "titles"><b><fmt:message key = "key.imdbOfMovie" bundle = "${lang}"/>:</b> ${movie.imdbID}</p>
                          <p class= "titles"><b><fmt:message key = "key.countryOfMovie" bundle = "${lang}"/>:</b> ${movie.country}</p>
                          <p class= "titles"><b><fmt:message key = "key.budgetOfMovie" bundle = "${lang}"/>:</b> ${movie.budget}</p>
 

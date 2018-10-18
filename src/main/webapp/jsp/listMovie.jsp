@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Show All Users</title>
+<title><fmt:message key = "key.main" bundle = "${lang}"/></title>
 </head>
 <body>
 
@@ -25,7 +25,7 @@
           <div class="item4"></div>
                               <div class="item3">
                               <c:if test="${hiddenMessage == 1}">
-                                          <h1>Ничего не найдено</h1>
+                                    <h1><fmt:message key = "key.notFound" bundle = "${lang}"/></h1>
                                        </c:if>
            <c:forEach items="${movies}" var="movie">
 
@@ -34,7 +34,7 @@
                  <h hidden="false" >${movie.id}</h>
 
                  <h1><a href = "/movie?movieId=${movie.id}">${movie.name}</a></h1>
-                 <h4 ><fmt:message key = "key.imdbIdOfMovie" bundle = "${lang}"/>: ${movie.imdbID}
+                 <h4 ><fmt:message key = "key.imdbOfMovie" bundle = "${lang}"/>: ${movie.imdbID}
                  <fmt:message key = "key.countryOfMovie" bundle = "${lang}"/>: ${movie.country}</h4>
 
                  <h4 ><fmt:message key = "key.ageLimitOfMovie" bundle = "${lang}"/>: ${movie.ageLimit}</h4>

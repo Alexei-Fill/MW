@@ -62,19 +62,19 @@
 
 
 				<h4><fmt:message key = "key.birthDate" bundle = "${lang}"/></h4>
-				<input  class = "textField" name = "birthDate"  type="text" maxlength="10" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${human.birthDate}" pattern = "${dateFormat}"/>"  required />
+				<input  class = "textField" name = "birthDate"  type="text" maxlength="10"  placeholder= "<fmt:message key = "key.placeHoldDate" bundle = "${lang}"/>" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${human.birthDate}" pattern = "${dateFormat}"/>"  required />
 						<c:forEach items="${languages}" var ="language">
 							<div class = "languageBorder">
 							<input  class = "textField" name = "characteristicLanguageId" hidden="false" type="text" size="25" value ="${language.id}" />
 							<h3>${language.name}</h3>
-							<h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
-							<input  class = "textField" name = "name${language.id}" type="text" maxlength="24" value ="${human.name}" required/>
-							<h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
-                            <input  class = "textField" name = "surname${language.id}" type="text" maxlength="45" value ="${human.surname}" />
-                            <h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
-     						<input  class = "textField" name = "patronymic${language.id}" type="text" maxlength="32" value ="${human.patronymic}" />
-							<h4><fmt:message key = "key.descriptionOfMovie" bundle = "${lang}"/></h4>
-							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="biography${language.id}" required>${human.biography}</textarea>
+							<h4><fmt:message key = "key.name" bundle = "${lang}"/></h4>
+							<input  class = "textField" name = "name${language.id}" type="text" maxlength="24" value ="${human.name}"  pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$"required/>
+							<h4><fmt:message key = "key.surname" bundle = "${lang}"/></h4>
+                            <input  class = "textField" name = "surname${language.id}" type="text" maxlength="45" value ="${human.surname}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" />
+                            <h4><fmt:message key = "key.patronymic" bundle = "${lang}"/></h4>
+     						<input  class = "textField" name = "patronymic${language.id}" type="text" maxlength="32" value ="${human.patronymic}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" />
+							<h4><fmt:message key = "key.biography" bundle = "${lang}"/></h4>
+							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="biography${language.id}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required >${human.biography}</textarea>
 																	<h3> </h3>
                             </div>
 						</c:forEach>

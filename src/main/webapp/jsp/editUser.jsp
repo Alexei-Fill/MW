@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><c:out value="${user.login}" /></title>
+<title>${user.login}</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="/js/uploadImage.js"></script>
 </head>
@@ -27,7 +27,7 @@
 					   </c:if>
 					    onerror="this.src = '/css/img/default-user-img.jpg'" width="300" height="400" />
 					  <div style = "margin-bottom:10px;"></div>
-					<input type="file" name="file" id="file" onchange="previewFile()" />
+					<input type="file" name="file" id="file"  accept="image/*" onchange="previewFile()" />
 					<input type=hidden name=MAX_FILE_SIZE value=64000>
 					 <noscript>
 					 <input type ="submit"  value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"  />
@@ -57,9 +57,9 @@
 					<h3><fmt:message key = "key.registrationDate" bundle = "${lang}"/>:</h3>
 					<h3><custom:formatDate value = "${user.registrationDate}" pattern = "${dateFormat}"/></h3>
 					<h3><fmt:message key = "key.mail" bundle = "${lang}"/></h3>
-					<input class = "textField" name = "mail" type="text" maxlength="32" value ="${user.mail}" pattern = "^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$" required />
+					<input class = "textField" name = "mail" type="text" maxlength="32" value ="${user.mail}" placeholder= "mail_example@somemail.com" pattern = "^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$" required />
 					<h3><fmt:message key = "key.birthDate" bundle = "${lang}"/></h3>
-					<input class = "textField" name = "birthDate"  type="text" maxlength="10" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${user.birthDate}" pattern = "${dateFormat}"/>" required />
+					<input class = "textField" name = "birthDate"  type="text" maxlength="10" placeholder= "<fmt:message key = "key.placeHoldDate" bundle = "${lang}"/>" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${user.birthDate}" pattern = "${dateFormat}"/>" required />
 
                     <h3><fmt:message key = "key.role" bundle = "${lang}"/></h3>
 

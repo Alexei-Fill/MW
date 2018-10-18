@@ -34,7 +34,7 @@ public class RegistrationUserService implements Service {
         newUser.setMail(validateMail(request.getParameter(MAIL)));
         newUser.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
         newUser.setRegistrationDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
-        newUser.setRoleId(COMMON_USER);
+        newUser.setRoleId(COMMON_USER_ROLE_ID);
         String requestDispatch = LOG_IN_URI;
         if (checkPasswordAndPasswordRepeat(password, passwordRepeat)){
             newUser.setPassword(hashingPassword(password));

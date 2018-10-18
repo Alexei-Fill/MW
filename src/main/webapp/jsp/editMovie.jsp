@@ -53,7 +53,7 @@
                  </c:if>
 
 				<input name = "movieId" hidden="false" type="text" size="25" value ="${movie.id}"/>
-				<h4><fmt:message key = "key.imdbIdOfMovie" bundle = "${lang}" /></h4>
+				<h4><fmt:message key = "key.imdbOfMovie" bundle = "${lang}" /></h4>
 				<input class = "textField" name = "imdbId" type="text" maxlength="16" value ="${movie.imdbID}" required />
 				<h4><fmt:message key = "key.budgetOfMovie" bundle = "${lang}"/></h4>
 				<input class = "textField" name = "budget" type="text" maxlength="25" pattern="[0-9]{0,}" value ="${movie.budget}" required />
@@ -62,9 +62,9 @@
 				<h4><fmt:message key = "key.ageLimitOfMovie" bundle = "${lang}"/></h4>
 				<input class = "textField" name = "ageLimit" type="text" maxlength="2" pattern="[0-9]{0,2}" value ="${movie.ageLimit}"  required />
 				<h4><fmt:message key = "key.durationOfMovie" bundle = "${lang}" /></h4>
-				<input class = "textField" name = "duration" type="text" maxlength="8" pattern="[0-2]{0,1}[0-9]{0,1}:[0-5]{0,1}[0-9]{0,1}:[0-5]{0,1}[0-9]{0,1}" value ="${movie.duration}" required />
+				<input class = "textField" name = "duration" type="text" maxlength="8" placeholder= "<fmt:message key = "key.placeHoldTime" bundle = "${lang}"/>" pattern="[0-2]{0,1}[0-9]{0,1}:[0-5]{0,1}[0-9]{0,1}:[0-5]{0,1}[0-9]{0,1}" value ="${movie.duration}" required />
 				<h4><fmt:message key = "key.editReleaseDateOfMovie" bundle = "${lang}"/></h4>
-				<input class = "textField" name = "releaseDate"  type="text" maxlength="10" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${movie.releaseDate}" pattern = "${dateFormat}"/>"  required />
+				<input class = "textField" name = "releaseDate"  type="text" maxlength="10" placeholder= "<fmt:message key = "key.placeHoldDate" bundle = "${lang}"/>" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>"  value ="<custom:formatDate value = "${movie.releaseDate}" pattern = "${dateFormat}"/>"  required />
 				<h4><fmt:message key = "key.genreOfMovie" bundle = "${lang}"/></h4>
 				<c:forEach items="${genres}" var="genre">
 					<input type="checkbox" name="genre" value="${genre.id}"
@@ -118,11 +118,11 @@
 							<input name = "characteristicLanguageId" hidden="false" type="text" size="25" value ="${language.id}">
 							<h3>${language.name}</h3>
 							<h4><fmt:message key = "key.nameOfMovie" bundle = "${lang}"/></h4>
-							<input class = "textField" name = "name${language.id}" type="text" maxlength="24" value ="${movie.name}"  required />
+							<input class = "textField" name = "name${language.id}" type="text" maxlength="24" value ="${movie.name}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required />
 							<h4><fmt:message key = "key.countryOfMovie" bundle = "${lang}"/></h4>
-							<input class = "textField" name = "country${language.id}" type="text" maxlength="24" value ="${movie.country}" required />
+							<input class = "textField" name = "country${language.id}" type="text" maxlength="24" value ="${movie.country}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required />
 							<h4><fmt:message key = "key.descriptionOfMovie" bundle = "${lang}"/><h4>
-							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="description${language.id}" required />${movie.description}</textarea>
+							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="description${language.id}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required />${movie.description}</textarea>
 											<h3> </h3>
 											</div>
                         </c:forEach>

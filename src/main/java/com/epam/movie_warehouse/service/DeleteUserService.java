@@ -6,7 +6,6 @@ import com.epam.movie_warehouse.exception.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,7 @@ public class DeleteUserService implements Service {
         String requestForward = LOG_OUT_URI;
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
         String requestURI = request.getRequestURI();
-        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId() == ADMIN)) {
+        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId() == ADMIN_ROLE_ID)) {
             long userId = validateId(request.getParameter(USER_ID));
             userById = userDAO.showUserById(userId);
             requestForward = LIST_USER_URI;

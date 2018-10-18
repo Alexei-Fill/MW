@@ -13,7 +13,7 @@
 
 	 <div class="item3" >
 <div class = "menu1"  style = "position:absolute; top:17%; left:40%;  text-align: center; ">
-<p style="width:250px; text-align:center;">
+<p style="width:250px; text-align:center; color:red;">
 <c:if test = "${exception == 403}">
   <fmt:message key = "key.forbidden" bundle = "${lang}"/>
 </c:if>
@@ -47,9 +47,9 @@
 	 <h3><fmt:message key = "key.passwordRepeat" bundle = "${lang}"/></h3>
     <input  class = "textField" name = "passwordRepeat" type="password" maxlength="24"  required />
 	<h3><fmt:message key = "key.mail" bundle = "${lang}"/></h3>
-    <input  class = "textField" name = "mail" type="text" maxlength="32" pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$" required />
+    <input  class = "textField" name = "mail" type="text" maxlength="32" placeholder= "mail_example@somemail.com" pattern="^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$" required />
 	<h3><fmt:message key = "key.birthDate" bundle = "${lang}"/></h3>
-    <input class = "textField" name = "birthDate" type="text" maxlength="10" style = "text-align: center"  pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>" required />
+    <input class = "textField" name = "birthDate" type="text" maxlength="10" placeholder= "<fmt:message key = "key.placeHoldDate" bundle = "${lang}"/>" pattern="<fmt:message key = "key.dateFormatPattern" bundle = "${lang}"/>" required />
 	 <div style = "margin-bottom:10px;"></div>
        <input type ="submit" value ="<fmt:message key = "key.registration" bundle = "${lang}"/>"/>
 </form>

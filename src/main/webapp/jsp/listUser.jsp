@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Show All Users</title>
+<title><fmt:message key = "key.listUser" bundle = "${lang}"/></title>
 </head>
 <body>
 <div class="item2"  style = "background-color: white; ">	</div>

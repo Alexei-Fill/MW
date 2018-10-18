@@ -35,6 +35,7 @@ public class DeleteGenreService implements Service {
 
             }else {
                 logger.info("Genre has not been deleted genreId = " +  genreId);
+                request.setAttribute(EXCEPTION,YOU_HAVE_LINKS);
                 throw new SQLException(YOU_HAVE_LINKS);
             }
         }

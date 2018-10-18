@@ -34,6 +34,7 @@ public class DeleteHumanService implements Service {
                 logger.info("Human was deleted humanId = " +  humanId);
             } else {
                 logger.info("Human has not been deleted humanId = " + humanId);
+                request.setAttribute(EXCEPTION,YOU_HAVE_LINKS);
                 throw new SQLException(YOU_HAVE_LINKS);
             }
             response.sendRedirect(LIST_HUMAN_ADMIN_URI);
