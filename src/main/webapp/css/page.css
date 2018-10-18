@@ -81,8 +81,8 @@ margin:10px;
 text-align: left;
 }
 .text{
-margin:10px;
 text-align: justify;
+white-space: pre-wrap;
 }
 .textBioList{
 height:200px;

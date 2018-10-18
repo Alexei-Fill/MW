@@ -14,8 +14,7 @@ public class UserDAO {
     private static final String SHOW_USER_BY_ID = "SELECT * FROM USER where USER_ID = ?";
     private static final String ADD_USER = "INSERT INTO USER (USER_LOGIN, USER_PASSWORD, USER_MAIL, USER_BIRTH_DATE, " +
             "USER_REGISTRATION_DATE, USER_ROLE, USER_IMAGE_URL) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String ADD_LINKS_MOVIES_OF_USER = "INSERT INTO VOTED_LIKED_THE_MOVIE (USER_ID, MOVIE_ID," +
-            " ITS_LIKED, ITS_VOTED) VALUES (?, ?, ?, ?)";
+    private static final String ADD_LINKS_MOVIES_OF_USER = "INSERT INTO VOTED_LIKED_THE_MOVIE (USER_ID, MOVIE_ID) VALUES (?, ?)";
     private static final String UPDATE_USER = "UPDATE USER SET USER_LOGIN = ?, USER_PASSWORD = ?, USER_MAIL = ?, USER_BIRTH_DATE = ?,  " +
             " USER_REGISTRATION_DATE = ?, USER_ROLE = ?, USER_IMAGE_URL = ? where USER_ID = ?";
     private static final String DELETE_USER = "DELETE from USER where USER_ID = ?";
@@ -116,13 +115,10 @@ public class UserDAO {
     }
 
     public void addLinksMoviesOfUser (long userId, long movieId) throws SQLException {
-        final int DEFAULT_VALUE_LIKED_VOTED = 0;
         Connection connection = connectionPull.retrieve();
             try (PreparedStatement pr = connection.prepareStatement(ADD_LINKS_MOVIES_OF_USER)) {
                 pr.setLong(1, userId);
                 pr.setLong(2, movieId);
-                pr.setLong(3, DEFAULT_VALUE_LIKED_VOTED);
-                pr.setLong(4, DEFAULT_VALUE_LIKED_VOTED);
                 pr.executeUpdate();
             }
             connectionPull.putBack(connection);

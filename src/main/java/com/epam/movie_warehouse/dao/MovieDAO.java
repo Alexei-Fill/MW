@@ -27,18 +27,17 @@ public class MovieDAO {
     private static final String SHOW_COUNT_OF_LIKES = "SELECT * from VOTED_LIKED_THE_MOVIE  where MOVIE_ID = ? and ITS_LIKED != 0";
     private static final String SHOW_COUNT_OF_VOTES = "SELECT * from VOTED_LIKED_THE_MOVIE  where MOVIE_ID = ? and ITS_VOTED != 0";
     private static final String UPDATE_MOVIE = "UPDATE MOVIE M,  CHARACTERISTICS_OF_MOVIE CM SET M.MOVIE_IMDBID = ?," +
-            " M.MOVIE_IMAGE_URL = ?,  M.MOVIE_BUDGET = ?, M.MOVIE_RATING = ?, " +
-            " M.MOVIE_AGE_LIMIT = ?, M.MOVIE_RELEASE_DATE = ?, M.MOVIE_UPLOAD_DATE = ?, M.MOVIE_DURATION = ?, M.MOVIE_DUES = ?, " +
-            " CM.MOVIE_NAME =?, CM.MOVIE_DESCRIPTION = ?, CM.MOVIE_COUNTRY = ? WHERE CM.MOVIE_ID = M.MOVIE_ID and M.MOVIE_ID = ? " +
-            " and CM.LANGUAGE_ID = ?";
+            " M.MOVIE_IMAGE_URL = ?,  M.MOVIE_BUDGET = ?,  M.MOVIE_AGE_LIMIT = ?, M.MOVIE_RELEASE_DATE = ?, M.MOVIE_UPLOAD_DATE = ?," +
+            " M.MOVIE_DURATION = ?, M.MOVIE_DUES = ?,  CM.MOVIE_NAME =?, CM.MOVIE_DESCRIPTION = ?, CM.MOVIE_COUNTRY = ? " +
+            " WHERE CM.MOVIE_ID = M.MOVIE_ID and M.MOVIE_ID = ?  and CM.LANGUAGE_ID = ?";
     private static final String DELETE_MOVIE = "DELETE from MOVIE where MOVIE_ID = ?";
     private static final String DELETE_CHARACTERISTIC_OF_MOVIE = "DELETE from CHARACTERISTICS_OF_MOVIE where MOVIE_ID = ?";
     private static final String DELETE_LINKS_GENRES_OF_MOVIE = "DELETE from GENRE_OF_MOVIE where MOVIE_ID = ?";
     private static final String DELETE_LINKS_HUMANS_OF_MOVIE = "DELETE from ROLE_HUMAN_IN_MOVIE where MOVIE_ID = ?";
     private static final String DELETE_LINKS_USERS_OF_MOVIE = "DELETE from VOTED_LIKED_THE_MOVIE where MOVIE_ID = ?";
     private static final String ADD_MOVIE = "INSERT INTO MOVIE (MOVIE_IMDBID, MOVIE_IMAGE_URL, " +
-            " MOVIE_BUDGET, MOVIE_RATING, MOVIE_AGE_LIMIT, MOVIE_RELEASE_DATE," +
-            "MOVIE_UPLOAD_DATE, MOVIE_DURATION, MOVIE_DUES) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            " MOVIE_BUDGET,  MOVIE_AGE_LIMIT, MOVIE_RELEASE_DATE," +
+            "MOVIE_UPLOAD_DATE, MOVIE_DURATION, MOVIE_DUES) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String ADD_CHARACTERISTIC_OF_MOVIE = "INSERT INTO CHARACTERISTICS_OF_MOVIE (MOVIE_NAME, MOVIE_DESCRIPTION, MOVIE_COUNTRY, " +
             "LANGUAGE_ID, MOVIE_ID ) VALUES (?, ?, ?, ?, ?)";
     private static final String ADD_LINKS_GENRES_OF_MOVIE = "INSERT INTO GENRE_OF_MOVIE (MOVIE_ID, GENRE_ID) VALUES (?, ?)";
@@ -83,11 +82,11 @@ public class MovieDAO {
             Connection connection = connectionPull.retrieve();
             try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIE)){
                 getMovieParameters(movie, preparedStatement);
-                preparedStatement.setString(10, movie.getName());
-                preparedStatement.setString(11, movie.getDescription());
-                preparedStatement.setString(12, movie.getCountry());
-                preparedStatement.setLong(13, movie.getId());
-                preparedStatement.setLong(14, languageId);
+                preparedStatement.setString(9, movie.getName());
+                preparedStatement.setString(10, movie.getDescription());
+                preparedStatement.setString(11, movie.getCountry());
+                preparedStatement.setLong(12, movie.getId());
+                preparedStatement.setLong(13, languageId);
                 preparedStatement.executeUpdate();
             }
             connectionPull.putBack(connection);
@@ -285,7 +284,6 @@ public class MovieDAO {
         movie.setImdbID(resultSet.getString("MOVIE_IMDBID"));
         movie.setImageURL(resultSet.getString("MOVIE_IMAGE_URL"));
         movie.setBudget(resultSet.getLong("MOVIE_BUDGET"));
-        movie.setRating(resultSet.getDouble("MOVIE_RATING"));
         movie.setAgeLimit(resultSet.getInt("MOVIE_AGE_LIMIT"));
         movie.setReleaseDate(LocalDate.parse(resultSet.getDate("MOVIE_RELEASE_DATE").toString()));
         movie.setUploadDate(LocalDate.parse(resultSet.getDate("MOVIE_UPLOAD_DATE").toString()));
@@ -301,12 +299,11 @@ public class MovieDAO {
         preparedStatement.setString(1, movie.getImdbID());
         preparedStatement.setString(2, movie.getImageURL());
         preparedStatement.setLong(3, movie.getBudget());
-        preparedStatement.setDouble(4, movie.getRating());
-        preparedStatement.setInt(5, movie.getAgeLimit());
-        preparedStatement.setDate(6, Date.valueOf(movie.getReleaseDate()));
-        preparedStatement.setDate(7, Date.valueOf(movie.getUploadDate()));
-        preparedStatement.setTime(8, Time.valueOf(movie.getDuration()));
-        preparedStatement.setLong(9, movie.getDues());
+        preparedStatement.setInt(4, movie.getAgeLimit());
+        preparedStatement.setDate(5, Date.valueOf(movie.getReleaseDate()));
+        preparedStatement.setDate(6, Date.valueOf(movie.getUploadDate()));
+        preparedStatement.setTime(7, Time.valueOf(movie.getDuration()));
+        preparedStatement.setLong(8, movie.getDues());
     }
 
     private void getMovieCharacteristic(Movie movie, PreparedStatement preparedStatement) throws SQLException{
