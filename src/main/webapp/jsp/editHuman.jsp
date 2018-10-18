@@ -19,7 +19,7 @@
   				  <c:if test = "${imageURL != null}">
   				  src = "${imageURL}"
   				  </c:if>
-  				  onerror="this.src = '/css/img/thumb.png'" />
+  				  onerror="this.src = '/css/img/default-human-img.jpg'" />
                   <div style = "margin-bottom:10px;"></div>
                   <input type="file" name="file" id="file"  accept="image/*" onchange="previewFile()" />
                   <input type=hidden name=MAX_FILE_SIZE value=64000>

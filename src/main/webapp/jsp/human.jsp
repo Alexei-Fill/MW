@@ -17,7 +17,7 @@
 	 <div class="item3">
 	 <div class = "pageContentMovie" style = "margin-left: 50px; " >
 	 <div class = "imgPageDiv" >
-                        <img src = "${human.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'"  class = "imgPage"/>
+                        <img src = "${human.imageURL}" onerror="this.src = '/css/img/default-human-img.jpg'"  class = "imgPage"/>
                         </div>
                        <h1> ${human.name} ${human.surname} ${human.patronymic}</h1>
                        <h4><fmt:message key = "key.birthDate" bundle = "${lang}"/>: <custom:formatDate value = "${human.birthDate}" pattern = "${dateFormat}"/></h4>

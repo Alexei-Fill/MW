@@ -25,7 +25,7 @@
                               <div class="item3">
            <c:forEach items="${humans}" var="human">
                 <div class="pageContentHum" >
-                 <img src = "${human.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'" width="225" height="298" style = "float: left;"/>
+                 <img src = "${human.imageURL}" onerror="this.src = '/css/img/default-human-img.jpg'" width="225" height="298" style = "float: left;"/>
                  <h1><a  href = "/human?humanId=${human.id}">${human.name} ${human.surname} ${human.patronymic}</a></h1>
                  <h4><fmt:message key = "key.birthDate" bundle = "${lang}"/>:  <custom:formatDate value = "${human.birthDate}" pattern = "${dateFormat}"/></h4>
                  <h4><fmt:message key = "key.biography" bundle = "${lang}"/></h4>
