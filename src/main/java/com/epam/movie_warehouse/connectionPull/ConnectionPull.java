@@ -9,7 +9,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.DEFAULT_LOCALE;
 
 public class ConnectionPull {
-    private static final String CONNECTION_PULL_BUNDLE = "ConnectionPull";
+    private static final String CONNECTION_PULL_BUNDLE = "connectionPull";
     private static final String CONNECTION_PULL_URL = "url";
     private static final String CONNECTION_PULL_USER = "user";
     private static final String CONNECTION_PULL_PASSWORD = "password";
