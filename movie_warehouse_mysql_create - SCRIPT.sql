@@ -113,11 +113,11 @@ ALTER TABLE `voted_liked_the_movie` ADD CONSTRAINT `voted_liked_the_movie_fk1` F
 INSERT INTO `movie_warehouse`.`language` (`LANGUAGE_NAME`, `LANGUAGE_LOCALE`, `LANGUAGE_DATE_FORMAT`) VALUES ('Русский', 'ru', 'd.MM.yyyy');
 INSERT INTO `movie_warehouse`.`language`  (`LANGUAGE_NAME`, `LANGUAGE_LOCALE`, `LANGUAGE_DATE_FORMAT`) VALUES ('English', 'en', 'MM.d.yyyy');
 
-INSERT INTO `movie_warehouse`.`movie` (`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`) VALUES ('1014759', 'https://vokrug.tv/pic/product/1/2/8/8/12887cfa472cca67cdb83c859a3b4cf3.jpeg, ', '200000000', '12', '2010-02-25', '2018-09-07', '01:48:00', '1025467110');
+INSERT INTO `movie_warehouse`.`movie` (`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`) VALUES ('1014759', '/uploads_img/movie_img/img-3981061599366788372.jpg', '200000000', '12', '2010-02-25', '2018-09-07', '01:48:00', '1025467110');
 
-INSERT INTO `movie_warehouse`.`movie`(`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`)   VALUES ('3416532', 'https://upload.wikimedia.org/wikipedia/en/2/2d/A_Monster_Calls_poster.jpg', '43000000', '16', '2016-09-09', '2018-09-06', '01:49:00', '47309313');
+INSERT INTO `movie_warehouse`.`movie`(`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`)   VALUES ('3416532', '/uploads_img/movie_img/img-6887975622524322481.jpg', '43000000', '16', '2016-09-09', '2018-09-06', '01:49:00', '47309313');
 
-INSERT INTO `movie_warehouse`.`movie` (`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`) VALUES ('2404435', 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ec/Magnificent_Seven_2016.jpg/220px-Magnificent_Seven_2016.jpg', '90000000', '16', '2016-09-08', '2018-09-08', '02:12:00', '162360636');
+INSERT INTO `movie_warehouse`.`movie` (`MOVIE_IMDBID`, `MOVIE_IMAGE_URL`, `MOVIE_BUDGET`, `MOVIE_AGE_LIMIT`, `MOVIE_RELEASE_DATE`, `MOVIE_UPLOAD_DATE`, `MOVIE_DURATION`, `MOVIE_DUES`) VALUES ('2404435', '/uploads_img/movie_img/img-4791011113462404757.jpg', '90000000', '16', '2016-09-08', '2018-09-08', '02:12:00', '162360636');
 
 
 
@@ -149,9 +149,9 @@ INSERT INTO `movie_warehouse`.`genre_of_movie` (`MOVIE_ID`, `GENRE_ID`) VALUES (
 INSERT INTO `movie_warehouse`.`genre_of_movie` (`MOVIE_ID`, `GENRE_ID`) VALUES ('3', '3');
 
 
-INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1979-06-21', 'https://st.kp.yandex.net/images/actor_iphone/iphone360_224358.jpg');
-INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1910-03-23', 'https://st.kp.yandex.net/images/actor_iphone/iphone360_85365.jpg');
-INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1966-01-19', 'https://st.kp.yandex.net/images/actor_iphone/iphone360_12755.jpg');
+INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1979-06-21', '/uploads_img/human_img/img-926214477490130190.jpg');
+INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1910-03-23', '/uploads_img/human_img/img-632291066627891557.jpg');
+INSERT INTO `movie_warehouse`.`human` (`HUMAN_BIRTH_DATE`, `HUMAN_IMAGE_URL`) VALUES ('1966-01-19', '/uploads_img/human_img/img-3549255500705164229.jpg');
 
 
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="item2" style = " background-color: white;">
-  			<form id = "uploadImageForm" name = "uploadImageForm" action="/uploadMovieImage" method="post" enctype="multipart/form-data" onclick = "this.target = 'hiddenframe'" >
+  			<form id = "uploadImageForm" name = "uploadImageForm" action="/uploadHumanImage" method="post" enctype="multipart/form-data" onclick = "this.target = 'hiddenframe'" >
   				<img id = "img_up" class = "imgUpload"
   				 <c:if test = "${imageURL eq null}">
   				 src = "${human.imageURL}"
