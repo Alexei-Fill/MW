@@ -22,7 +22,7 @@
 
     <servlet>
         <servlet-name>MovieController</servlet-name>
-        <servlet-class>com.epam.movie_warehouse.controllerr.MovieController</servlet-class>
+        <servlet-class>com.epam.movie_warehouse.controller.MovieWarehouseController</servlet-class>
         <multipart-config>
             <max-file-size>10485760</max-file-size>
             <max-request-size>20971520</max-request-size>
@@ -54,7 +54,7 @@
     <url-pattern>/</url-pattern>
 </servlet-mapping>
  <listener>
-     <listener-class>com.epam.movie_warehouse.controllerr.ContextListener</listener-class>
+     <listener-class>com.epam.movie_warehouse.controller.MovieWarehouseContextListener</listener-class>
  </listener>
 
     <jsp-config>

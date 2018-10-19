@@ -1,4 +1,4 @@
-package com.epam.movie_warehouse.controllerr;
+package com.epam.movie_warehouse.controller;
 
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Language;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class ContextListener implements ServletContextListener {
+public class MovieWarehouseContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         List<Language> languages = null;

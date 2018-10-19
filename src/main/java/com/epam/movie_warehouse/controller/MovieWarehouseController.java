@@ -1,4 +1,4 @@
-package com.epam.movie_warehouse.controllerr;
+package com.epam.movie_warehouse.controller;
 
 import com.epam.movie_warehouse.exception.ValidationException;
 import com.epam.movie_warehouse.service.*;
@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-public class MovieController extends HttpServlet {
+public class MovieWarehouseController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getRootLogger();
-    public MovieController() {
+    public MovieWarehouseController() {
         super();
     }
 
