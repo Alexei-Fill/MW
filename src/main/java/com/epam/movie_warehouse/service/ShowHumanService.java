@@ -1,6 +1,6 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.Validator.MovieValidator;
+import com.epam.movie_warehouse.validator.MovieValidator;
 import com.epam.movie_warehouse.dao.HumanDAO;
 import com.epam.movie_warehouse.dao.MovieDAO;
 import com.epam.movie_warehouse.entity.Human;

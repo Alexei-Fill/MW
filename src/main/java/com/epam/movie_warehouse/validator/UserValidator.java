@@ -1,4 +1,4 @@
-package com.epam.movie_warehouse.Validator;
+package com.epam.movie_warehouse.validator;
 
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.exception.ValidationException;

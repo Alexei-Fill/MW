@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.movie_warehouse.Validator.AbstractValidator.validateId;
+import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

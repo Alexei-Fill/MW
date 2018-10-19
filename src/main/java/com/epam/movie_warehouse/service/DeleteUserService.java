@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.epam.movie_warehouse.Validator.AbstractValidator.validateId;
+import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.epam.movie_warehouse.Validator.MovieValidator.*;
+import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class AddEditGenreService implements Service {

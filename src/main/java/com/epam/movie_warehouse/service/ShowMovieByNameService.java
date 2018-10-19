@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.epam.movie_warehouse.Validator.MovieValidator.validateName;
+import static com.epam.movie_warehouse.validator.MovieValidator.validateName;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class ShowMovieByNameService implements Service {

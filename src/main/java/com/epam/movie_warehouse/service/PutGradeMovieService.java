@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.epam.movie_warehouse.Validator.AbstractValidator.validateId;
-import static com.epam.movie_warehouse.Validator.MovieValidator.validateGrade;
+import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
+import static com.epam.movie_warehouse.validator.MovieValidator.validateGrade;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class PutGradeMovieService implements Service {

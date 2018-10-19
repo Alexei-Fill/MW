@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import static com.epam.movie_warehouse.Validator.UserValidator.*;
+import static com.epam.movie_warehouse.validator.UserValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class RegistrationUserService implements Service {

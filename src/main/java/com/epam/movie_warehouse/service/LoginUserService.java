@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.epam.movie_warehouse.Validator.UserValidator.*;
+import static com.epam.movie_warehouse.validator.UserValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class LoginUserService implements Service {

@@ -22,7 +22,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.movie_warehouse.Validator.MovieValidator.*;
+import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class AddEditMovieService implements Service {
