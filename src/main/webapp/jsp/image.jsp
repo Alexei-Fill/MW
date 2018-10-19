@@ -1,1 +1,0 @@
-<input name = "imageURL" id = "imageURL" hidden="false" type="text" size="25" value ="${imageURL}"/>
