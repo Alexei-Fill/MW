@@ -123,11 +123,11 @@
 							<input class = "textField" name = "country${language.id}" type="text" maxlength="24" value ="${movie.country}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required />
 							<h4><fmt:message key = "key.descriptionOfMovie" bundle = "${lang}"/><h4>
 							<textarea class = "textArea" maxlength = "10240" rows="10" cols="45" name="description${language.id}" pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" required />${movie.description}</textarea>
-											<h3> </h3>
-											</div>
+							<h3> </h3>
+							</div>
                         </c:forEach>
 					</div>
-				 <div style = "margin-bottom:10px;"></div>
+				    <div style = "margin-bottom:10px;"></div>
 					<input type ="submit" onclick="getImageURL()"  value ="<fmt:message key = "key.apply" bundle = "${lang}"/>"  />
 			</form>
 	</div>

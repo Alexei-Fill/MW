@@ -2,6 +2,7 @@
 2. Запустите скрипт создания бд, таблиц, связей и заполнение их. (Файл movie_warehouse_mysql_create - SCRIPT.sql)
 3. В web.xml в параметр projectFolder пропишите полный путь до директории проекта, где последним словом будет название папки проекта.
 Например: D:\Alex\fold\MW
-4. Пометьте папку java как Sources Root
-5. Пометьте папку resurces как Resource Root
-6. Установите конфигурацию запуска Tomcat
+4. В файле connectionPull.properties укажи настройки для доступа к созданной БД
+5. Пометьте папку java как Sources Root
+6. Пометьте папку resurces как Resource Root
+7. Установите конфигурацию запуска Tomcat

@@ -28,12 +28,19 @@
                         		</c:forEach>
         			    </ul>
         			 </li>
+        		<li class = "liroof">
+            				<form class="form-search"  id = "listMovieByName" accept-charset="UTF-8"  name="listMovieByName" method="post" action="listMovieByName"  >
+            					<input  name = "searchString"  type="search"  size="25"  pattern="^[A-Za-zА-Яа-яЁё0-9_ -]{1,}$" value = "${searchString}"/>
+            					<input type="image" src="/css/img/search.png"/>
+            				</form>
+            			</li>
 			<li class = "liroof">
 				<a class = "aroof" href="/listMovies"><fmt:message key = "key.main" bundle = "${lang}"/></a>
 			</li>
 			<li class = "liroof">
 				<a class = "aroof" href="/listHuman"><fmt:message key = "key.movieCrew" bundle = "${lang}"/></a>
 			</li>
+
 			<c:if test = "${authorizedUser.roleId == admin}">
 			<li class = "liroof listLiHover">
 			    <a class = "aroof" href="#"><fmt:message key = "key.adminPanel" bundle = "${lang}"/></a>
@@ -55,12 +62,7 @@
 			 </li>
 
 			</c:if>
-			<li class = "liroof">
-				<form style = " text-align: left; margin-bottom:0; margin-top:10px;"  id = "listMovieByName" accept-charset="UTF-8"  name="listMovieByName" method="post" action="listMovieByName"  >
-					<input  name = "searchString" type="text" size="25" value = "${searchString}">
-					<input type ="submit" value ="Up"/>
-				</form>
-			</li>
+
 				<c:if test="${authorizedUser == null}">
 							<li class = "liroof ">
             	    <a class = "aroof" href="/login"><fmt:message key = "key.login" bundle = "${lang}"/></a>
