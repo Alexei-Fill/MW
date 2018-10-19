@@ -40,7 +40,7 @@
 				 <input id = imageURL name = "imageURL" hidden="false" type="text" size="25"
 				 <c:if test = "${imageURL == null}">
                      <c:if test = "${human == null}">
-                         value ="/css/img/thumb.png"/>
+                         value ="/css/img/default-human-img.jpg"/>
                      </c:if>
                      <c:if test = "${human != null}">
                          <c:if test = "${human.id != 0}">
