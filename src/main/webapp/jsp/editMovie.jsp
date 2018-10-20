@@ -56,9 +56,9 @@
 				<h4><fmt:message key = "key.imdbOfMovie" bundle = "${lang}" /></h4>
 				<input class = "textField" name = "imdbId" type="text" maxlength="16" value ="${movie.imdbID}" required />
 				<h4><fmt:message key = "key.budgetOfMovie" bundle = "${lang}"/></h4>
-				<input class = "textField" name = "budget" type="text" maxlength="25" pattern="[0-9]{0,}" value ="${movie.budget}" required />
+				<input class = "textField" name = "budget" type="text" maxlength="25" pattern="[0-9]{0,18}" value ="${movie.budget}" required />
 				<h4><fmt:message key = "key.duesOfMovie" bundle = "${lang}"/></h4>
-				<input class = "textField" name = "dues" type="text" maxlength="25" pattern="[0-9]{0,}" value ="${movie.dues}" required />
+				<input class = "textField" name = "dues" type="text" maxlength="25" pattern="[0-9]{0,18}" value ="${movie.dues}" required />
 				<h4><fmt:message key = "key.ageLimitOfMovie" bundle = "${lang}"/></h4>
 				<input class = "textField" name = "ageLimit" type="text" maxlength="2" pattern="[0-9]{0,2}" value ="${movie.ageLimit}"  required />
 				<h4><fmt:message key = "key.durationOfMovie" bundle = "${lang}" /></h4>
