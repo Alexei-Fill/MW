@@ -19,7 +19,7 @@ public class ListHumanService implements Service {
             SQLException, IOException {
         final int LANGUAGE = getLanguageId(request,response);
         HumanDAO humanDAO = new HumanDAO();
-        List<Human> humans = humanDAO.listGenre(LANGUAGE);
+        List<Human> humans = humanDAO.listHuman(LANGUAGE);
         request.setAttribute(HUMANS, humans);
         String serviceRequest = request.getRequestURI();
         String requestDispatch = LIST_HUMAN_JSP;

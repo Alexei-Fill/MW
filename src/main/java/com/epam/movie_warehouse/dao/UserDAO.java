@@ -8,25 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.movie_warehouse.util.DAOConstant.*;
+
 public class UserDAO {
-    private static final String LIST_USER = "SELECT * FROM USER ORDER BY USER_LOGIN";
-    private static final String SHOW_USER_BY_LOGIN = "SELECT * FROM USER where USER_LOGIN = ?";
-    private static final String SHOW_USER_BY_ID = "SELECT * FROM USER where USER_ID = ?";
-    private static final String ADD_USER = "INSERT INTO USER (USER_LOGIN, USER_PASSWORD, USER_MAIL, USER_BIRTH_DATE, " +
-            "USER_REGISTRATION_DATE, USER_ROLE, USER_IMAGE_URL) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String ADD_LINKS_MOVIES_OF_USER = "INSERT INTO VOTED_LIKED_THE_MOVIE (USER_ID, MOVIE_ID) VALUES (?, ?)";
-    private static final String UPDATE_USER = "UPDATE USER SET USER_LOGIN = ?, USER_PASSWORD = ?, USER_MAIL = ?, USER_BIRTH_DATE = ?,  " +
-            " USER_REGISTRATION_DATE = ?, USER_ROLE = ?, USER_IMAGE_URL = ? where USER_ID = ?";
-    private static final String DELETE_USER = "DELETE from USER where USER_ID = ?";
-    private static final String DELETE_LINKS_MOVIES_OF_USER = "DELETE from VOTED_LIKED_THE_MOVIE where USER_ID = ?";
-    private static final String CHECK_LIKED_LINK_MOVIES_OF_USER = "SELECT * from VOTED_LIKED_THE_MOVIE where USER_ID = ? "+
-            " and MOVIE_ID = ? ";
-    private static final String CHECK_VOTED_LINK_MOVIES_OF_USER = "SELECT * from VOTED_LIKED_THE_MOVIE where USER_ID = ? "+
-            " and MOVIE_ID = ? ";
-    private static final String UPDATE_LIKED_LINK_MOVIES_OF_USER = "UPDATE VOTED_LIKED_THE_MOVIE SET ITS_LIKED = ? " +
-            " where USER_ID = ? and  MOVIE_ID = ?";
-    private static final String UPDATE_VOTED_LINK_MOVIES_OF_USER = "UPDATE VOTED_LIKED_THE_MOVIE SET ITS_VOTED = ? " +
-            " where USER_ID = ? and  MOVIE_ID = ?";
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<User> listUser() throws SQLException {

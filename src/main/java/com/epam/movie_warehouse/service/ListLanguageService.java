@@ -13,7 +13,6 @@ import java.util.List;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.SITE_LANGUAGE;
 
 public class ListLanguageService implements Service {
-    private LanguageDAO languageDAO = new LanguageDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -21,7 +20,8 @@ public class ListLanguageService implements Service {
         request.getServletContext().setAttribute(SITE_LANGUAGE, languages);
     }
 
-    public  List<Language> listLanguage () throws SQLException {
+    public List<Language> listLanguage () throws SQLException {
+        LanguageDAO languageDAO = new LanguageDAO();
         return languageDAO.showAllLanguages();
     }
 }

@@ -13,35 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.movie_warehouse.util.DAOConstant.*;
+
 public class MovieDAO {
-    private static final String LIST_MOVIE = "SELECT * from MOVIE M, CHARACTERISTICS_OF_MOVIE CM where" +
-            " CM.MOVIE_ID = M.MOVIE_ID and CM.LANGUAGE_ID = ? ORDER BY M.MOVIE_UPLOAD_DATE DESC";
-    private static final String SHOW_MOVIE_BY_ID = "SELECT * from MOVIE M, CHARACTERISTICS_OF_MOVIE CM where CM.MOVIE_ID = M.MOVIE_ID and  " +
-            "M.MOVIE_ID = ? and CM.LANGUAGE_ID = ?";
-    private static final String SHOW_MOVIE_BY_NAME = "SELECT * from MOVIE M, CHARACTERISTICS_OF_MOVIE CM where  M.MOVIE_ID = CM.MOVIE_ID  and " +
-            " CM.MOVIE_NAME LIKE ? and  CM.LANGUAGE_ID = ? ORDER BY M.MOVIE_UPLOAD_DATE DESC";
-    private static final String SHOW_MOVIE_BY_GENRE = "SELECT * from GENRE_OF_MOVIE GM, MOVIE M, CHARACTERISTICS_OF_MOVIE CM where" +
-            " CM.MOVIE_ID = M.MOVIE_ID and M.MOVIE_ID = GM.MOVIE_ID and GM.GENRE_ID = ? and CM.LANGUAGE_ID = ? ORDER BY M.MOVIE_UPLOAD_DATE DESC";
-    private static final String SHOW_MOVIE_BY_HUMAN = "SELECT * from ROLE_HUMAN_IN_MOVIE RHM, MOVIE M, CHARACTERISTICS_OF_MOVIE CM where" +
-            " CM.MOVIE_ID = M.MOVIE_ID and M.MOVIE_ID = RHM.MOVIE_ID and RHM.HUMAN_ID = ? and CM.LANGUAGE_ID = ? ORDER BY M.MOVIE_UPLOAD_DATE DESC";
-    private static final String SHOW_COUNT_OF_LIKES = "SELECT * from VOTED_LIKED_THE_MOVIE  where MOVIE_ID = ? and ITS_LIKED != 0";
-    private static final String SHOW_COUNT_OF_VOTES = "SELECT * from VOTED_LIKED_THE_MOVIE  where MOVIE_ID = ? and ITS_VOTED != 0";
-    private static final String UPDATE_MOVIE = "UPDATE MOVIE M,  CHARACTERISTICS_OF_MOVIE CM SET M.MOVIE_IMDBID = ?," +
-            " M.MOVIE_IMAGE_URL = ?,  M.MOVIE_BUDGET = ?,  M.MOVIE_AGE_LIMIT = ?, M.MOVIE_RELEASE_DATE = ?, M.MOVIE_UPLOAD_DATE = ?," +
-            " M.MOVIE_DURATION = ?, M.MOVIE_DUES = ?,  CM.MOVIE_NAME =?, CM.MOVIE_DESCRIPTION = ?, CM.MOVIE_COUNTRY = ? " +
-            " WHERE CM.MOVIE_ID = M.MOVIE_ID and M.MOVIE_ID = ?  and CM.LANGUAGE_ID = ?";
-    private static final String DELETE_MOVIE = "DELETE from MOVIE where MOVIE_ID = ?";
-    private static final String DELETE_CHARACTERISTIC_OF_MOVIE = "DELETE from CHARACTERISTICS_OF_MOVIE where MOVIE_ID = ?";
-    private static final String DELETE_LINKS_GENRES_OF_MOVIE = "DELETE from GENRE_OF_MOVIE where MOVIE_ID = ?";
-    private static final String DELETE_LINKS_HUMANS_OF_MOVIE = "DELETE from ROLE_HUMAN_IN_MOVIE where MOVIE_ID = ?";
-    private static final String DELETE_LINKS_USERS_OF_MOVIE = "DELETE from VOTED_LIKED_THE_MOVIE where MOVIE_ID = ?";
-    private static final String ADD_MOVIE = "INSERT INTO MOVIE (MOVIE_IMDBID, MOVIE_IMAGE_URL, " +
-            " MOVIE_BUDGET,  MOVIE_AGE_LIMIT, MOVIE_RELEASE_DATE," +
-            "MOVIE_UPLOAD_DATE, MOVIE_DURATION, MOVIE_DUES) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String ADD_CHARACTERISTIC_OF_MOVIE = "INSERT INTO CHARACTERISTICS_OF_MOVIE (MOVIE_NAME, MOVIE_DESCRIPTION, MOVIE_COUNTRY, " +
-            "LANGUAGE_ID, MOVIE_ID ) VALUES (?, ?, ?, ?, ?)";
-    private static final String ADD_LINKS_GENRES_OF_MOVIE = "INSERT INTO GENRE_OF_MOVIE (MOVIE_ID, GENRE_ID) VALUES (?, ?)";
-    private static final String ADD_LINKS_HUMANS_OF_MOVIE = "INSERT INTO ROLE_HUMAN_IN_MOVIE (HUMAN_ID, MOVIE_ID, HUMAN_ROLE) VALUES (?, ?, ?)";
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public Movie showMovieById(long movieId, int languageId) throws SQLException {

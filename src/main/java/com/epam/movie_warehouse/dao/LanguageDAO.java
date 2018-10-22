@@ -10,9 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE;
+import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID;
+
 public class LanguageDAO {
-    private static final String SHOW_ALL_LANGUAGE = "SELECT * FROM  LANGUAGE";
-    private static final String SHOW_LANGUAGE_BY_ID = "SELECT * FROM  LANGUAGE WHERE LANGUAGE_ID = ?";
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<Language> showAllLanguages() throws SQLException {

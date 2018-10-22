@@ -8,22 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.movie_warehouse.util.DAOConstant.*;
+
 public class HumanDAO {
-    private static final String SHOW_MOVIE_CREW = "SELECT * from ROLE_HUMAN_IN_MOVIE RH, HUMAN H, CHARACTERISTICS_OF_HUMAN CH where" +
-            " RH.HUMAN_ID = H.HUMAN_ID and  CH.HUMAN_ID = H.HUMAN_ID  and RH.MOVIE_ID = ? and CH.LANGUAGE_ID = ? ORDER BY CH.HUMAN_NAME";
-    private static final String SHOW_ALL_AVAILABLE_HUMAN = "SELECT * FROM HUMAN H, CHARACTERISTICS_OF_HUMAN CH where  CH.HUMAN_ID = H.HUMAN_ID  " +
-            " and CH.LANGUAGE_ID = ? ORDER BY CH.HUMAN_NAME";
-    private static final String SHOW_HUMAN_BY_ID = "SELECT * FROM HUMAN H, CHARACTERISTICS_OF_HUMAN CH where  CH.HUMAN_ID = H.HUMAN_ID  " +
-            " and H.HUMAN_ID = ? and CH.LANGUAGE_ID = ?";
-    private static final String ADD_HUMAN = "INSERT INTO HUMAN (HUMAN_BIRTH_DATE, HUMAN_IMAGE_URL) VALUES (?, ?)";
-    private static final String ADD_CHARACTERISTIC_OF_HUMAN = "INSERT INTO CHARACTERISTICS_OF_HUMAN (HUMAN_NAME, HUMAN_SURNAME," +
-            " HUMAN_PATRONYMIC, HUMAN_BIOGRAPHY, HUMAN_ID, LANGUAGE_ID)  VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_HUMAN = "UPDATE HUMAN H, CHARACTERISTICS_OF_HUMAN CH SET CH.HUMAN_NAME = ?, " +
-            " CH.HUMAN_SURNAME = ?, CH.HUMAN_PATRONYMIC = ?, CH.HUMAN_BIOGRAPHY = ?, H.HUMAN_BIRTH_DATE = ?, H.HUMAN_IMAGE_URL = ?  " +
-            "WHERE CH.HUMAN_ID = H.HUMAN_ID and H.HUMAN_ID = ? and CH.LANGUAGE_ID = ?";
-    private static final String CHECK_LINKS_HUMAN_TO_MOVIE = "SELECT * FROM ROLE_HUMAN_IN_MOVIE WHERE HUMAN_ID = ?";
-    private static final String DELETE_HUMAN = "DELETE from HUMAN WHERE HUMAN_ID = ?";
-    private static final String DELETE_HUMAN_CHARACTERISTIC = "DELETE from CHARACTERISTICS_OF_HUMAN WHERE HUMAN_ID = ?";
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<Human> showMovieCrew(Long movieId, int languageId) throws SQLException{
@@ -45,7 +32,7 @@ public class HumanDAO {
         return humans;
     }
 
-    public List<Human> listGenre(int languageId) throws SQLException {
+    public List<Human> listHuman(int languageId) throws SQLException {
         List<Human> humans = new ArrayList<>();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_AVAILABLE_HUMAN)) {

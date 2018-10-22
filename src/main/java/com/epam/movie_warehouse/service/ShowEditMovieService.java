@@ -39,7 +39,7 @@ public class ShowEditMovieService implements Service {
             List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
             List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
             List<Genre> genres = genreDAO.showAllAvailableGenres(LANGUAGE);
-            List<Human> humans = humanDAO.listGenre(LANGUAGE);
+            List<Human> humans = humanDAO.listHuman(LANGUAGE);
             List<Language> languages = new ArrayList<>();
             languages.add(languageDAO.showLanguageById(LANGUAGE));
             movie.setGenres(movieGenres);

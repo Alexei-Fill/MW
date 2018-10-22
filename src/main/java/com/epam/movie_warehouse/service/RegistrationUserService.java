@@ -4,9 +4,9 @@ import com.epam.movie_warehouse.dao.UserDAO;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.User;
 import com.epam.movie_warehouse.exception.ValidationException;
-import com.epam.movie_warehouse.util.BCrypt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

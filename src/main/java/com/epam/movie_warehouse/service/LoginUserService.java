@@ -3,7 +3,7 @@ package com.epam.movie_warehouse.service;
 import com.epam.movie_warehouse.dao.UserDAO;
 import com.epam.movie_warehouse.entity.User;
 import com.epam.movie_warehouse.exception.ValidationException;
-import com.epam.movie_warehouse.util.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

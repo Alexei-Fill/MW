@@ -27,8 +27,7 @@ public interface Service {
 
     default Language getLanguage (HttpServletRequest request, HttpServletResponse response) throws SQLException{
         LanguageDAO languageDAO = new LanguageDAO();
-        Language language = languageDAO.showLanguageById(getLanguageId(request, response));
-        return language;
+        return languageDAO.showLanguageById(getLanguageId(request, response));
     }
 
     default void saveCurrentPageURLToSession(HttpServletRequest request, HttpServletResponse response){

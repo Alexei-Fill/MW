@@ -7,18 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreDAO {
-    private static final String SHOW_GENRE_OF_THE_MOVIE  = "SELECT G.GENRE_ID, G.GENRE_NAME FROM GENRE_OF_MOVIE GM, GENRE G WHERE " +
-            "G.GENRE_ID = GM.GENRE_ID  and MOVIE_ID = ? and LANGUAGE_ID = ? ";
-    private static final String SHOW_ALL_AVAILABLE_GENRE = "SELECT * FROM GENRE WHERE LANGUAGE_ID = ?  ORDER BY GENRE_NAME";
-    private static final String SHOW_GENRE_BY_ID = "SELECT * FROM GENRE WHERE GENRE_ID = ? and LANGUAGE_ID = ?";
-    private static final String GET_ID = "SELECT MAX(GENRE_ID)+1 FROM GENRE  ";
-    private static final String DELETE_GENRE_BY_ID = "DELETE FROM GENRE WHERE GENRE_ID = ? ";
-    private static final String ADD_GENRE = "INSERT INTO GENRE (GENRE_ID, GENRE_NAME, LANGUAGE_ID) VALUES (?, ?, ?) ";
-    private static final String UPDATE_GENRE = "UPDATE GENRE SET GENRE_NAME = ? WHERE GENRE_ID = ? and LANGUAGE_ID = ?";
-    private static final String CHECK_LINKS_GENRE_TO_MOVIE = "SELECT * FROM GENRE_OF_MOVIE WHERE GENRE_ID = ?";
-    private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
+import static com.epam.movie_warehouse.util.DAOConstant.*;
 
+public class GenreDAO {
+    private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<Genre> showGenresOfTheMovie(long movieId, int languageId) throws SQLException {
         List<Genre> genres = new ArrayList<>();

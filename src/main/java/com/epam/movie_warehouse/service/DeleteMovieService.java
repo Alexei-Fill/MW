@@ -18,7 +18,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.MOVIE_ID;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class DeleteMovieService implements Service {
-    static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
