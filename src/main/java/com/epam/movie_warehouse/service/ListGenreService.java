@@ -15,15 +15,14 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.DEFAULT_LANGU
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.GENRES;
 
 public class ListGenreService implements Service {
-    private GenreDAO genreDAO = new GenreDAO();
-    private List<Genre> genres;
+    private final GenreDAO genreDAO = new GenreDAO();
     private int languageId = DEFAULT_LANGUAGE;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
             ConnectionNotFoundException {
         languageId = getLanguageId(request, response);
-        genres = listGenre();
+        List<Genre> genres = listGenre();
         request.getServletContext().setAttribute(GENRES, genres);
         String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
         response.sendRedirect(requestURL);

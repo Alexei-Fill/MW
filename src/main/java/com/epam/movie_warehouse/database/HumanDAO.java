@@ -11,7 +11,7 @@ import java.util.List;
 import static com.epam.movie_warehouse.util.DAOConstant.*;
 
 public class HumanDAO {
-    private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
+    private final ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<Human> showMovieCrew(Long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         List<Human> humans = new ArrayList<>();

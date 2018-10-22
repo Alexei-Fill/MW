@@ -19,7 +19,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class AddEditGenreService implements Service {
     private static volatile Long maxGenreId;
-    private GenreDAO genreDAO = new GenreDAO();
+    private final GenreDAO genreDAO = new GenreDAO();
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     @Override

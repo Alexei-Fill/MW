@@ -17,7 +17,7 @@ import static com.epam.movie_warehouse.validator.UserValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class LoginUserService implements Service {
-    User user;
+    private User user;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,

@@ -24,7 +24,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class RegistrationUserService implements Service {
     private static final Logger USER_LOGGER = LogManager.getLogger(MovieWarehouseConstant.USER_LOGGER);
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,

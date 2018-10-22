@@ -2,6 +2,7 @@ package com.epam.movie_warehouse.listener;
 
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Language;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.service.ListGenreService;
 import com.epam.movie_warehouse.service.ListLanguageService;
 
@@ -23,6 +24,8 @@ public class MovieWarehouseContextListener implements ServletContextListener {
             languages = new ListLanguageService().listLanguage();
             genres = new ListGenreService().listGenre();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ConnectionNotFoundException e) {
             e.printStackTrace();
         }
         context.setAttribute(SITE_LANGUAGE, languages);

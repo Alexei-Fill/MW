@@ -19,7 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class DeleteUserService implements Service {
     private static final Logger USER_LOGGER = LogManager.getLogger(MovieWarehouseConstant.USER_LOGGER);
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,

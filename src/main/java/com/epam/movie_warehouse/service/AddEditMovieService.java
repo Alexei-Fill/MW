@@ -29,7 +29,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 public class AddEditMovieService implements Service {
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
     private List<Human> humans;
-    private HumanDAO humanDAO = new HumanDAO();
+    private final HumanDAO humanDAO = new HumanDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,

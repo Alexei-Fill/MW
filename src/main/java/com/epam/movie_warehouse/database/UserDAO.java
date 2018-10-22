@@ -12,7 +12,7 @@ import static com.epam.movie_warehouse.util.DAOConstant.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.NO_ENTRY_EXISTS;
 
 public class UserDAO {
-    private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
+    private final ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<User> listUser() throws SQLException, ConnectionNotFoundException {
         List<User> users = new ArrayList<>();

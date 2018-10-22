@@ -21,27 +21,27 @@ public class ConnectionPull {
     private static final String CONNECTION_PULL_DRIVER = "driver";
     private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
     private static final ConnectionPull UNIQUE_INSTANCE = new ConnectionPull();
-    private final Locale locale = new Locale(DEFAULT_LOCALE);
-    private final ResourceBundle bundle = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, locale);
-    private final String url = bundle.getString(CONNECTION_PULL_URL);
-    private final String user = bundle.getString(CONNECTION_PULL_USER);
-    private final String password = bundle.getString(CONNECTION_PULL_PASSWORD);
-    private final String driver = bundle.getString(CONNECTION_PULL_DRIVER);
-    private final int initConnectionCount = Integer.parseInt(bundle.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
-    private final ArrayBlockingQueue<Connection> connectionsQueue = new ArrayBlockingQueue<>(initConnectionCount);
-    private static final Logger logger = LogManager.getRootLogger();
+    private final Locale LOCALE = new Locale(DEFAULT_LOCALE);
+    private final ResourceBundle BUNDLE = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, LOCALE);
+    private final String URL = BUNDLE.getString(CONNECTION_PULL_URL);
+    private final String USER = BUNDLE.getString(CONNECTION_PULL_USER);
+    private final String PASSWORD = BUNDLE.getString(CONNECTION_PULL_PASSWORD);
+    private final String DRIVER = BUNDLE.getString(CONNECTION_PULL_DRIVER);
+    private final int INIT_CONNECTION_COUNT = Integer.parseInt(BUNDLE.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
+    private final ArrayBlockingQueue<Connection> CONNECTION_QUEUE = new ArrayBlockingQueue<>(INIT_CONNECTION_COUNT);
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     private ConnectionPull() {
         try {
-            Class.forName(driver);
+            Class.forName(DRIVER);
         } catch (Exception e) {
-            logger.error(e);
+            ROOT_LOGGER.error(e);
         }
-        for (int i = 1; i <= initConnectionCount; i++) {
+        for (int i = 1; i <= INIT_CONNECTION_COUNT; i++) {
             try {
-                connectionsQueue.put(getConnection());
+                CONNECTION_QUEUE.put(getConnection());
             } catch (InterruptedException e) {
-                logger.error(e);
+                ROOT_LOGGER.error(e);
             }
         }
     }
@@ -53,9 +53,9 @@ public class ConnectionPull {
     private Connection getConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (Exception e) {
-            logger.error(e);
+            ROOT_LOGGER.error(e);
         }
         return connection;
     }
@@ -63,9 +63,9 @@ public class ConnectionPull {
     public synchronized Connection retrieve() {
         Connection connection = null;
         try {
-            connection = connectionsQueue.take();
+            connection = CONNECTION_QUEUE.take();
         } catch (InterruptedException e) {
-            logger.error(e);
+            ROOT_LOGGER.error(e);
         }
         return connection;
     }
@@ -73,12 +73,12 @@ public class ConnectionPull {
     public synchronized void putBack(Connection connection) throws ConnectionNotFoundException {
         if (connection != null) {
             try {
-                connectionsQueue.put(connection);
+                CONNECTION_QUEUE.put(connection);
             } catch (InterruptedException e) {
-                logger.error(e);
+                ROOT_LOGGER.error(e);
             }
         } else {
-            logger.error(CONNECTION_NOT_FOUND_EXCEPTION);
+            ROOT_LOGGER.error(CONNECTION_NOT_FOUND_EXCEPTION);
             throw new ConnectionNotFoundException();
         }
     }

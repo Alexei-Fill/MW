@@ -33,8 +33,8 @@ public class ShowMovieService implements Service {
         HumanDAO humanDAO = new HumanDAO();
         UserDAO userDAO = new UserDAO();
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
-        Integer like = null;
-        Integer grade = null;
+        int like = 0;
+        int grade = 0;
         Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
         if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);

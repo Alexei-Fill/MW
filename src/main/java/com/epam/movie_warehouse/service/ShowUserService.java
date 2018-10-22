@@ -21,7 +21,7 @@ public class ShowUserService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        User userById = null;
+        User userById = new User();
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
         String requestURI = request.getRequestURI();
         if (requestURI.equalsIgnoreCase(SHOW_USER_URI)) {

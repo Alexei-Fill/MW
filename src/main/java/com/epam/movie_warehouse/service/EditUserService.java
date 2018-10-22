@@ -23,7 +23,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class EditUserService implements Service {
     private static final Logger USER_LOGGER = LogManager.getLogger(MovieWarehouseConstant.USER_LOGGER);
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
     private User user;
 
     @Override

@@ -13,9 +13,9 @@ import java.time.temporal.Temporal;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.EMPTY_STRING;
 
 public class LocalDateTag extends TagSupport {
-    private final static String DEFAULT_FORMATTER = "d.MM.yyyy";
-    protected Temporal value;
-    protected String pattern;
+    private static final String DEFAULT_FORMATTER = "d.MM.yyyy";
+    private Temporal value;
+    private String pattern;
     private String var;
     private int scope;
 

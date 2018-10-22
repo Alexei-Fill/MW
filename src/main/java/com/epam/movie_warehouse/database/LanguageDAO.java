@@ -14,7 +14,7 @@ import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE;
 import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID;
 
 public class LanguageDAO {
-    private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
+    private final ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
     public List<Language> showAllLanguages() throws SQLException, ConnectionNotFoundException {
         List<Language> languages = new ArrayList<>();
