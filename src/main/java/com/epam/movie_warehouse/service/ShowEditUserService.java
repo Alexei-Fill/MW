@@ -22,7 +22,7 @@ public class ShowEditUserService implements Service {
         UserDAO userDAO = new UserDAO();
         long userId = validateId(request.getParameter(USER_ID));
         User user = userDAO.showUserById(userId);
-        if (user == null){
+        if (user.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

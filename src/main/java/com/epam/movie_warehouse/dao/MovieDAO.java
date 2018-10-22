@@ -20,7 +20,7 @@ public class MovieDAO {
 
     public Movie showMovieById(long movieId, int languageId) throws SQLException {
         Connection connection = connectionPull.retrieve();
-        Movie movie = null;
+        Movie movie = new Movie();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_ID)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.setInt(2, languageId);

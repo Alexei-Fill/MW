@@ -22,7 +22,7 @@ public class SetLocalService implements Service {
         if((localIdString != null) && (!EMPTY_STRING.equals(localIdString.trim()))) {
             int localId = Integer.parseInt(localIdString);
             language = languageDAO.showLanguageById(localId);
-            if (language != null) {
+            if (language.getId() != 0) {
                 request.getSession().setAttribute(SESSION_LANGUAGE_ID, language.getId());
                 request.getSession().setAttribute(LOCALE, language.getLocal());
                 request.getSession().setAttribute(DATE_FORMAT, language.getDateFormat());

@@ -35,7 +35,7 @@ public class DeleteUserService implements Service {
                 userById = userDAO.showUserById(user.getId());
             }
         }
-        if (userById == null){
+        if (userById.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

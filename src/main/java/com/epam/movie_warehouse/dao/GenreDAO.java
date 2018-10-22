@@ -48,8 +48,8 @@ public class GenreDAO {
     }
 
     public Genre showGenreById(Long genreId, int languageId)  throws SQLException{
+        Genre genre = new Genre();
         Connection connection = connectionPull.retrieve();
-        Genre genre = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_GENRE_BY_ID)) {
             preparedStatement.setLong(1, genreId);
             preparedStatement.setLong(2, languageId);
@@ -76,7 +76,7 @@ public class GenreDAO {
     }
 
     public long getMAXGenreId() throws SQLException {
-        long genreID = 0;
+        long genreID = 1;
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ID)){
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -23,7 +23,7 @@ public class DeleteGenreService implements Service {
         final int LANGUAGE = getLanguageId(request,response);
         long genreId = validateId(request.getParameter(GENRE_ID));
         GenreDAO genreDAO = new GenreDAO();
-        if (genreDAO.showGenreById(genreId, LANGUAGE) == null){
+        if (genreDAO.showGenreById(genreId, LANGUAGE).getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

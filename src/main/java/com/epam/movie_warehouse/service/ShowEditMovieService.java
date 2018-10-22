@@ -32,7 +32,7 @@ public class ShowEditMovieService implements Service {
         HumanDAO humanDAO = new HumanDAO();
         LanguageDAO languageDAO = new LanguageDAO();
         Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
-        if (movie == null){
+        if (movie.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

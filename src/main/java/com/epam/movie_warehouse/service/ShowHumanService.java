@@ -28,7 +28,7 @@ public class ShowHumanService implements Service {
         HumanDAO humanDAO = new HumanDAO();
         MovieDAO movieDAO = new MovieDAO();
         Human human = humanDAO.showHumanById(humanId, LANGUAGE);
-        if (human == null){
+        if (human.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

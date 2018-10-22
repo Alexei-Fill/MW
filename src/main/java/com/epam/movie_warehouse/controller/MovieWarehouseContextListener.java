@@ -29,8 +29,8 @@ public class MovieWarehouseContextListener implements ServletContextListener {
         context.setAttribute(GENRES, genres);
         context.setAttribute(ADMIN, ADMIN_ROLE_ID);
         context.setAttribute(COMMON_USER, COMMON_USER_ROLE_ID);
-        context.setAttribute(NOT_LIKE, itsNotLiked);
-        context.setAttribute(LIKE, itsLiked);
+        context.setAttribute(NOT_LIKE, ITS_NOT_LIKED);
+        context.setAttribute(LIKE, ITS_LIKED);
         context.setAttribute(ACTOR, ACTOR_ROLE_ID);
         context.setAttribute(DIRECTOR, DIRECTOR_ROLE_ID);
         context.setAttribute(SCREENWRITER, SCREENWRITER_ROLE_ID);

@@ -28,7 +28,7 @@ public class ShowUserService implements Service {
         } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)){
             userById = userDAO.showUserById(user.getId());
         }
-        if (userById == null){
+        if (userById.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

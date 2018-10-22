@@ -20,8 +20,9 @@ public final class MovieWarehouseConstant {
     public static final int PATRONYMIC_MAX_LENGTH = 32;
     public static final int MAIL_MIN_LENGTH = 6;
     public static final int BIG_TEXT_MAX_LENGTH = 10240;
-    public static final int itsNotLiked = 0;
-    public static final int itsLiked = 1;
+    public static final int ITS_NOT_LIKED = 0;
+    public static final int ITS_LIKED = 1;
+    public static final int NO_ENTRY_EXISTS = 100;
     public static final String DEFAULT_LOCALE = "";
     public static final String EXCEPTION = "exception";
     public static final String PREFIX_FOR_PASSWORD = "$2a$";

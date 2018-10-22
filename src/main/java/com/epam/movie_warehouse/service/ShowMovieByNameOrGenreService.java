@@ -14,20 +14,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
+import static com.epam.movie_warehouse.validator.MovieValidator.validateName;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class ShowMovieByGenreService implements Service {
+public class ShowMovieByNameOrGenreService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
         final int LANGUAGE = getLanguageId(request,response);
-        long genreId = validateId(request.getParameter(GENRE_ID));
+        String requestURI = request.getRequestURI();
         MovieDAO movieDAO = new MovieDAO();
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
-        List<Movie> movies = movieDAO.listMovieByGenre(genreId, LANGUAGE);
+        List<Movie> movies = new ArrayList<>();
+        if (LIST_MOVIE_BY_GENRE_URI.equalsIgnoreCase(requestURI)){
+            long genreId = validateId(request.getParameter(GENRE_ID));
+            movies = movieDAO.listMovieByGenre(genreId, LANGUAGE);
+        } else if (LIST_MOVIE_BY_NAME_URI.equalsIgnoreCase(requestURI)){
+            String searchString = validateName(request.getParameter(SEARCH_STRING));
+            movies = movieDAO.listMovieByName(searchString, LANGUAGE);
+            request.setAttribute(SEARCH_STRING, searchString);
+        }
         for (Movie movie:movies){
             List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
             List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
@@ -42,8 +52,9 @@ public class ShowMovieByGenreService implements Service {
         }
         String requestDispatch = LIST_MOVIE_JSP;
         String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
+        System.out.println(requestURL);
         if(requestURL.equalsIgnoreCase(LIST_MOVIES_ADMIN_URI)) {
-            requestDispatch = LIST_MOVIES_ADMIN_URI;
+            requestDispatch = LIST_MOVIE_ADMIN_JSP;
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestDispatch);
         requestDispatcher.forward(request, response);

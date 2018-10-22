@@ -25,17 +25,17 @@ public class ShowMovieService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             SQLException, IOException, NumberFormatException {
-        final int LANGUAGE = getLanguageId(request,response);
+        final int LANGUAGE = getLanguageId(request, response);
         long movieId = Long.parseLong(request.getParameter(MOVIE_ID));
         MovieDAO movieDAO = new MovieDAO();
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         UserDAO userDAO = new UserDAO();
-        User user =  (User) request.getSession().getAttribute(AUTHORIZED_USER);
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
         Integer like = null;
         Integer grade = null;
         Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
-        if (movie == null){
+        if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
@@ -43,10 +43,10 @@ public class ShowMovieService implements Service {
                 like = userDAO.checkLikedLinkMovieOfUser(user.getId(), movieId);
                 grade = userDAO.checkVotedLinkMovieOfUser(user.getId(), movieId);
             }
-            if (grade == null) {
+            if (grade == NO_ENTRY_EXISTS){
                 grade = 0;
             }
-            if (like == null) {
+            if (like == NO_ENTRY_EXISTS){
                 like = 0;
             }
             List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);

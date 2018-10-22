@@ -21,8 +21,8 @@ public class ServiceFactory {
         serviceMap.put(EDIT_MOVIE_URI, new AddEditMovieService());
         serviceMap.put(DELETE_MOVIE_URI, new DeleteMovieService());
         serviceMap.put(ADD_MOVIE_URI, new ShowAddMovieService());
-        serviceMap.put(LIST_MOVIE_BY_GENRE_URI, new ShowMovieByGenreService());
-        serviceMap.put(LIST_MOVIE_BY_NAME_URI, new ShowMovieByNameService());
+        serviceMap.put(LIST_MOVIE_BY_GENRE_URI, new ShowMovieByNameOrGenreService());
+        serviceMap.put(LIST_MOVIE_BY_NAME_URI, new ShowMovieByNameOrGenreService());
         serviceMap.put(LOG_IN_URI, new ShowUserLoginService());
         serviceMap.put(AUTHORIZATION_URI, new LoginUserService());
         serviceMap.put(REGISTRATION_URI, new RegistrationUserService());

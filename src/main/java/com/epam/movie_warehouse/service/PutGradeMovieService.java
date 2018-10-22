@@ -26,7 +26,7 @@ public class PutGradeMovieService implements Service {
         Integer votedGrade;
         if ((user != null) && (movieId != 0)){
             votedGrade = userDAO.checkVotedLinkMovieOfUser(user.getId(), movieId);
-            if (votedGrade == null){
+            if (votedGrade == NO_ENTRY_EXISTS){
                 userDAO.addLinksMoviesOfUser(user.getId(), movieId);
                 userDAO.updateVotedLinkMovieOfUser(user.getId(), movieId, grade);
             } else if (grade != votedGrade) {

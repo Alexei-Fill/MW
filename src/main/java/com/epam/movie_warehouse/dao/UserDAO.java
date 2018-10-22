@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.movie_warehouse.util.DAOConstant.*;
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.NO_ENTRY_EXISTS;
 
 public class UserDAO {
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
@@ -29,7 +30,7 @@ public class UserDAO {
     }
 
     public User showUserByLogin(String userLogin) throws SQLException {
-        User user = null;
+        User user = new User();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_USER_BY_LOGIN)) {
             preparedStatement.setString(1, userLogin);
@@ -45,7 +46,7 @@ public class UserDAO {
     }
 
     public User showUserById (long userId) throws SQLException {
-        User user = null;
+        User user = new User();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_USER_BY_ID)) {
             preparedStatement.setLong(1, userId);
@@ -109,7 +110,7 @@ public class UserDAO {
     }
 
     public Integer checkLikedLinkMovieOfUser(long userId, long movieId) throws SQLException {
-        Integer itsLiked = null;
+        Integer itsLiked = NO_ENTRY_EXISTS;
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(CHECK_LIKED_LINK_MOVIES_OF_USER)){
             pr.setLong(1, userId);
@@ -136,7 +137,7 @@ public class UserDAO {
     }
 
     public Integer checkVotedLinkMovieOfUser(long userId, long movieId) throws SQLException {
-        Integer itsVoted = null;
+        Integer itsVoted = NO_ENTRY_EXISTS;
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(CHECK_VOTED_LINK_MOVIES_OF_USER)){
             pr.setLong(1, userId);

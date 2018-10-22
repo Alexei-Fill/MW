@@ -50,7 +50,7 @@ public class HumanDAO {
     }
 
     public Human showHumanById(Long humanId, int languageId) throws SQLException {
-        Human human = null;
+        Human human = new Human();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_HUMAN_BY_ID)) {
             preparedStatement.setLong(1, humanId);

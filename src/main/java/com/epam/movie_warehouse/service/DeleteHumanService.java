@@ -23,7 +23,7 @@ public class DeleteHumanService implements Service {
         final int LANGUAGE = getLanguageId(request,response);
         long humanId = validateId(request.getParameter(HUMAN_ID));
         HumanDAO humanDAO = new HumanDAO();
-        if (humanDAO.showHumanById(humanId, LANGUAGE) == null){
+        if (humanDAO.showHumanById(humanId, LANGUAGE).getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

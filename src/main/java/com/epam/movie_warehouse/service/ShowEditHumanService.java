@@ -27,7 +27,7 @@ public class ShowEditHumanService implements Service {
         long humanId = validateId(request.getParameter(HUMAN_ID));
         HumanDAO humanDAO = new HumanDAO();
         Human human = humanDAO.showHumanById(humanId, LANGUAGE);
-        if (human == null){
+        if (human.getId() == 0){
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

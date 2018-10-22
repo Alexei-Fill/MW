@@ -25,7 +25,7 @@ public class DeleteMovieService implements Service {
         final int LANGUAGE = getLanguageId(request,response);
         long movieId = validateId(request.getParameter(MOVIE_ID));
         MovieDAO movieDAO = new MovieDAO();
-        if (movieDAO.showMovieById(movieId, LANGUAGE) == null) {
+        if (movieDAO.showMovieById(movieId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

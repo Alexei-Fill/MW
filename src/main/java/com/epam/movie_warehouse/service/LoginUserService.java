@@ -16,7 +16,6 @@ import static com.epam.movie_warehouse.validator.UserValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class LoginUserService implements Service {
-    UserDAO userDAO = new UserDAO();
     User user;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
@@ -33,9 +32,10 @@ public class LoginUserService implements Service {
     }
 
     private Boolean checkUserByLoginAndPassword(String login, String password)  throws SQLException{
+        UserDAO userDAO = new UserDAO();
         boolean isCheck = false;
         user = userDAO.showUserByLogin(login);
-        if (user != null){
+        if (user.getId() != 0){
             String userPassword = user.getPassword();
             if(userPassword == null|| !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
                 throw new IllegalArgumentException(INVALID_HASH_PROVIDED);
