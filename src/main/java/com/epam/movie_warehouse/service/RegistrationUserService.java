@@ -1,9 +1,11 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
+import com.epam.movie_warehouse.util.MovieWarehouseConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -21,12 +23,13 @@ import static com.epam.movie_warehouse.validator.UserValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class RegistrationUserService implements Service {
-    private static final Logger userLogger = LogManager.getLogger(USER_LOGGER);
+    private static final Logger USER_LOGGER = LogManager.getLogger(MovieWarehouseConstant.USER_LOGGER);
     private UserDAO userDAO = new UserDAO();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
-        Language language = getLanguage(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
+            IOException, ValidationException, ConnectionNotFoundException {
+        Language language = getLanguage(request, response);
         User newUser = new User();
         newUser.setLogin(validateLogin(request.getParameter(LOGIN)));
         String password = validatePassword(request.getParameter(PASSWORD));
@@ -36,11 +39,11 @@ public class RegistrationUserService implements Service {
         newUser.setRegistrationDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
         newUser.setRoleId(COMMON_USER_ROLE_ID);
         String requestDispatch = LOG_IN_URI;
-        if (checkPasswordAndPasswordRepeat(password, passwordRepeat)){
+        if (checkPasswordAndPasswordRepeat(password, passwordRepeat)) {
             newUser.setPassword(hashingPassword(password));
             userDAO.addUser(newUser);
             requestDispatch = AUTHORIZATION_URI;
-            userLogger.info("Registration completed successfully user =" + newUser.getLogin());
+            USER_LOGGER.info("Registration completed successfully user =" + newUser.getLogin());
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestDispatch);
         requestDispatcher.forward(request, response);
@@ -49,8 +52,8 @@ public class RegistrationUserService implements Service {
     private Boolean checkPasswordAndPasswordRepeat(String password, String passwordRepeat) {
         boolean isCheck = false;
         if (((password != null) && (!EMPTY_STRING.equals(password.trim()))) &&
-                ((passwordRepeat != null) && (!EMPTY_STRING.equals(passwordRepeat.trim())))){
-            if (password.equals(passwordRepeat)){
+                ((passwordRepeat != null) && (!EMPTY_STRING.equals(passwordRepeat.trim())))) {
+            if (password.equals(passwordRepeat)) {
                 isCheck = true;
             }
         }

@@ -1,7 +1,8 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +18,8 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class ShowUserService implements Service {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         User userById = null;
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
@@ -25,10 +27,10 @@ public class ShowUserService implements Service {
         if (requestURI.equalsIgnoreCase(SHOW_USER_URI)) {
             long userId = validateId(request.getParameter(USER_ID));
             userById = userDAO.showUserById(userId);
-        } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)){
+        } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)) {
             userById = userDAO.showUserById(user.getId());
         }
-        if (userById.getId() == 0){
+        if (userById.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

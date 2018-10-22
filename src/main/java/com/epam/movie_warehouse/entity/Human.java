@@ -1,6 +1,7 @@
 package com.epam.movie_warehouse.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Human {
     private long id;
@@ -88,5 +89,25 @@ public class Human {
                 ", biography='" + biography + '\'' +
                 ", roleId=" + roleId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Human human = (Human) o;
+        return id == human.id &&
+                roleId == human.roleId &&
+                Objects.equals(imageURL, human.imageURL) &&
+                Objects.equals(name, human.name) &&
+                Objects.equals(surname, human.surname) &&
+                Objects.equals(patronymic, human.patronymic) &&
+                Objects.equals(birthDate, human.birthDate) &&
+                Objects.equals(biography, human.biography);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, imageURL, name, surname, patronymic, birthDate, biography, roleId);
     }
 }

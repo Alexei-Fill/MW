@@ -1,8 +1,9 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.HumanDAO;
+import com.epam.movie_warehouse.database.HumanDAO;
 import com.epam.movie_warehouse.entity.Human;
 import com.epam.movie_warehouse.entity.Language;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,12 +19,12 @@ import static com.epam.movie_warehouse.validator.HumanValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class AddEditHumanService implements Service {
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException, ValidationException, SQLException {
-        final Language language = getLanguage(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            ValidationException, SQLException, ConnectionNotFoundException {
+        final Language language = getLanguage(request, response);
         final int LANGUAGE_ID = language.getId();
         HumanDAO humanDAO = new HumanDAO();
         Human human = new Human();
@@ -42,7 +43,7 @@ public class AddEditHumanService implements Service {
                 }
             }
             humanDAO.updateHuman(human, LANGUAGE_ID);
-            logger.info("Human was changed " + human);
+            ROOT_LOGGER.info("Human was changed " + human);
         } else {
             humanDAO.addHuman(human);
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
@@ -53,7 +54,7 @@ public class AddEditHumanService implements Service {
                     humanDAO.addHumanCharacteristic(human, languageId);
                 }
             }
-            logger.info("Human was added " + human);
+            ROOT_LOGGER.info("Human was added " + human);
         }
         request.setAttribute(HUMAN, human);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_HUMAN_BY_ID_URL + human.getId());

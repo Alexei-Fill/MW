@@ -1,11 +1,12 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.GenreDAO;
-import com.epam.movie_warehouse.dao.HumanDAO;
-import com.epam.movie_warehouse.dao.MovieDAO;
+import com.epam.movie_warehouse.database.GenreDAO;
+import com.epam.movie_warehouse.database.HumanDAO;
+import com.epam.movie_warehouse.database.MovieDAO;
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Human;
 import com.epam.movie_warehouse.entity.Movie;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,14 +20,14 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class ListMovieService implements Service {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            SQLException, IOException {
-        final int LANGUAGE = getLanguageId(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            SQLException, ConnectionNotFoundException {
+        final int LANGUAGE = getLanguageId(request, response);
         MovieDAO movieDAO = new MovieDAO();
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         List<Movie> movies = movieDAO.listMovie(LANGUAGE);
-        for (Movie movie:movies){
+        for (Movie movie : movies) {
             List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
             movie.setGenres(movieGenres);
             List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
@@ -36,7 +37,7 @@ public class ListMovieService implements Service {
         }
         request.setAttribute(MOVIES, movies);
         String requestDispatch = LIST_MOVIE_JSP;
-        if (request.getRequestURI().equalsIgnoreCase(LIST_MOVIES_ADMIN_URI)){
+        if (request.getRequestURI().equalsIgnoreCase(LIST_MOVIES_ADMIN_URI)) {
             requestDispatch = LIST_MOVIE_ADMIN_JSP;
         }
         saveCurrentPageURLToSession(request, response);

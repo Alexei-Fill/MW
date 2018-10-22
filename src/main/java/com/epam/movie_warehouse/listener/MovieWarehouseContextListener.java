@@ -1,4 +1,4 @@
-package com.epam.movie_warehouse.controller;
+package com.epam.movie_warehouse.listener;
 
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Language;

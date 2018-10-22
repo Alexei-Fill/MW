@@ -1,7 +1,7 @@
-package com.epam.movie_warehouse.dao;
+package com.epam.movie_warehouse.database;
 
-import com.epam.movie_warehouse.connectionPull.ConnectionPull;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,12 +14,12 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.NO_ENTRY_EXIS
 public class UserDAO {
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
-    public List<User> listUser() throws SQLException {
+    public List<User> listUser() throws SQLException, ConnectionNotFoundException {
         List<User> users = new ArrayList<>();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(LIST_USER);
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User();
                 user = setUserPar(user, resultSet);
                 users.add(user);
@@ -29,7 +29,7 @@ public class UserDAO {
         return users;
     }
 
-    public User showUserByLogin(String userLogin) throws SQLException {
+    public User showUserByLogin(String userLogin) throws SQLException, ConnectionNotFoundException {
         User user = new User();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_USER_BY_LOGIN)) {
@@ -45,13 +45,13 @@ public class UserDAO {
         return user;
     }
 
-    public User showUserById (long userId) throws SQLException {
+    public User showUserById(long userId) throws SQLException, ConnectionNotFoundException {
         User user = new User();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_USER_BY_ID)) {
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 user = new User();
                 user = setUserPar(user, resultSet);
             }
@@ -61,27 +61,29 @@ public class UserDAO {
         return user;
     }
 
-    public void addUser(User user) throws SQLException {
+    public void addUser(User user) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER)) {
             getUserParameters(user, preparedStatement);
             preparedStatement.executeUpdate();
         }
         connectionPull.putBack(connection);
     }
-//
-    public void updateUser(User user) throws SQLException {
+
+    //
+    public void updateUser(User user) throws SQLException, ConnectionNotFoundException {
+        final int USER_ID = 8;
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(UPDATE_USER)){
+        try (PreparedStatement pr = connection.prepareStatement(UPDATE_USER)) {
             getUserParameters(user, pr);
-            pr.setLong(8, user.getId());
+            pr.setLong(USER_ID, user.getId());
             pr.executeUpdate();
 
         }
         connectionPull.putBack(connection);
     }
 
-    public void deleteUser(User user) throws SQLException {
+    public void deleteUser(User user) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(DELETE_USER)) {
             pr.setLong(1, user.getId());
@@ -90,7 +92,7 @@ public class UserDAO {
         connectionPull.putBack(connection);
     }
 
-    public void deleteLinksMoviesOfUser(User user) throws SQLException {
+    public void deleteLinksMoviesOfUser(User user) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(DELETE_LINKS_MOVIES_OF_USER)) {
             pr.setLong(1, user.getId());
@@ -99,24 +101,24 @@ public class UserDAO {
         connectionPull.putBack(connection);
     }
 
-    public void addLinksMoviesOfUser (long userId, long movieId) throws SQLException {
+    public void addLinksMoviesOfUser(long userId, long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
-            try (PreparedStatement pr = connection.prepareStatement(ADD_LINKS_MOVIES_OF_USER)) {
-                pr.setLong(1, userId);
-                pr.setLong(2, movieId);
-                pr.executeUpdate();
-            }
-            connectionPull.putBack(connection);
+        try (PreparedStatement pr = connection.prepareStatement(ADD_LINKS_MOVIES_OF_USER)) {
+            pr.setLong(1, userId);
+            pr.setLong(2, movieId);
+            pr.executeUpdate();
+        }
+        connectionPull.putBack(connection);
     }
 
-    public Integer checkLikedLinkMovieOfUser(long userId, long movieId) throws SQLException {
+    public Integer checkLikedLinkMovieOfUser(long userId, long movieId) throws SQLException, ConnectionNotFoundException {
         Integer itsLiked = NO_ENTRY_EXISTS;
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(CHECK_LIKED_LINK_MOVIES_OF_USER)){
+        try (PreparedStatement pr = connection.prepareStatement(CHECK_LIKED_LINK_MOVIES_OF_USER)) {
             pr.setLong(1, userId);
             pr.setLong(2, movieId);
             ResultSet res = pr.executeQuery();
-            while (res.next()){
+            while (res.next()) {
                 itsLiked = res.getInt("ITS_LIKED");
             }
             res.close();
@@ -125,7 +127,8 @@ public class UserDAO {
         return itsLiked;
     }
 
-    public void updateLikedLinkMovieOfUser (long userId, long movieId, int itsLiked) throws SQLException {
+    public void updateLikedLinkMovieOfUser(long userId, long movieId, int itsLiked) throws SQLException,
+            ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(UPDATE_LIKED_LINK_MOVIES_OF_USER)) {
             pr.setLong(1, itsLiked);
@@ -136,14 +139,14 @@ public class UserDAO {
         connectionPull.putBack(connection);
     }
 
-    public Integer checkVotedLinkMovieOfUser(long userId, long movieId) throws SQLException {
+    public Integer checkVotedLinkMovieOfUser(long userId, long movieId) throws SQLException, ConnectionNotFoundException {
         Integer itsVoted = NO_ENTRY_EXISTS;
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(CHECK_VOTED_LINK_MOVIES_OF_USER)){
+        try (PreparedStatement pr = connection.prepareStatement(CHECK_VOTED_LINK_MOVIES_OF_USER)) {
             pr.setLong(1, userId);
             pr.setLong(2, movieId);
             ResultSet res = pr.executeQuery();
-            while (res.next()){
+            while (res.next()) {
                 itsVoted = res.getInt("ITS_VOTED");
             }
             res.close();
@@ -152,7 +155,8 @@ public class UserDAO {
         return itsVoted;
     }
 
-    public void updateVotedLinkMovieOfUser (long userId, long movieId, int grade) throws SQLException {
+    public void updateVotedLinkMovieOfUser(long userId, long movieId, int grade) throws SQLException,
+            ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement pr = connection.prepareStatement(UPDATE_VOTED_LINK_MOVIES_OF_USER)) {
             pr.setLong(1, grade);
@@ -162,7 +166,8 @@ public class UserDAO {
         }
         connectionPull.putBack(connection);
     }
-    private User setUserPar (User user, ResultSet resultSet) throws SQLException{
+
+    private User setUserPar(User user, ResultSet resultSet) throws SQLException {
         user.setId(resultSet.getLong("USER_ID"));
         user.setLogin(resultSet.getString("USER_LOGIN"));
         user.setPassword(resultSet.getString("USER_PASSWORD"));
@@ -174,7 +179,7 @@ public class UserDAO {
         return user;
     }
 
-    private void getUserParameters(User user, PreparedStatement preparedStatement) throws SQLException{
+    private void getUserParameters(User user, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, user.getLogin());
         preparedStatement.setString(2, user.getPassword());
         preparedStatement.setString(3, user.getMail());

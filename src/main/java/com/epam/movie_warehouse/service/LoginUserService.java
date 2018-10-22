@@ -1,7 +1,8 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -17,8 +18,10 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class LoginUserService implements Service {
     User user;
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            ValidationException, SQLException, ConnectionNotFoundException {
         String userLogin = validateLogin(request.getParameter(LOGIN));
         String userPassword = validatePassword(request.getParameter(PASSWORD));
         if (checkUserByLoginAndPassword(userLogin, userPassword)) {
@@ -31,13 +34,13 @@ public class LoginUserService implements Service {
         }
     }
 
-    private Boolean checkUserByLoginAndPassword(String login, String password)  throws SQLException{
+    private Boolean checkUserByLoginAndPassword(String login, String password) throws SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         boolean isCheck = false;
         user = userDAO.showUserByLogin(login);
-        if (user.getId() != 0){
+        if (user.getId() != 0) {
             String userPassword = user.getPassword();
-            if(userPassword == null|| !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
+            if (userPassword == null || !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
                 throw new IllegalArgumentException(INVALID_HASH_PROVIDED);
             }
             isCheck = BCrypt.checkpw(password, userPassword);

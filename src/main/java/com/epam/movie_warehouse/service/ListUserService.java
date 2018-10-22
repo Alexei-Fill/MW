@@ -1,7 +1,8 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,9 +17,10 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.USERS;
 
 public class ListUserService implements Service {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        List<User> users  = userDAO.listUser();
+        List<User> users = userDAO.listUser();
         request.setAttribute(USERS, users);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_USER_JSP);

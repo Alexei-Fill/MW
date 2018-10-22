@@ -1,4 +1,8 @@
-package com.epam.movie_warehouse.connectionPull;
+package com.epam.movie_warehouse.database;
+
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.CONNECTION_NOT_FOUND_EXCEPTION;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.DEFAULT_LOCALE;
 
 public class ConnectionPull {
@@ -15,8 +20,7 @@ public class ConnectionPull {
     private static final String CONNECTION_PULL_PASSWORD = "password";
     private static final String CONNECTION_PULL_DRIVER = "driver";
     private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
-    private static final String CONNECTION_NOT_FOUND_EXCEPTION = "Connection not found";
-    private static ConnectionPull uniqueInstance = new ConnectionPull();
+    private static final ConnectionPull UNIQUE_INSTANCE = new ConnectionPull();
     private final Locale locale = new Locale(DEFAULT_LOCALE);
     private final ResourceBundle bundle = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, locale);
     private final String url = bundle.getString(CONNECTION_PULL_URL);
@@ -25,24 +29,25 @@ public class ConnectionPull {
     private final String driver = bundle.getString(CONNECTION_PULL_DRIVER);
     private final int initConnectionCount = Integer.parseInt(bundle.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
     private final ArrayBlockingQueue<Connection> connectionsQueue = new ArrayBlockingQueue<>(initConnectionCount);
+    private static final Logger logger = LogManager.getRootLogger();
 
     private ConnectionPull() {
         try {
             Class.forName(driver);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         for (int i = 1; i <= initConnectionCount; i++) {
             try {
                 connectionsQueue.put(getConnection());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
     }
 
-    public static ConnectionPull getUniqueInstance(){
-        return uniqueInstance;
+    public static ConnectionPull getUniqueInstance() {
+        return UNIQUE_INSTANCE;
     }
 
     private Connection getConnection() {
@@ -50,7 +55,7 @@ public class ConnectionPull {
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return connection;
     }
@@ -58,22 +63,23 @@ public class ConnectionPull {
     public synchronized Connection retrieve() {
         Connection connection = null;
         try {
-            connection =  connectionsQueue.take();
+            connection = connectionsQueue.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return connection;
     }
 
-    public synchronized void putBack(Connection connection) throws NullPointerException {
+    public synchronized void putBack(Connection connection) throws ConnectionNotFoundException {
         if (connection != null) {
             try {
                 connectionsQueue.put(connection);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         } else {
-                throw new NullPointerException(CONNECTION_NOT_FOUND_EXCEPTION);
-            }
+            logger.error(CONNECTION_NOT_FOUND_EXCEPTION);
+            throw new ConnectionNotFoundException();
+        }
     }
 }

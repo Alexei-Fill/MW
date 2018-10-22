@@ -1,7 +1,8 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.GenreDAO;
+import com.epam.movie_warehouse.database.GenreDAO;
 import com.epam.movie_warehouse.entity.Genre;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,19 +20,19 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 public class AddEditGenreService implements Service {
     private static volatile Long maxGenreId;
     private GenreDAO genreDAO = new GenreDAO();
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException, ValidationException, SQLException {
-        final int LANGUAGE = getLanguageId(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            ValidationException, SQLException, ConnectionNotFoundException {
+        final int LANGUAGE = getLanguageId(request, response);
         Genre genre = new Genre();
         long genreId = validateId(request.getParameter(GENRE_ID));
         if (genreId != 0) {
             genre = genreDAO.showGenreById(genreId, LANGUAGE);
             genre.setName(validateName(request.getParameter(NAME)));
             genreDAO.updateGenre(genre, LANGUAGE);
-            logger.info("Genre was changed " + genre);
+            ROOT_LOGGER.info("Genre was changed " + genre);
         } else {
             getMaxGenreId();
             genre.setId(maxGenreId);
@@ -43,13 +44,13 @@ public class AddEditGenreService implements Service {
                     genreDAO.addGenre(genre, languageId);
                 }
             }
-            logger.info("Genre was added " + genre);
+            ROOT_LOGGER.info("Genre was added " + genre);
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);
         requestDispatcher.forward(request, response);
     }
 
-   private void getMaxGenreId() throws SQLException {
+    private void getMaxGenreId() throws SQLException, ConnectionNotFoundException {
         maxGenreId = genreDAO.getMAXGenreId();
-   }
+    }
 }

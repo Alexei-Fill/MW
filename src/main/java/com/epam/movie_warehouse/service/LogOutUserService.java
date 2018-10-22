@@ -11,7 +11,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.LOG_IN_URI;
 public class LogOutUserService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().invalidate();
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LOG_IN_URI);
         requestDispatcher.forward(request, response);

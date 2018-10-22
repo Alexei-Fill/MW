@@ -1,9 +1,11 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
+import com.epam.movie_warehouse.util.MovieWarehouseConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -20,17 +22,17 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class EditUserService implements Service {
-    private static final Logger userLogger = LogManager.getLogger(USER_LOGGER);
+    private static final Logger USER_LOGGER = LogManager.getLogger(MovieWarehouseConstant.USER_LOGGER);
     private UserDAO userDAO = new UserDAO();
     private User user;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException,
-            ServletException, IOException, ValidationException {
-        final Language language = getLanguage(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
+            IOException, ValidationException, ConnectionNotFoundException {
+        final Language language = getLanguage(request, response);
         long userId = validateId(request.getParameter(USER_ID));
         user = userDAO.showUserById(userId);
-        if (user.getId() == 0){
+        if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
@@ -46,18 +48,18 @@ public class EditUserService implements Service {
                 }
             }
             userDAO.updateUser(user);
-            userLogger.info("User was changed " + user);
+            USER_LOGGER.info("User was changed " + user);
             request.setAttribute(USER, user);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_USER_JSP);
             requestDispatcher.forward(request, response);
         }
     }
 
-    private Boolean checkOldUserPassword (HttpServletRequest request, HttpServletResponse response) throws ValidationException {
+    private Boolean checkOldUserPassword(HttpServletRequest request, HttpServletResponse response) throws ValidationException {
         boolean check;
         String oldPassword = validatePassword(request.getParameter(OLD_PASSWORD));
         String userPassword = user.getPassword();
-        if(userPassword  == null || !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
+        if (userPassword == null || !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
             throw new IllegalArgumentException(INVALID_HASH_PROVIDED);
         }
         check = BCrypt.checkpw(oldPassword, userPassword);
@@ -68,7 +70,7 @@ public class EditUserService implements Service {
         boolean check = false;
         String newPassword = validateLogin(request.getParameter(NEW_PASSWORD));
         String newPasswordRepeat = validateLogin(request.getParameter(NEW_PASSWORD_REPEAT));
-        if (newPassword.equalsIgnoreCase(newPasswordRepeat)){
+        if (newPassword.equalsIgnoreCase(newPasswordRepeat)) {
             check = true;
         }
         return check;

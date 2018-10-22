@@ -15,7 +15,8 @@ import java.sql.SQLException;
 
 public class MovieWarehouseController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
+
     public MovieWarehouseController() {
         super();
     }
@@ -23,25 +24,29 @@ public class MovieWarehouseController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        logger.info("Servlet started");
+        ROOT_LOGGER.info("Servlet started");
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String serviceRequest = request.getRequestURI();
         ServiceFactory factory = ServiceFactory.getInstance();
         Service service = factory.getService(serviceRequest);
         try {
             service.execute(request, response);
-        }catch (SQLException | NumberFormatException e){
-            logger.error(e);
+        } catch (SQLException | NumberFormatException e) {
+            ROOT_LOGGER.error(e);
             throw new ServletException(e);
-        }
-        catch (ValidationException e) {
-            logger.error(e);
-            e.showMessageHere(request,response);
+        } catch (ValidationException e) {
+            ROOT_LOGGER.error(e);
+            e.showMessageHere(request, response);
+        } catch (Exception e) {
+            ROOT_LOGGER.error(e);
+            throw new ServletException(e);
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

@@ -1,7 +1,7 @@
-package com.epam.movie_warehouse.dao;
+package com.epam.movie_warehouse.database;
 
-import com.epam.movie_warehouse.connectionPull.ConnectionPull;
 import com.epam.movie_warehouse.entity.Genre;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,31 +12,14 @@ import static com.epam.movie_warehouse.util.DAOConstant.*;
 public class GenreDAO {
     private ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
 
-    public List<Genre> showGenresOfTheMovie(long movieId, int languageId) throws SQLException {
+    public List<Genre> showGenresOfTheMovie(long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         List<Genre> genres = new ArrayList<>();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_GENRE_OF_THE_MOVIE)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.setLong(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
-             while (resultSet.next()){
-                 Genre genre = new Genre();
-                 genre = setGenreParameters(genre, resultSet);
-                 genres.add(genre);
-            }
-            resultSet.close();
-        }
-        connectionPull.putBack(connection);
-        return genres;
-    }
-
-    public List<Genre> showAllAvailableGenres(int languageId) throws SQLException {
-        List<Genre> genres = new ArrayList<>();
-        Connection connection = connectionPull.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_AVAILABLE_GENRE)) {
-            preparedStatement.setLong(1, languageId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Genre genre = new Genre();
                 genre = setGenreParameters(genre, resultSet);
                 genres.add(genre);
@@ -47,14 +30,31 @@ public class GenreDAO {
         return genres;
     }
 
-    public Genre showGenreById(Long genreId, int languageId)  throws SQLException{
+    public List<Genre> showAllAvailableGenres(int languageId) throws SQLException, ConnectionNotFoundException {
+        List<Genre> genres = new ArrayList<>();
+        Connection connection = connectionPull.retrieve();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_AVAILABLE_GENRE)) {
+            preparedStatement.setLong(1, languageId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Genre genre = new Genre();
+                genre = setGenreParameters(genre, resultSet);
+                genres.add(genre);
+            }
+            resultSet.close();
+        }
+        connectionPull.putBack(connection);
+        return genres;
+    }
+
+    public Genre showGenreById(Long genreId, int languageId) throws SQLException, ConnectionNotFoundException {
         Genre genre = new Genre();
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_GENRE_BY_ID)) {
             preparedStatement.setLong(1, genreId);
             preparedStatement.setLong(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 genre = new Genre();
                 genre = setGenreParameters(genre, resultSet);
             }
@@ -64,9 +64,9 @@ public class GenreDAO {
         return genre;
     }
 
-        public void updateGenre(Genre genre, int languageId) throws SQLException {
+    public void updateGenre(Genre genre, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(UPDATE_GENRE)){
+        try (PreparedStatement pr = connection.prepareStatement(UPDATE_GENRE)) {
             pr.setString(1, genre.getName());
             pr.setLong(2, genre.getId());
             pr.setInt(3, languageId);
@@ -75,23 +75,23 @@ public class GenreDAO {
         connectionPull.putBack(connection);
     }
 
-    public long getMAXGenreId() throws SQLException {
+    public long getMAXGenreId() throws SQLException, ConnectionNotFoundException {
         long genreID = 1;
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ID)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-               genreID = resultSet.getLong(1);
+            while (resultSet.next()) {
+                genreID = resultSet.getLong(1);
             }
             resultSet.close();
         }
         connectionPull.putBack(connection);
-        return  genreID;
+        return genreID;
     }
 
-        public void addGenre(Genre genre, int languageId) throws SQLException {
+    public void addGenre(Genre genre, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(ADD_GENRE)){
+        try (PreparedStatement pr = connection.prepareStatement(ADD_GENRE)) {
             pr.setLong(1, genre.getId());
             pr.setString(2, genre.getName());
             pr.setInt(3, languageId);
@@ -100,21 +100,22 @@ public class GenreDAO {
         connectionPull.putBack(connection);
     }
 
-    public void deleteGenre(Long genreId) throws SQLException {
+    public void deleteGenre(Long genreId) throws SQLException, ConnectionNotFoundException {
         Connection connection = connectionPull.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRE_BY_ID)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRE_BY_ID)) {
             preparedStatement.setLong(1, genreId);
             preparedStatement.executeUpdate();
         }
         connectionPull.putBack(connection);
     }
-    public Boolean checkLinksGenreToMovie(Long genreId) throws SQLException {
+
+    public Boolean checkLinksGenreToMovie(Long genreId) throws SQLException, ConnectionNotFoundException {
         boolean isChecked = false;
         Connection connection = connectionPull.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_LINKS_GENRE_TO_MOVIE)) {
             preparedStatement.setLong(1, genreId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 isChecked = true;
             }
             resultSet.close();
@@ -123,7 +124,7 @@ public class GenreDAO {
         return isChecked;
     }
 
-    private Genre setGenreParameters(Genre genre, ResultSet resultSet) throws SQLException{
+    private Genre setGenreParameters(Genre genre, ResultSet resultSet) throws SQLException {
         genre.setId(resultSet.getLong("GENRE_ID"));
         genre.setName(resultSet.getString("GENRE_NAME"));
         return genre;

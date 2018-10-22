@@ -1,11 +1,11 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.GenreDAO;
+import com.epam.movie_warehouse.database.GenreDAO;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,25 +16,26 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class DeleteGenreService implements Service {
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException, ValidationException {
-        final int LANGUAGE = getLanguageId(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
+            ValidationException, ConnectionNotFoundException {
+        final int LANGUAGE = getLanguageId(request, response);
         long genreId = validateId(request.getParameter(GENRE_ID));
         GenreDAO genreDAO = new GenreDAO();
-        if (genreDAO.showGenreById(genreId, LANGUAGE).getId() == 0){
+        if (genreDAO.showGenreById(genreId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
             if (!genreDAO.checkLinksGenreToMovie(genreId)) {
                 genreDAO.deleteGenre(genreId);
-                logger.info("Genre was deleted  genreId =" +  genreId);
+                ROOT_LOGGER.info("Genre was deleted  genreId =" + genreId);
                 response.sendRedirect(LIST_GENRE_URI);
 
-            }else {
-                logger.info("Genre has not been deleted genreId = " +  genreId);
-                request.setAttribute(EXCEPTION,YOU_HAVE_LINKS);
+            } else {
+                ROOT_LOGGER.info("Genre has not been deleted genreId = " + genreId);
+                request.setAttribute(EXCEPTION, YOU_HAVE_LINKS);
                 throw new SQLException(YOU_HAVE_LINKS);
             }
         }

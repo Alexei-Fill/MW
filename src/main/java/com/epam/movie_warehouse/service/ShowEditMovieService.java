@@ -1,13 +1,14 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.GenreDAO;
-import com.epam.movie_warehouse.dao.HumanDAO;
-import com.epam.movie_warehouse.dao.LanguageDAO;
-import com.epam.movie_warehouse.dao.MovieDAO;
+import com.epam.movie_warehouse.database.GenreDAO;
+import com.epam.movie_warehouse.database.HumanDAO;
+import com.epam.movie_warehouse.database.LanguageDAO;
+import com.epam.movie_warehouse.database.MovieDAO;
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Human;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.Movie;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,16 +24,16 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class ShowEditMovieService implements Service {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)  throws SQLException,ServletException,
-            IOException {
-        final int LANGUAGE = getLanguageId(request,response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
+            IOException, ConnectionNotFoundException {
+        final int LANGUAGE = getLanguageId(request, response);
         long movieId = Long.parseLong(request.getParameter(MOVIE_ID));
         MovieDAO movieDAO = new MovieDAO();
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         LanguageDAO languageDAO = new LanguageDAO();
         Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
-        if (movie.getId() == 0){
+        if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {

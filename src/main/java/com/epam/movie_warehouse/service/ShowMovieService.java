@@ -1,13 +1,14 @@
 package com.epam.movie_warehouse.service;
 
-import com.epam.movie_warehouse.dao.GenreDAO;
-import com.epam.movie_warehouse.dao.HumanDAO;
-import com.epam.movie_warehouse.dao.MovieDAO;
-import com.epam.movie_warehouse.dao.UserDAO;
+import com.epam.movie_warehouse.database.GenreDAO;
+import com.epam.movie_warehouse.database.HumanDAO;
+import com.epam.movie_warehouse.database.MovieDAO;
+import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Human;
 import com.epam.movie_warehouse.entity.Movie;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ public class ShowMovieService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            SQLException, IOException, NumberFormatException {
+            IOException, SQLException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
         long movieId = Long.parseLong(request.getParameter(MOVIE_ID));
         MovieDAO movieDAO = new MovieDAO();
@@ -43,10 +44,10 @@ public class ShowMovieService implements Service {
                 like = userDAO.checkLikedLinkMovieOfUser(user.getId(), movieId);
                 grade = userDAO.checkVotedLinkMovieOfUser(user.getId(), movieId);
             }
-            if (grade == NO_ENTRY_EXISTS){
+            if (NO_ENTRY_EXISTS == grade) {
                 grade = 0;
             }
-            if (like == NO_ENTRY_EXISTS){
+            if (NO_ENTRY_EXISTS == like) {
                 like = 0;
             }
             List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);

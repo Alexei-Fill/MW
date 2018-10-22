@@ -1,92 +1,114 @@
 package com.epam.movie_warehouse.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class User {
- private long id;
- private String login;
- private String password;
- private String mail;
- private LocalDate birthDate;
- private LocalDate registrationDate;
- private int roleId;
- private String imageURL;
+    private long id;
+    private String login;
+    private String password;
+    private String mail;
+    private LocalDate birthDate;
+    private LocalDate registrationDate;
+    private int roleId;
+    private String imageURL;
 
- public long getId() {
-  return id;
- }
+    public long getId() {
+        return id;
+    }
 
- public void setId(long id) {
-  this.id = id;
- }
+    public void setId(long id) {
+        this.id = id;
+    }
 
- public String getLogin() {
-  return login;
- }
+    public String getLogin() {
+        return login;
+    }
 
- public void setLogin(String login) {
-  this.login = login;
- }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
- public String getPassword() {
-  return password;
- }
+    public String getPassword() {
+        return password;
+    }
 
- public void setPassword(String password) {
-  this.password = password;
- }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
- public String getMail() {
-  return mail;
- }
+    public String getMail() {
+        return mail;
+    }
 
- public void setMail(String mail) {
-  this.mail = mail;
- }
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
- public LocalDate getBirthDate() {
-  return birthDate;
- }
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 
- public void setBirthDate(LocalDate birthDate) {
-  this.birthDate = birthDate;
- }
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 
- public LocalDate getRegistrationDate() {
-  return registrationDate;
- }
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
 
- public void setRegistrationDate(LocalDate registrationDate) {
-  this.registrationDate = registrationDate;
- }
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
- public int getRoleId() {
-  return roleId;
- }
+    public int getRoleId() {
+        return roleId;
+    }
 
- public void setRoleId(int roleId) {
-  this.roleId = roleId;
- }
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
 
- public String getImageURL() {
-  return imageURL;
- }
+    public String getImageURL() {
+        return imageURL;
+    }
 
- public void setImageURL(String imageURL) {
-  this.imageURL = imageURL;
- }
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
- @Override
- public String toString() {
-  return "\n\nUser{" +
-          "id=" + id +
-          ", login='" + login + '\'' +
-          ", password='" + password + '\'' +
-          ", mail='" + mail + '\'' +
-          ", \nbirthDate=" + birthDate +
-          ", registrationDate=" + registrationDate +
-          ", roleId=" + roleId +
-          '}';
- }
+    @Override
+    public String toString() {
+        return "\n\nUser{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", \nbirthDate=" + birthDate +
+                ", registrationDate=" + registrationDate +
+                ", roleId=" + roleId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                roleId == user.roleId &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(mail, user.mail) &&
+                Objects.equals(birthDate, user.birthDate) &&
+                Objects.equals(registrationDate, user.registrationDate) &&
+                Objects.equals(imageURL, user.imageURL);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, login, password, mail, birthDate, registrationDate, roleId, imageURL);
+    }
 }

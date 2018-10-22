@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Movie {
     private long id;
@@ -173,5 +174,33 @@ public class Movie {
                 ", uploadDate=" + uploadDate +
                 ", duration=" + duration +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id == movie.id &&
+                budget == movie.budget &&
+                countOfLikes == movie.countOfLikes &&
+                dues == movie.dues &&
+                ageLimit == movie.ageLimit &&
+                Double.compare(movie.rating, rating) == 0 &&
+                Objects.equals(imdbID, movie.imdbID) &&
+                Objects.equals(name, movie.name) &&
+                Objects.equals(description, movie.description) &&
+                Objects.equals(country, movie.country) &&
+                Objects.equals(genres, movie.genres) &&
+                Objects.equals(movieCrew, movie.movieCrew) &&
+                Objects.equals(imageURL, movie.imageURL) &&
+                Objects.equals(releaseDate, movie.releaseDate) &&
+                Objects.equals(uploadDate, movie.uploadDate) &&
+                Objects.equals(duration, movie.duration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, imdbID, budget, countOfLikes, dues, ageLimit, rating, name, description, country, genres, movieCrew, imageURL, releaseDate, uploadDate, duration);
     }
 }

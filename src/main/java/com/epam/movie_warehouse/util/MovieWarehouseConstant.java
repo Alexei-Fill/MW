@@ -145,4 +145,5 @@ public final class MovieWarehouseConstant {
     public static final String INCORRECT_LOGIN_OR_PASSWORD = "1002";
     public static final String YOU_HAVE_LINKS = "1003";
     public static final String INVALID_HASH_PROVIDED = "Invalid hash provided for comparison";
+    public static final String CONNECTION_NOT_FOUND_EXCEPTION = "Connection not found";
 }
