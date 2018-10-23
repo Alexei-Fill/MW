@@ -2,6 +2,7 @@ package com.epam.movie_warehouse.service;
 
 import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import com.epam.movie_warehouse.util.MovieWarehouseConstant;
@@ -28,7 +29,7 @@ public class DeleteUserService implements Service {
         String requestForward = LOG_OUT_URI;
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
         String requestURI = request.getRequestURI();
-        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId() == ADMIN_ROLE_ID)) {
+        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId().equals(UserRole.ADMIN))) {
             long userId = validateId(request.getParameter(USER_ID));
             userById = userDAO.showUserById(userId);
             requestForward = LIST_USER_URI;

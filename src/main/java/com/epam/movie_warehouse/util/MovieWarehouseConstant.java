@@ -4,9 +4,6 @@ public final class MovieWarehouseConstant {
     public static final int SALT_FOR_PASSWORD = 12;
     public static final int DEFAULT_LANGUAGE = 1;
     public static final int SHOW_HIDDEN_MESSAGE = 1;
-    public static final int GUEST_ROLE_ID = 0;
-    public static final int COMMON_USER_ROLE_ID = 1;
-    public static final int ADMIN_ROLE_ID = 2;
     public static final int ACTOR_ROLE_ID = 1;
     public static final int DIRECTOR_ROLE_ID = 2;
     public static final int SCREENWRITER_ROLE_ID = 3;
@@ -83,6 +80,7 @@ public final class MovieWarehouseConstant {
     public static final String HUMAN_ID = "humanId";
     public static final String ADMIN = "admin";
     public static final String COMMON_USER = "commonUser";
+    public static final String GUEST = "guest";
     public static final String NOT_LIKE = "notLike";
     public static final String LIKE = "like";
     public static final String SEARCH_STRING = "searchString";

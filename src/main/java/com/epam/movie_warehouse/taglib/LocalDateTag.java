@@ -7,6 +7,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 
@@ -14,7 +15,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.EMPTY_STRING;
 
 public class LocalDateTag extends TagSupport {
     private static final String DEFAULT_FORMATTER = "d.MM.yyyy";
-    private Temporal value;
+    private LocalDate value;
     private String pattern;
     private String var;
     private int scope;
@@ -41,7 +42,7 @@ public class LocalDateTag extends TagSupport {
     }
 
 
-    public void setValue(final Temporal value) {
+    public void setValue(final LocalDate value) {
         this.value = value;
     }
 

@@ -1,5 +1,7 @@
 package com.epam.movie_warehouse.entity;
 
+import com.epam.movie_warehouse.enumiration.UserRole;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -10,7 +12,7 @@ public class User {
     private String mail;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    private int roleId;
+    private UserRole roleId;
     private String imageURL;
 
     public long getId() {
@@ -61,14 +63,13 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public int getRoleId() {
+    public UserRole getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(UserRole roleId) {
         this.roleId = roleId;
     }
-
 
     public String getImageURL() {
         return imageURL;

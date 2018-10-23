@@ -1,6 +1,7 @@
 package com.epam.movie_warehouse.database;
 
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 
 import java.sql.*;
@@ -174,7 +175,7 @@ public class UserDAO {
         user.setMail(resultSet.getString("USER_MAIL"));
         user.setBirthDate(LocalDate.parse(resultSet.getDate("USER_BIRTH_DATE").toString()));
         user.setRegistrationDate(LocalDate.parse(resultSet.getDate("USER_REGISTRATION_DATE").toString()));
-        user.setRoleId(resultSet.getInt("USER_ROLE"));
+        user.setRoleId(UserRole.getUserRole(resultSet.getInt("USER_ROLE")));
         user.setImageURL(resultSet.getString("USER_IMAGE_URL"));
         return user;
     }
@@ -185,7 +186,7 @@ public class UserDAO {
         preparedStatement.setString(3, user.getMail());
         preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
         preparedStatement.setDate(5, Date.valueOf(user.getRegistrationDate()));
-        preparedStatement.setInt(6, user.getRoleId());
+        preparedStatement.setInt(6, user.getRoleId().getId());
         preparedStatement.setString(7, user.getImageURL());
     }
 }

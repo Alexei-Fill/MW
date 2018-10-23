@@ -3,6 +3,7 @@ package com.epam.movie_warehouse.service;
 import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import com.epam.movie_warehouse.util.MovieWarehouseConstant;
@@ -41,7 +42,7 @@ public class EditUserService implements Service {
                 user.setMail(validateMail(request.getParameter(MAIL)));
                 user.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
                 user.setImageURL(request.getParameter(IMG_URL));
-                user.setRoleId(validateRoleId(request.getParameter(USER_ROLE_ID)));
+                user.setRoleId(UserRole.getUserRole(validateRoleId(request.getParameter(USER_ROLE_ID))));
             } else if (requestURI.equalsIgnoreCase(EDIT_USER_PASSWORD_URI)) {
                 if (checkOldUserPassword(request, response) && checkNewPasswordAndRepeat(request, response)) {
                     user.setPassword(hashingPassword(request.getParameter(NEW_PASSWORD)));

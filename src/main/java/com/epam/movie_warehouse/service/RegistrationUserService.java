@@ -3,6 +3,7 @@ package com.epam.movie_warehouse.service;
 import com.epam.movie_warehouse.database.UserDAO;
 import com.epam.movie_warehouse.entity.Language;
 import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.exception.ValidationException;
 import com.epam.movie_warehouse.util.MovieWarehouseConstant;
@@ -37,7 +38,7 @@ public class RegistrationUserService implements Service {
         newUser.setMail(validateMail(request.getParameter(MAIL)));
         newUser.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
         newUser.setRegistrationDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
-        newUser.setRoleId(COMMON_USER_ROLE_ID);
+        newUser.setRoleId(UserRole.USER);
         String requestDispatch = LOG_IN_URI;
         if (checkPasswordAndPasswordRepeat(password, passwordRepeat)) {
             newUser.setPassword(hashingPassword(password));

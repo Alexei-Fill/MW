@@ -2,6 +2,8 @@ package com.epam.movie_warehouse.listener;
 
 import com.epam.movie_warehouse.entity.Genre;
 import com.epam.movie_warehouse.entity.Language;
+import com.epam.movie_warehouse.entity.User;
+import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.service.ListGenreService;
 import com.epam.movie_warehouse.service.ListLanguageService;
@@ -30,8 +32,9 @@ public class MovieWarehouseContextListener implements ServletContextListener {
         }
         context.setAttribute(SITE_LANGUAGE, languages);
         context.setAttribute(GENRES, genres);
-        context.setAttribute(ADMIN, ADMIN_ROLE_ID);
-        context.setAttribute(COMMON_USER, COMMON_USER_ROLE_ID);
+        context.setAttribute(ADMIN, UserRole.ADMIN);
+        context.setAttribute(COMMON_USER, UserRole.USER);
+        context.setAttribute(GUEST, UserRole.GUEST);
         context.setAttribute(NOT_LIKE, ITS_NOT_LIKED);
         context.setAttribute(LIKE, ITS_LIKED);
         context.setAttribute(ACTOR, ACTOR_ROLE_ID);
