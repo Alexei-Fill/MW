@@ -21,7 +21,7 @@ public class MovieDAO {
     public Movie getMovieById(long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
         Movie movie = new Movie();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_ID_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,7 +38,7 @@ public class MovieDAO {
     public List<Movie> listMovie(int languageId) throws SQLException, ConnectionNotFoundException {
         List<Movie> movieList = new ArrayList<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(LIST_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(LIST_MOVIE_SQL_QUERY)) {
             preparedStatement.setInt(1, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -54,7 +54,7 @@ public class MovieDAO {
 
     public void updateMovie(Movie movie, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIE_SQL_QUERY)) {
             getMovieParameters(movie, preparedStatement);
             preparedStatement.setString(9, movie.getName());
             preparedStatement.setString(10, movie.getDescription());
@@ -68,7 +68,7 @@ public class MovieDAO {
 
     public void deleteGenresLinks(long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS_GENRES_OF_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRES_LINKS_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
         }
@@ -77,7 +77,7 @@ public class MovieDAO {
 
     public void deleteHumansLinks(long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS_HUMANS_OF_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HUMANS_LINKS_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
         }
@@ -86,7 +86,7 @@ public class MovieDAO {
 
     public void deleteUsersLinks(long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS_USERS_OF_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERS_LINKS_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
         }
@@ -96,7 +96,7 @@ public class MovieDAO {
     public void addGenresLinks(Movie movie) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
         for (Genre genre : movie.getGenres()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_LINKS_GENRES_OF_MOVIE)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_GENRES_LINKS_SQL_QUERY)) {
                 preparedStatement.setLong(1, movie.getId());
                 preparedStatement.setLong(2, genre.getId());
                 preparedStatement.executeUpdate();
@@ -108,7 +108,7 @@ public class MovieDAO {
     public void addHumansLinks(Movie movie) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
         for (Human human : movie.getMovieCrew()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_LINKS_HUMANS_OF_MOVIE)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMANS_LINKS_SQL_QUERY)) {
                 preparedStatement.setLong(1, human.getId());
                 preparedStatement.setLong(2, movie.getId());
                 preparedStatement.setInt(3, human.getRoleId());
@@ -120,7 +120,7 @@ public class MovieDAO {
 
     public void addMovie(Movie movie) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_MOVIE, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_MOVIE_SQL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             getMovieParameters(movie, preparedStatement);
             preparedStatement.executeUpdate();
             ResultSet movieId = preparedStatement.getGeneratedKeys();
@@ -133,7 +133,7 @@ public class MovieDAO {
 
     public void addMovieMultiLanguageParameters(Movie movie, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_MOVIE_SQL_QUERY)) {
             getMovieMultiLanguageParameters(movie, preparedStatement);
             preparedStatement.setLong(4, languageId);
             preparedStatement.setLong(5, movie.getId());
@@ -144,7 +144,7 @@ public class MovieDAO {
 
     public void deleteMovie(long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MOVIE_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
         }
@@ -153,7 +153,7 @@ public class MovieDAO {
 
     public void deleteMovieMultiLanguageParameters(long movieId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CHARACTERISTIC_OF_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CHARACTERISTIC_OF_MOVIE_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
         }
@@ -163,7 +163,7 @@ public class MovieDAO {
     public Long getCountOfLikesByMovieId(long movieId) throws SQLException, ConnectionNotFoundException {
         long countOfLikes = 0;
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_COUNT_OF_LIKES)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_COUNT_OF_LIKES_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -180,7 +180,7 @@ public class MovieDAO {
         long countOfGrade = 0;
         long sumOfGrade = 0;
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_COUNT_OF_VOTES)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_COUNT_OF_VOTES_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -200,7 +200,7 @@ public class MovieDAO {
     public List<Movie> listMovieByGenre(long genreId, int languageId) throws SQLException, ConnectionNotFoundException {
         List<Movie> movieList = new ArrayList<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_GENRE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_GENRE_SQL_QUERY)) {
             preparedStatement.setLong(1, genreId);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -218,7 +218,7 @@ public class MovieDAO {
     public List<Movie> listMovieByHuman(long humanId, int languageId) throws SQLException, ConnectionNotFoundException {
         Map<Long, Movie> movieMap = new HashMap<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_HUMAN)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_HUMAN_SQL_QUERY)) {
             preparedStatement.setLong(1, humanId);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -238,7 +238,7 @@ public class MovieDAO {
         List<Movie> movieList = new ArrayList<>();
         name = PERCENT + name + PERCENT;
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_NAME)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_BY_NAME_SQL_QUERY)) {
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();

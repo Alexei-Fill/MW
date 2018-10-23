@@ -21,25 +21,25 @@ public class LikeMovieService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ValidationException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
-        long movieId = validateId(request.getParameter(MOVIE_ID));
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
+        long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
         Integer like = null;
         if ((user != null) && (movieId != 0)) {
             like = userDAO.checkMoviesLinksByLikedField(user.getId(), movieId);
-            if (like == NO_ENTRY_EXISTS) {
+            if (like == NO_ENTRY_EXISTS_VALUE) {
                 userDAO.addMoviesLinks(user.getId(), movieId);
-                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED);
-                like = ITS_LIKED;
-            } else if (like == ITS_LIKED) {
-                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_NOT_LIKED);
-                like = ITS_NOT_LIKED;
-            } else if (like == ITS_NOT_LIKED) {
-                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED);
-                like = ITS_LIKED;
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
+                like = ITS_LIKED_VALUE;
+            } else if (like == ITS_LIKED_VALUE) {
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_NOT_LIKED_VALUE);
+                like = ITS_NOT_LIKED_VALUE;
+            } else if (like == ITS_NOT_LIKED_VALUE) {
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
+                like = ITS_LIKED_VALUE;
             }
         }
-        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
-        request.setAttribute(LIKED, like);
+        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL_ATTRIBUTE);
+        request.setAttribute(LIKED_ATTRIBUTE, like);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestURL);
         requestDispatcher.forward(request, response);
     }

@@ -25,7 +25,7 @@ public class ShowHumanService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             SQLException, ValidationException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
-        long humanId = validateId(request.getParameter(HUMAN_ID));
+        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
         HumanDAO humanDAO = new HumanDAO();
         MovieDAO movieDAO = new MovieDAO();
         Human human = humanDAO.getHumanById(humanId, LANGUAGE);
@@ -34,8 +34,8 @@ public class ShowHumanService implements Service {
             response.sendError(SC_NOT_FOUND);
         } else {
             List<Movie> movies = movieDAO.listMovieByHuman(humanId, LANGUAGE);
-            request.setAttribute(HUMAN, human);
-            request.setAttribute(MOVIES, movies);
+            request.setAttribute(HUMAN_ATTRIBUTE, human);
+            request.setAttribute(MOVIES_ATTRIBUTE, movies);
             saveCurrentPageURLToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(HUMAN_JSP);
             requestDispatcher.forward(request, response);

@@ -20,14 +20,14 @@ public class SetLocalService implements Service {
             IOException, ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
         Language language;
-        String localIdString = request.getParameter(LOCAL_ID);
+        String localIdString = request.getParameter(LOCAL_ID_ATTRIBUTE);
         if ((localIdString != null) && (!EMPTY_STRING.equals(localIdString.trim()))) {
             int localId = Integer.parseInt(localIdString);
             language = languageDAO.getLanguageById(localId);
             if (language.getId() != 0) {
-                request.getSession().setAttribute(SESSION_LANGUAGE_ID, language.getId());
-                request.getSession().setAttribute(LOCALE, language.getLocal());
-                request.getSession().setAttribute(DATE_FORMAT, language.getDateFormat());
+                request.getSession().setAttribute(SESSION_LANGUAGE_ID_ATTRIBUTE, language.getId());
+                request.getSession().setAttribute(LOCALE_ATTRIBUTE, language.getLocal());
+                request.getSession().setAttribute(DATE_FORMAT_ATTRIBUTE, language.getDateFormat());
             }
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);

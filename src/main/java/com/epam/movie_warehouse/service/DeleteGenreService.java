@@ -22,7 +22,7 @@ public class DeleteGenreService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
             ValidationException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
-        long genreId = validateId(request.getParameter(GENRE_ID));
+        long genreId = validateId(request.getParameter(GENRE_ID_ATTRIBUTE));
         GenreDAO genreDAO = new GenreDAO();
         if (genreDAO.getGenreById(genreId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);

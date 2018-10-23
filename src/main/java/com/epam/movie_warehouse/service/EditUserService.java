@@ -31,7 +31,7 @@ public class EditUserService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ValidationException, ConnectionNotFoundException {
         final Language language = getLanguage(request, response);
-        long userId = validateId(request.getParameter(USER_ID));
+        long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
         user = userDAO.getUserById(userId);
         if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
@@ -39,18 +39,18 @@ public class EditUserService implements Service {
         } else {
             String requestURI = request.getRequestURI();
             if (requestURI.equalsIgnoreCase(EDIT_USER_URI)) {
-                user.setMail(validateMail(request.getParameter(MAIL)));
-                user.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
-                user.setImageURL(request.getParameter(IMG_URL));
-                user.setRoleId(UserRole.getUserRole(validateRoleId(request.getParameter(USER_ROLE_ID))));
+                user.setMail(validateMail(request.getParameter(MAIL_ATTRIBUTE)));
+                user.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE_ATTRIBUTE), language));
+                user.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
+                user.setRoleId(UserRole.getUserRole(validateRoleId(request.getParameter(USER_ROLE_ID_ATTRIBUTE))));
             } else if (requestURI.equalsIgnoreCase(EDIT_USER_PASSWORD_URI)) {
                 if (checkOldUserPassword(request, response) && checkNewPasswordAndRepeat(request, response)) {
-                    user.setPassword(hashingPassword(request.getParameter(NEW_PASSWORD)));
+                    user.setPassword(hashingPassword(request.getParameter(NEW_PASSWORD_ATTRIBUTE)));
                 }
             }
             userDAO.updateUser(user);
             USER_LOGGER.info("User was changed " + user);
-            request.setAttribute(USER, user);
+            request.setAttribute(USER_ATTRIBUTE, user);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_USER_JSP);
             requestDispatcher.forward(request, response);
         }
@@ -58,7 +58,7 @@ public class EditUserService implements Service {
 
     private Boolean checkOldUserPassword(HttpServletRequest request, HttpServletResponse response) throws ValidationException {
         boolean check;
-        String oldPassword = validatePassword(request.getParameter(OLD_PASSWORD));
+        String oldPassword = validatePassword(request.getParameter(OLD_PASSWORD_ATTRIBUTE));
         String userPassword = user.getPassword();
         if (userPassword == null || !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {
             throw new IllegalArgumentException(INVALID_HASH_PROVIDED);
@@ -69,8 +69,8 @@ public class EditUserService implements Service {
 
     private Boolean checkNewPasswordAndRepeat(HttpServletRequest request, HttpServletResponse response) throws ValidationException {
         boolean check = false;
-        String newPassword = validateLogin(request.getParameter(NEW_PASSWORD));
-        String newPasswordRepeat = validateLogin(request.getParameter(NEW_PASSWORD_REPEAT));
+        String newPassword = validateLogin(request.getParameter(NEW_PASSWORD_ATTRIBUTE));
+        String newPasswordRepeat = validateLogin(request.getParameter(NEW_PASSWORD_REPEAT_ATTRIBUTE));
         if (newPassword.equalsIgnoreCase(newPasswordRepeat)) {
             check = true;
         }

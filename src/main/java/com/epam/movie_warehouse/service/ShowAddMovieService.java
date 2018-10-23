@@ -30,9 +30,9 @@ public class ShowAddMovieService implements Service {
         List<Genre> genres = genreDAO.listGenres(LANGUAGE);
         List<Human> humans = humanDAO.listHuman(LANGUAGE);
         List<Language> languages = languageDAO.listLanguage();
-        request.setAttribute(GENRES, genres);
-        request.setAttribute(HUMANS, humans);
-        request.setAttribute(LANGUAGES, languages);
+        request.setAttribute(GENRES_ATTRIBUTE, genres);
+        request.setAttribute(HUMANS_ATTRIBUTE, humans);
+        request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_MOVIE_JSP);
         requestDispatcher.forward(request, response);

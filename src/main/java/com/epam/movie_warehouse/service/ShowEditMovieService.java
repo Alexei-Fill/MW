@@ -27,7 +27,7 @@ public class ShowEditMovieService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
-        long movieId = Long.parseLong(request.getParameter(MOVIE_ID));
+        long movieId = Long.parseLong(request.getParameter(MOVIE_ID_ATTRIBUTE));
         MovieDAO movieDAO = new MovieDAO();
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
@@ -45,10 +45,10 @@ public class ShowEditMovieService implements Service {
             languages.add(languageDAO.getLanguageById(LANGUAGE));
             movie.setGenres(movieGenres);
             movie.setMovieCrew(movieCrew);
-            request.setAttribute(MOVIE, movie);
-            request.setAttribute(GENRES, genres);
-            request.setAttribute(HUMANS, humans);
-            request.setAttribute(LANGUAGES, languages);
+            request.setAttribute(MOVIE_ATTRIBUTE, movie);
+            request.setAttribute(GENRES_ATTRIBUTE, genres);
+            request.setAttribute(HUMANS_ATTRIBUTE, humans);
+            request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
             saveCurrentPageURLToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_MOVIE_JSP);
             requestDispatcher.forward(request, response);

@@ -22,10 +22,10 @@ public class ShowUserService implements Service {
             ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         User userById = new User();
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         String requestURI = request.getRequestURI();
         if (requestURI.equalsIgnoreCase(SHOW_USER_URI)) {
-            long userId = validateId(request.getParameter(USER_ID));
+            long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
             userById = userDAO.getUserById(userId);
         } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)) {
             userById = userDAO.getUserById(user.getId());
@@ -35,7 +35,7 @@ public class ShowUserService implements Service {
             response.sendError(SC_NOT_FOUND);
         } else {
             saveCurrentPageURLToSession(request, response);
-            request.setAttribute(USER, userById);
+            request.setAttribute(USER_ATTRIBUTE, userById);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(USER_JSP);
             requestDispatcher.forward(request, response);
         }

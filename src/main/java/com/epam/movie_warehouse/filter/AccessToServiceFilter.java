@@ -72,7 +72,7 @@ public class AccessToServiceFilter implements Filter {
         if (active) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-            User user = (User) httpServletRequest.getSession().getAttribute(AUTHORIZED_USER);
+            User user = (User) httpServletRequest.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
             if (user == null) {
                 user = new User();
                 user.setRoleId(UserRole.GUEST);

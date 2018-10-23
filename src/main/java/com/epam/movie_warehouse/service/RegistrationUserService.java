@@ -32,11 +32,11 @@ public class RegistrationUserService implements Service {
             IOException, ValidationException, ConnectionNotFoundException {
         Language language = getLanguage(request, response);
         User newUser = new User();
-        newUser.setLogin(validateLogin(request.getParameter(LOGIN)));
-        String password = validatePassword(request.getParameter(PASSWORD));
-        String passwordRepeat = validatePassword(request.getParameter(PASSWORD_REPEAT));
-        newUser.setMail(validateMail(request.getParameter(MAIL)));
-        newUser.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
+        newUser.setLogin(validateLogin(request.getParameter(LOGIN_ATTRIBUTE)));
+        String password = validatePassword(request.getParameter(PASSWORD_ATTRIBUTE));
+        String passwordRepeat = validatePassword(request.getParameter(PASSWORD_REPEAT_ATTRIBUTE));
+        newUser.setMail(validateMail(request.getParameter(MAIL_ATTRIBUTE)));
+        newUser.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE_ATTRIBUTE), language));
         newUser.setRegistrationDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
         newUser.setRoleId(UserRole.USER);
         String requestDispatch = LOG_IN_URI;

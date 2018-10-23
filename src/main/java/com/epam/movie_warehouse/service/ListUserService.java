@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.LIST_USER_JSP;
-import static com.epam.movie_warehouse.util.MovieWarehouseConstant.USERS;
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.USERS_ATTRIBUTE;
 
 public class ListUserService implements Service {
     @Override
@@ -21,7 +21,7 @@ public class ListUserService implements Service {
             SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         List<User> users = userDAO.listUser();
-        request.setAttribute(USERS, users);
+        request.setAttribute(USERS_ATTRIBUTE, users);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_USER_JSP);
         requestDispatcher.forward(request, response);

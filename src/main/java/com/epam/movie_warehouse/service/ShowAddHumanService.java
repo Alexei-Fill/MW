@@ -21,7 +21,7 @@ public class ShowAddHumanService implements Service {
             IOException, ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
         List<Language> languages = languageDAO.listLanguage();
-        request.setAttribute(LANGUAGES, languages);
+        request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_HUMAN_JSP);
         requestDispatcher.forward(request, response);

@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.epam.movie_warehouse.util.MovieWarehouseConstant.SITE_LANGUAGE;
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.SITE_LANGUAGE_ATTRIBUTE;
 
 public class ListLanguageService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ConnectionNotFoundException {
         List<Language> languages = listLanguage();
-        request.getServletContext().setAttribute(SITE_LANGUAGE, languages);
+        request.getServletContext().setAttribute(SITE_LANGUAGE_ATTRIBUTE, languages);
     }
 
     public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {

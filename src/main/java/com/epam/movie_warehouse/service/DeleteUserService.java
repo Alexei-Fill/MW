@@ -27,10 +27,10 @@ public class DeleteUserService implements Service {
             ValidationException, ConnectionNotFoundException {
         User userById = new User();
         String requestForward = LOG_OUT_URI;
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         String requestURI = request.getRequestURI();
         if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId().equals(UserRole.ADMIN))) {
-            long userId = validateId(request.getParameter(USER_ID));
+            long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
             userById = userDAO.getUserById(userId);
             requestForward = LIST_USER_URI;
         } else {
@@ -51,9 +51,9 @@ public class DeleteUserService implements Service {
 
     private Boolean checkPassword(HttpServletRequest request) {
         boolean isCheck = false;
-        String password = request.getParameter(PASSWORD);
-        String passwordRepeat = request.getParameter(PASSWORD_REPEAT);
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
+        String password = request.getParameter(PASSWORD_ATTRIBUTE);
+        String passwordRepeat = request.getParameter(PASSWORD_REPEAT_ATTRIBUTE);
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         if (((password != null) && (!password.trim().equals(EMPTY_STRING))) &&
                 ((passwordRepeat != null) && (!passwordRepeat.trim().equals(EMPTY_STRING)))) {
             if (password.equals(passwordRepeat)) {

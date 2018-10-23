@@ -27,10 +27,10 @@ public class AddEditGenreService implements Service {
             ValidationException, SQLException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
         Genre genre = new Genre();
-        long genreId = validateId(request.getParameter(GENRE_ID));
+        long genreId = validateId(request.getParameter(GENRE_ID_ATTRIBUTE));
         if (genreId != 0) {
             genre = genreDAO.getGenreById(genreId, LANGUAGE);
-            genre.setName(validateName(request.getParameter(NAME)));
+            genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE)));
             genreDAO.updateGenre(genre, LANGUAGE);
             ROOT_LOGGER.info("Genre was changed " + genre);
         } else {
@@ -40,7 +40,7 @@ public class AddEditGenreService implements Service {
             if (languages != null) {
                 for (String s : languages) {
                     int languageId = Integer.parseInt(s.trim());
-                    genre.setName(validateName(request.getParameter(NAME + languageId)));
+                    genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
                     genreDAO.addGenre(genre, languageId);
                 }
             }

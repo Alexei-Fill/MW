@@ -22,7 +22,7 @@ public class DeleteHumanService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
             ValidationException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
-        long humanId = validateId(request.getParameter(HUMAN_ID));
+        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
         HumanDAO humanDAO = new HumanDAO();
         if (humanDAO.getHumanById(humanId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);

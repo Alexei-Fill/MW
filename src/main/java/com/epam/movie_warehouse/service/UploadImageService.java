@@ -35,8 +35,8 @@ public class UploadImageService implements Service {
             Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
         String filePath = getUploadFolderByURI(requestURI) + file.getName();
-        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
-        request.setAttribute(IMG_URL, filePath);
+        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL_ATTRIBUTE);
+        request.setAttribute(IMG_URL_ATTRIBUTE, filePath);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestURL);
         requestDispatcher.forward(request, response);
     }

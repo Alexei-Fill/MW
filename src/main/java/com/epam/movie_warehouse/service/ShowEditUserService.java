@@ -21,13 +21,13 @@ public class ShowEditUserService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        long userId = validateId(request.getParameter(USER_ID));
+        long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
         User user = userDAO.getUserById(userId);
         if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            request.setAttribute(USER, user);
+            request.setAttribute(USER_ATTRIBUTE, user);
             saveCurrentPageURLToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_USER_JSP);
             requestDispatcher.forward(request, response);

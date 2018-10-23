@@ -22,21 +22,21 @@ public class PutGradeMovieService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ValidationException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
-        long movieId = validateId(request.getParameter(MOVIE_ID));
-        int grade = validateGrade(request.getParameter(GRADE));
+        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
+        long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
+        int grade = validateGrade(request.getParameter(GRADE_ATTRIBUTE));
         Integer votedGrade;
         if ((user != null) && (movieId != 0)) {
             votedGrade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
-            if (votedGrade == NO_ENTRY_EXISTS) {
+            if (votedGrade == NO_ENTRY_EXISTS_VALUE) {
                 userDAO.addMoviesLinks(user.getId(), movieId);
                 userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             } else if (grade != votedGrade) {
                 userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             }
         }
-        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
-        request.setAttribute(GRADE, grade);
+        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL_ATTRIBUTE);
+        request.setAttribute(GRADE_ATTRIBUTE, grade);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestURL);
         requestDispatcher.forward(request, response);
     }

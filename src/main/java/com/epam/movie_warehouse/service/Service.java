@@ -20,8 +20,8 @@ public interface Service {
 
     default Integer getLanguageId(HttpServletRequest request, HttpServletResponse response) {
         int language = DEFAULT_LANGUAGE;
-        if ((request.getSession().getAttribute(SESSION_LANGUAGE_ID) != null)) {
-            language = (Integer) request.getSession().getAttribute(SESSION_LANGUAGE_ID);
+        if ((request.getSession().getAttribute(SESSION_LANGUAGE_ID_ATTRIBUTE) != null)) {
+            language = (Integer) request.getSession().getAttribute(SESSION_LANGUAGE_ID_ATTRIBUTE);
         }
         return language;
     }
@@ -35,6 +35,6 @@ public interface Service {
     default void saveCurrentPageURLToSession(HttpServletRequest request, HttpServletResponse response) {
         String requestURL = request.getRequestURI() +
                 (request.getQueryString() != null ? QUESTION_MARK + request.getQueryString() : EMPTY_STRING);
-        request.getSession().setAttribute(CURRENT_URL, requestURL);
+        request.getSession().setAttribute(CURRENT_URL_ATTRIBUTE, requestURL);
     }
 }

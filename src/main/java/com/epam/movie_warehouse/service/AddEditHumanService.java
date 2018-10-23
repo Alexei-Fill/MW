@@ -28,12 +28,12 @@ public class AddEditHumanService implements Service {
         final int LANGUAGE_ID = language.getId();
         HumanDAO humanDAO = new HumanDAO();
         Human human = new Human();
-        long humanId = validateId(request.getParameter(HUMAN_ID));
+        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
         if (humanId != 0) {
             human = humanDAO.getHumanById(humanId, LANGUAGE_ID);
         }
-        human.setImageURL(request.getParameter(IMG_URL));
-        human.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
+        human.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
+        human.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE_ATTRIBUTE), language));
         if (humanId != 0) {
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
             if (languages != null) {
@@ -56,15 +56,15 @@ public class AddEditHumanService implements Service {
             }
             ROOT_LOGGER.info("Human was added " + human);
         }
-        request.setAttribute(HUMAN, human);
+        request.setAttribute(HUMAN_ATTRIBUTE, human);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_HUMAN_BY_ID_URL + human.getId());
         requestDispatcher.forward(request, response);
     }
 
     private void setMultiLanguageParameters(Human human, HttpServletRequest request, int languageId) throws ValidationException {
-        human.setName(validateName(request.getParameter(NAME + languageId)));
-        human.setSurname(validateSurname(request.getParameter(SURNAME + languageId)));
-        human.setPatronymic(validatePatronymic(request.getParameter(PATRONYMIC + languageId)));
-        human.setBiography(validateBiography(request.getParameter(BIOGRAPHY + languageId)));
+        human.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
+        human.setSurname(validateSurname(request.getParameter(SURNAME_ATTRIBUTE + languageId)));
+        human.setPatronymic(validatePatronymic(request.getParameter(PATRONYMIC_ATTRIBUTE + languageId)));
+        human.setBiography(validateBiography(request.getParameter(BIOGRAPHY_ATTRIBUTE + languageId)));
     }
 }

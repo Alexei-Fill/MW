@@ -25,8 +25,8 @@ public class ListEditGenreService implements Service {
         LanguageDAO languageDAO = new LanguageDAO();
         List<Genre> genres = genreDAO.listGenres(LANGUAGE);
         List<Language> languages = languageDAO.listLanguage();
-        request.setAttribute(GENRES, genres);
-        request.setAttribute(LANGUAGES, languages);
+        request.setAttribute(GENRES_ATTRIBUTE, genres);
+        request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_EDIT_GENRE_JSP);
         requestDispatcher.forward(request, response);

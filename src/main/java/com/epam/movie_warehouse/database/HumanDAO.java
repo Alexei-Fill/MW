@@ -16,7 +16,7 @@ public class HumanDAO {
     public List<Human> listMovieCrew(Long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         List<Human> humanList = new ArrayList<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_CREW)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_MOVIE_CREW_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -35,7 +35,7 @@ public class HumanDAO {
     public List<Human> listHuman(int languageId) throws SQLException, ConnectionNotFoundException {
         List<Human> humanList = new ArrayList<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_AVAILABLE_HUMAN)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_AVAILABLE_HUMAN_SQL_QUERY)) {
             preparedStatement.setInt(1, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -52,7 +52,7 @@ public class HumanDAO {
     public Human getHumanById(Long humanId, int languageId) throws SQLException, ConnectionNotFoundException {
         Human human = new Human();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_HUMAN_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_HUMAN_BY_ID_SQL_QUERY)) {
             preparedStatement.setLong(1, humanId);
             preparedStatement.setInt(2, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -69,7 +69,7 @@ public class HumanDAO {
     public Boolean checkForMovieLinks(Long humanId) throws SQLException, ConnectionNotFoundException {
         boolean isChecked = false;
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_LINKS_HUMAN_TO_MOVIE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_LINKS_HUMAN_TO_MOVIE_SQL_QUERY)) {
             preparedStatement.setLong(1, humanId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -83,7 +83,7 @@ public class HumanDAO {
 
     public void deleteHuman(long humanId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN)) {
+        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN_SQL_QUERY)) {
             pr.setLong(1, humanId);
             pr.executeUpdate();
         }
@@ -92,7 +92,7 @@ public class HumanDAO {
 
     public void deleteHumanMultiLanguageParameters(long humanId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN_CHARACTERISTIC)) {
+        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN_CHARACTERISTIC_SQL_QUERY)) {
             pr.setLong(1, humanId);
             pr.executeUpdate();
         }
@@ -101,7 +101,7 @@ public class HumanDAO {
 
     public void addHuman(Human human) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMAN, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMAN_SQL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             getHumanParameters(human, preparedStatement);
             preparedStatement.executeUpdate();
             ResultSet humanId = preparedStatement.getGeneratedKeys();
@@ -114,7 +114,7 @@ public class HumanDAO {
 
     public void addHumanMultiLanguageParameters(Human human, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_HUMAN)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_HUMAN_SQL_QUERY)) {
             getHumanMultiLanguageParameters(human, preparedStatement);
             preparedStatement.setLong(5, human.getId());
             preparedStatement.setLong(6, languageId);
@@ -125,7 +125,7 @@ public class HumanDAO {
 
     public void updateHuman(Human human, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HUMAN)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HUMAN_SQL_QUERY)) {
             getHumanMultiLanguageParameters(human, preparedStatement);
             preparedStatement.setDate(5, Date.valueOf(human.getBirthDate()));
             preparedStatement.setString(6, human.getImageURL());

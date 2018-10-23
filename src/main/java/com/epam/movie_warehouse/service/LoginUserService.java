@@ -22,10 +22,10 @@ public class LoginUserService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
-        String userLogin = validateLogin(request.getParameter(LOGIN));
-        String userPassword = validatePassword(request.getParameter(PASSWORD));
+        String userLogin = validateLogin(request.getParameter(LOGIN_ATTRIBUTE));
+        String userPassword = validatePassword(request.getParameter(PASSWORD_ATTRIBUTE));
         if (checkUserByLoginAndPassword(userLogin, userPassword)) {
-            request.getSession().setAttribute(AUTHORIZED_USER, user);
+            request.getSession().setAttribute(AUTHORIZED_USER_ATTRIBUTE, user);
             response.sendRedirect(LIST_MOVIES_URI);
         } else {
             request.setAttribute(EXCEPTION, INCORRECT_LOGIN_OR_PASSWORD);

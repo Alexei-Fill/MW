@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE;
-import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID;
+import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE_SQL_QUERY;
+import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID_SQL_QUERY;
 
 public class LanguageDAO {
     private final ConnectionPull CONNECTION_PULL = ConnectionPull.getUniqueInstance();
@@ -19,7 +19,7 @@ public class LanguageDAO {
     public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {
         List<Language> languageList = new ArrayList<>();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_LANGUAGE);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_LANGUAGE_SQL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Language language = new Language();
@@ -34,7 +34,7 @@ public class LanguageDAO {
     public Language getLanguageById(int languageId) throws SQLException, ConnectionNotFoundException {
         Language language = new Language();
         Connection connection = CONNECTION_PULL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_LANGUAGE_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_LANGUAGE_BY_ID_SQL_QUERY)) {
             preparedStatement.setLong(1, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

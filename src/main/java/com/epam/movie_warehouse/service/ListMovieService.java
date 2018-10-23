@@ -35,7 +35,7 @@ public class ListMovieService implements Service {
             movie.setCountOfLike(movieDAO.getCountOfLikesByMovieId(movie.getId()));
             movie.setRating(movieDAO.getRatingByMovieId(movie.getId()));
         }
-        request.setAttribute(MOVIES, movies);
+        request.setAttribute(MOVIES_ATTRIBUTE, movies);
         String requestDispatch = LIST_MOVIE_JSP;
         if (request.getRequestURI().equalsIgnoreCase(LIST_MOVIES_ADMIN_URI)) {
             requestDispatch = LIST_MOVIE_ADMIN_JSP;

@@ -33,12 +33,12 @@ public class ShowMovieByNameOrGenreService implements Service {
         HumanDAO humanDAO = new HumanDAO();
         List<Movie> movies = new ArrayList<>();
         if (LIST_MOVIE_BY_GENRE_URI.equalsIgnoreCase(requestURI)) {
-            long genreId = validateId(request.getParameter(GENRE_ID));
+            long genreId = validateId(request.getParameter(GENRE_ID_ATTRIBUTE));
             movies = movieDAO.listMovieByGenre(genreId, LANGUAGE);
         } else if (LIST_MOVIE_BY_NAME_URI.equalsIgnoreCase(requestURI)) {
-            String searchString = validateName(request.getParameter(SEARCH_STRING));
+            String searchString = validateName(request.getParameter(SEARCH_STRING_ATTRIBUTE));
             movies = movieDAO.listMovieByName(searchString, LANGUAGE);
-            request.setAttribute(SEARCH_STRING, searchString);
+            request.setAttribute(SEARCH_STRING_ATTRIBUTE, searchString);
         }
         for (Movie movie : movies) {
             List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
@@ -48,12 +48,12 @@ public class ShowMovieByNameOrGenreService implements Service {
             movie.setCountOfLike(movieDAO.getCountOfLikesByMovieId(movie.getId()));
             movie.setRating(movieDAO.getRatingByMovieId(movie.getId()));
         }
-        request.setAttribute(MOVIES, movies);
+        request.setAttribute(MOVIES_ATTRIBUTE, movies);
         if (movies.isEmpty()) {
-            request.setAttribute(HIDDEN_MESSAGE, SHOW_HIDDEN_MESSAGE);
+            request.setAttribute(HIDDEN_MESSAGE_ATTRIBUTE, PARAMETER_SHOW_MESSAGE_TRUE);
         }
         String requestDispatch = LIST_MOVIE_JSP;
-        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
+        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL_ATTRIBUTE);
         System.out.println(requestURL);
         if (requestURL.equalsIgnoreCase(LIST_MOVIES_ADMIN_URI)) {
             requestDispatch = LIST_MOVIE_ADMIN_JSP;

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.EXCEPTION;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.LIST_MOVIES_ADMIN_URI;
-import static com.epam.movie_warehouse.util.MovieWarehouseConstant.MOVIE_ID;
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.MOVIE_ID_ATTRIBUTE;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class DeleteMovieService implements Service {
@@ -24,7 +24,7 @@ public class DeleteMovieService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
             ValidationException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
-        long movieId = validateId(request.getParameter(MOVIE_ID));
+        long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
         MovieDAO movieDAO = new MovieDAO();
         if (movieDAO.getMovieById(movieId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);

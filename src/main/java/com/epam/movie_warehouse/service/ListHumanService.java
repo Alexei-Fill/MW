@@ -21,7 +21,7 @@ public class ListHumanService implements Service {
         final int LANGUAGE = getLanguageId(request, response);
         HumanDAO humanDAO = new HumanDAO();
         List<Human> humans = humanDAO.listHuman(LANGUAGE);
-        request.setAttribute(HUMANS, humans);
+        request.setAttribute(HUMANS_ATTRIBUTE, humans);
         String serviceRequest = request.getRequestURI();
         String requestDispatch = LIST_HUMAN_JSP;
         if (serviceRequest.equalsIgnoreCase(LIST_HUMAN_ADMIN_URI)) {

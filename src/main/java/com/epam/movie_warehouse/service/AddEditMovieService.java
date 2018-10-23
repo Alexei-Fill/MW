@@ -42,18 +42,18 @@ public class AddEditMovieService implements Service {
         Genre genre;
         humans = new ArrayList<>();
         List<Genre> genres = new ArrayList<>();
-        long movieId = validateId(request.getParameter(MOVIE_ID));
+        long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
         if (movieId != 0) {
             movie = movieDAO.getMovieById(movieId, LANGUAGE_ID);
         }
-        movie.setImageURL(request.getParameter(IMG_URL));
-        movie.setImdbID(validateImdbId(request.getParameter(IMDB_ID)));
-        movie.setBudget(validateBudget(request.getParameter(BUDGET)));
-        movie.setDues(validateDues(request.getParameter(DUES)));
-        movie.setAgeLimit(validateAgeLimit(request.getParameter(AGE_LIMIT)));
-        movie.setDuration(validateDuration(request.getParameter(DURATION)));
-        movie.setReleaseDate(validateReleaseDate(request.getParameter(RELEASE_DATE), language));
-        String[] genreIdString = request.getParameterValues(GENRE);
+        movie.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
+        movie.setImdbID(validateImdbId(request.getParameter(IMDB_ID_ATTRIBUTE)));
+        movie.setBudget(validateBudget(request.getParameter(BUDGET_ATTRIBUTE)));
+        movie.setDues(validateDues(request.getParameter(DUES_ATTRIBUTE)));
+        movie.setAgeLimit(validateAgeLimit(request.getParameter(AGE_LIMIT_ATTRIBUTE)));
+        movie.setDuration(validateDuration(request.getParameter(DURATION_ATTRIBUTE)));
+        movie.setReleaseDate(validateReleaseDate(request.getParameter(RELEASE_DATE_ATTRIBUTE), language));
+        String[] genreIdString = request.getParameterValues(GENRE_ATTRIBUTE);
         if (genreIdString != null) {
             for (String s : genreIdString) {
                 long genreId = Long.parseLong(s.trim());
@@ -62,9 +62,9 @@ public class AddEditMovieService implements Service {
             }
         }
         movie.setGenres(genres);
-        setMovieCrew(request, ACTOR, ACTOR_ROLE_ID, LANGUAGE_ID);
-        setMovieCrew(request, DIRECTOR, DIRECTOR_ROLE_ID, LANGUAGE_ID);
-        setMovieCrew(request, SCREENWRITER, SCREENWRITER_ROLE_ID, LANGUAGE_ID);
+        setMovieCrew(request, ACTOR_ATTRIBUTE, ACTOR_ROLE_ID, LANGUAGE_ID);
+        setMovieCrew(request, DIRECTOR_ATTRIBUTE, DIRECTOR_ROLE_ID, LANGUAGE_ID);
+        setMovieCrew(request, SCREENWRITER_ATTRIBUTE, SCREENWRITER_ROLE_ID, LANGUAGE_ID);
         movie.setMovieCrew(humans);
         if (movieId != 0) {
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
@@ -95,7 +95,7 @@ public class AddEditMovieService implements Service {
             }
             ROOT_LOGGER.info("Movie was added " + movie);
         }
-        request.setAttribute(MOVIE, movie);
+        request.setAttribute(MOVIE_ATTRIBUTE, movie);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_MOVIE_BY_ID_URL + movie.getId());
         requestDispatcher.forward(request, response);
     }
@@ -115,10 +115,10 @@ public class AddEditMovieService implements Service {
     }
 
     private Movie setMultiLanguageParameters(HttpServletRequest request, Movie movie, int languageId) throws ValidationException {
-        movie.setName(validateName(request.getParameter(NAME + languageId)));
+        movie.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
         movie.setDescription(validateDescription(
-                request.getParameter(DESCRIPTION + languageId)));
-        movie.setCountry(validateCountry(request.getParameter(COUNTRY + languageId)));
+                request.getParameter(DESCRIPTION_ATTRIBUTE + languageId)));
+        movie.setCountry(validateCountry(request.getParameter(COUNTRY_ATTRIBUTE + languageId)));
         return movie;
     }
 }
