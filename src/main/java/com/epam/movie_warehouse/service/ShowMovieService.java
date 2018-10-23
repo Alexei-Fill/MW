@@ -35,14 +35,14 @@ public class ShowMovieService implements Service {
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER);
         int like = 0;
         int grade = 0;
-        Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
+        Movie movie = movieDAO.getMovieById(movieId, LANGUAGE);
         if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
             if (user != null) {
-                like = userDAO.checkLikedLinkMovieOfUser(user.getId(), movieId);
-                grade = userDAO.checkVotedLinkMovieOfUser(user.getId(), movieId);
+                like = userDAO.checkMoviesLinksByLikedField(user.getId(), movieId);
+                grade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
             }
             if (NO_ENTRY_EXISTS == grade) {
                 grade = 0;
@@ -50,12 +50,12 @@ public class ShowMovieService implements Service {
             if (NO_ENTRY_EXISTS == like) {
                 like = 0;
             }
-            List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
-            List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
+            List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
+            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE);
             movie.setGenres(movieGenres);
             movie.setMovieCrew(movieCrew);
-            movie.setCountOfLikes(movieDAO.showCountOfLikesByMovieId(movie.getId()));
-            movie.setRating(movieDAO.showRatingByMovieId(movie.getId()));
+            movie.setCountOfLike(movieDAO.getCountOfLikesByMovieId(movie.getId()));
+            movie.setRating(movieDAO.getRatingByMovieId(movie.getId()));
             request.setAttribute(MOVIE, movie);
             request.setAttribute(LIKED, like);
             request.setAttribute(GRADE, grade);

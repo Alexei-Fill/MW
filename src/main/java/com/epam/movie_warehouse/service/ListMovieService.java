@@ -28,12 +28,12 @@ public class ListMovieService implements Service {
         HumanDAO humanDAO = new HumanDAO();
         List<Movie> movies = movieDAO.listMovie(LANGUAGE);
         for (Movie movie : movies) {
-            List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
+            List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
             movie.setGenres(movieGenres);
-            List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
+            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE);
             movie.setMovieCrew(movieCrew);
-            movie.setCountOfLikes(movieDAO.showCountOfLikesByMovieId(movie.getId()));
-            movie.setRating(movieDAO.showRatingByMovieId(movie.getId()));
+            movie.setCountOfLike(movieDAO.getCountOfLikesByMovieId(movie.getId()));
+            movie.setRating(movieDAO.getRatingByMovieId(movie.getId()));
         }
         request.setAttribute(MOVIES, movies);
         String requestDispatch = LIST_MOVIE_JSP;

@@ -32,17 +32,17 @@ public class ShowEditMovieService implements Service {
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         LanguageDAO languageDAO = new LanguageDAO();
-        Movie movie = movieDAO.showMovieById(movieId, LANGUAGE);
+        Movie movie = movieDAO.getMovieById(movieId, LANGUAGE);
         if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
-            List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
-            List<Genre> genres = genreDAO.showAllAvailableGenres(LANGUAGE);
+            List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
+            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE);
+            List<Genre> genres = genreDAO.listGenres(LANGUAGE);
             List<Human> humans = humanDAO.listHuman(LANGUAGE);
             List<Language> languages = new ArrayList<>();
-            languages.add(languageDAO.showLanguageById(LANGUAGE));
+            languages.add(languageDAO.getLanguageById(LANGUAGE));
             movie.setGenres(movieGenres);
             movie.setMovieCrew(movieCrew);
             request.setAttribute(MOVIE, movie);

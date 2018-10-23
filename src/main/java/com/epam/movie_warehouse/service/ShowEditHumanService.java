@@ -27,7 +27,7 @@ public class ShowEditHumanService implements Service {
         final int LANGUAGE = getLanguageId(request, response);
         long humanId = validateId(request.getParameter(HUMAN_ID));
         HumanDAO humanDAO = new HumanDAO();
-        Human human = humanDAO.showHumanById(humanId, LANGUAGE);
+        Human human = humanDAO.getHumanById(humanId, LANGUAGE);
         if (human.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
@@ -35,7 +35,7 @@ public class ShowEditHumanService implements Service {
             request.setAttribute(HUMAN, human);
             LanguageDAO languageDAO = new LanguageDAO();
             List<Language> languages = new ArrayList<>();
-            languages.add(languageDAO.showLanguageById(LANGUAGE));
+            languages.add(languageDAO.getLanguageById(LANGUAGE));
             request.setAttribute(HUMAN, human);
             request.setAttribute(LANGUAGES, languages);
             saveCurrentPageURLToSession(request, response);

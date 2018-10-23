@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.CURRENT_URL;
+import static com.epam.movie_warehouse.util.MovieWarehouseConstant.EXCEPTION;
 
 public class ValidationException extends Exception {
     public ValidationException(String message) {
@@ -15,9 +16,9 @@ public class ValidationException extends Exception {
     }
 
     public void showMessageHere(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);
-        request.setAttribute("exception", getMessage());
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestURL);
+        String currentURL = (String) request.getSession().getAttribute(CURRENT_URL);
+        request.setAttribute(EXCEPTION, getMessage());
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(currentURL);
         requestDispatcher.forward(request, response);
     }
 }

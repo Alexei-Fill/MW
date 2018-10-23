@@ -23,7 +23,7 @@ public class SetLocalService implements Service {
         String localIdString = request.getParameter(LOCAL_ID);
         if ((localIdString != null) && (!EMPTY_STRING.equals(localIdString.trim()))) {
             int localId = Integer.parseInt(localIdString);
-            language = languageDAO.showLanguageById(localId);
+            language = languageDAO.getLanguageById(localId);
             if (language.getId() != 0) {
                 request.getSession().setAttribute(SESSION_LANGUAGE_ID, language.getId());
                 request.getSession().setAttribute(LOCALE, language.getLocal());

@@ -41,12 +41,12 @@ public class ShowMovieByNameOrGenreService implements Service {
             request.setAttribute(SEARCH_STRING, searchString);
         }
         for (Movie movie : movies) {
-            List<Genre> movieGenres = genreDAO.showGenresOfTheMovie(movie.getId(), LANGUAGE);
-            List<Human> movieCrew = humanDAO.showMovieCrew(movie.getId(), LANGUAGE);
+            List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
+            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE);
             movie.setGenres(movieGenres);
             movie.setMovieCrew(movieCrew);
-            movie.setCountOfLikes(movieDAO.showCountOfLikesByMovieId(movie.getId()));
-            movie.setRating(movieDAO.showRatingByMovieId(movie.getId()));
+            movie.setCountOfLike(movieDAO.getCountOfLikesByMovieId(movie.getId()));
+            movie.setRating(movieDAO.getRatingByMovieId(movie.getId()));
         }
         request.setAttribute(MOVIES, movies);
         if (movies.isEmpty()) {

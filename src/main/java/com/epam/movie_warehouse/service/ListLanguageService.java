@@ -21,7 +21,7 @@ public class ListLanguageService implements Service {
 
     public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
-        return languageDAO.showAllLanguages();
+        return languageDAO.listLanguage();
     }
 }
 

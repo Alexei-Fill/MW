@@ -32,7 +32,7 @@ public class EditUserService implements Service {
             IOException, ValidationException, ConnectionNotFoundException {
         final Language language = getLanguage(request, response);
         long userId = validateId(request.getParameter(USER_ID));
-        user = userDAO.showUserById(userId);
+        user = userDAO.getUserById(userId);
         if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);

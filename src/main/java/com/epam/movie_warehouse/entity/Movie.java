@@ -11,7 +11,7 @@ public class Movie {
     private long id;
     private String imdbID;
     private long budget;
-    private long countOfLikes;
+    private long countOfLike;
     private long dues;
     private int ageLimit;
     private double rating;
@@ -122,12 +122,12 @@ public class Movie {
         this.rating = rating;
     }
 
-    public long getCountOfLikes() {
-        return countOfLikes;
+    public long getCountOfLike() {
+        return countOfLike;
     }
 
-    public void setCountOfLikes(long countOfLikes) {
-        this.countOfLikes = countOfLikes;
+    public void setCountOfLike(long countOfLike) {
+        this.countOfLike = countOfLike;
     }
 
     public long getDues() {
@@ -160,7 +160,7 @@ public class Movie {
                 "id=" + id +
                 ", imdbID='" + imdbID + '\'' +
                 ", budget=" + budget +
-                ", countOfLikes=" + countOfLikes +
+                ", countOfLike=" + countOfLike +
                 ", dues=" + dues +
                 ", ageLimit=" + ageLimit +
                 ", rating=" + rating +
@@ -183,7 +183,7 @@ public class Movie {
         Movie movie = (Movie) o;
         return id == movie.id &&
                 budget == movie.budget &&
-                countOfLikes == movie.countOfLikes &&
+                countOfLike == movie.countOfLike &&
                 dues == movie.dues &&
                 ageLimit == movie.ageLimit &&
                 Double.compare(movie.rating, rating) == 0 &&
@@ -201,6 +201,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imdbID, budget, countOfLikes, dues, ageLimit, rating, name, description, country, genres, movieCrew, imageURL, releaseDate, uploadDate, duration);
+        return Objects.hash(id, imdbID, budget, countOfLike, dues, ageLimit, rating, name, description,
+                country, genres, movieCrew, imageURL, releaseDate, uploadDate, duration);
     }
 }

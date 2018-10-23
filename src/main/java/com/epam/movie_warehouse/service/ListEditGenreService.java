@@ -23,8 +23,8 @@ public class ListEditGenreService implements Service {
         final int LANGUAGE = getLanguageId(request, response);
         GenreDAO genreDAO = new GenreDAO();
         LanguageDAO languageDAO = new LanguageDAO();
-        List<Genre> genres = genreDAO.showAllAvailableGenres(LANGUAGE);
-        List<Language> languages = languageDAO.showAllLanguages();
+        List<Genre> genres = genreDAO.listGenres(LANGUAGE);
+        List<Language> languages = languageDAO.listLanguage();
         request.setAttribute(GENRES, genres);
         request.setAttribute(LANGUAGES, languages);
         saveCurrentPageURLToSession(request, response);

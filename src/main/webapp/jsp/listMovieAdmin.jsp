@@ -67,7 +67,7 @@
                                         </c:if>
                                         </c:forEach>
                                         <p></p>
-           <h4 >${movie.countOfLikes}<img height= "10px" width= "10px" src= "/css/img/like.png" />
+           <h4 >${movie.countOfLike}<img height= "10px" width= "10px" src= "/css/img/like.png" />
                            <fmt:message key = "key.ratingOfMovie" bundle = "${lang}"/>: ${movie.rating}</h4>
                     <a href="/showEditMovie?movieId=${movie.id}"><fmt:message key = "key.edit" bundle = "${lang}"/></a>
                     <a onclick = "return confirm('<fmt:message key = "key.doYouWantReplaceMovie" bundle = "${lang}"/>');" href="/deleteMovie?movieId=${movie.id}"><fmt:message key = "key.delete" bundle = "${lang}"/></a>

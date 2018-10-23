@@ -26,9 +26,9 @@ public class ShowUserService implements Service {
         String requestURI = request.getRequestURI();
         if (requestURI.equalsIgnoreCase(SHOW_USER_URI)) {
             long userId = validateId(request.getParameter(USER_ID));
-            userById = userDAO.showUserById(userId);
+            userById = userDAO.getUserById(userId);
         } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)) {
-            userById = userDAO.showUserById(user.getId());
+            userById = userDAO.getUserById(user.getId());
         }
         if (userById.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);

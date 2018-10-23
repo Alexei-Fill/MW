@@ -37,7 +37,7 @@ public class LoginUserService implements Service {
     private Boolean checkUserByLoginAndPassword(String login, String password) throws SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         boolean isCheck = false;
-        user = userDAO.showUserByLogin(login);
+        user = userDAO.getUserByLogin(login);
         if (user.getId() != 0) {
             String userPassword = user.getPassword();
             if (userPassword == null || !userPassword.startsWith(PREFIX_FOR_PASSWORD)) {

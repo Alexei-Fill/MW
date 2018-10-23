@@ -11,7 +11,7 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class MovieValidator extends AbstractValidator {
 
-    public static Long validateBudget (String budget) throws ValidationException {
+    public static Long validateBudget(String budget) throws ValidationException {
         return validateLong(budget);
     }
 
@@ -23,19 +23,19 @@ public class MovieValidator extends AbstractValidator {
         return validateInteger(ageLimit);
     }
 
-    public static String validateImdbId (String imdbId) throws ValidationException {
+    public static String validateImdbId(String imdbId) throws ValidationException {
         return validateString(imdbId, IMDB_MAX_LENGTH);
     }
 
-    public static String validateDescription (String description) throws ValidationException {
+    public static String validateDescription(String description) throws ValidationException {
         return validateString(description, BIG_TEXT_MAX_LENGTH);
     }
 
-    public static String validateCountry (String country) throws ValidationException {
+    public static String validateCountry(String country) throws ValidationException {
         return validateString(country, STRING_MAX_LENGTH);
     }
 
-    public static LocalDate validateReleaseDate (String releaseDate, Language language) throws ValidationException {
+    public static LocalDate validateReleaseDate(String releaseDate, Language language) throws ValidationException {
         return validateDate(releaseDate, language);
     }
 
@@ -43,7 +43,7 @@ public class MovieValidator extends AbstractValidator {
         LocalTime localTimeParameter;
         try {
             localTimeParameter = LocalTime.parse(duration);
-        } catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             throw new ValidationException(INCORRECT_DATA);
         }
         return localTimeParameter;

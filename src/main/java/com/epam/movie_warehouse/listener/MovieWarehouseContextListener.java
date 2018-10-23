@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
@@ -19,24 +20,23 @@ import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 public class MovieWarehouseContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        List<Language> languages = null;
-        List<Genre> genres = null;
+        List<Language> languageList = new ArrayList<>();
+        List<Genre> genreList = new ArrayList<>();
         ServletContext context = servletContextEvent.getServletContext();
         try {
-            languages = new ListLanguageService().listLanguage();
-            genres = new ListGenreService().listGenre();
+            languageList = new ListLanguageService().listLanguage();
+            genreList = new ListGenreService().listGenre();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ConnectionNotFoundException e) {
             e.printStackTrace();
         }
-        context.setAttribute(SITE_LANGUAGE, languages);
-        context.setAttribute(GENRES, genres);
+        context.setAttribute(SITE_LANGUAGE, languageList);
+        context.setAttribute(GENRES, genreList);
         context.setAttribute(ADMIN, UserRole.ADMIN);
         context.setAttribute(COMMON_USER, UserRole.USER);
-        context.setAttribute(GUEST, UserRole.GUEST);
-        context.setAttribute(NOT_LIKE, ITS_NOT_LIKED);
         context.setAttribute(LIKE, ITS_LIKED);
+        context.setAttribute(NOT_LIKE, ITS_NOT_LIKED);
         context.setAttribute(ACTOR, ACTOR_ROLE_ID);
         context.setAttribute(DIRECTOR, DIRECTOR_ROLE_ID);
         context.setAttribute(SCREENWRITER, SCREENWRITER_ROLE_ID);

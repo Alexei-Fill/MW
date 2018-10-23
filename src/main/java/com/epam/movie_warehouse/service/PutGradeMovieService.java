@@ -27,12 +27,12 @@ public class PutGradeMovieService implements Service {
         int grade = validateGrade(request.getParameter(GRADE));
         Integer votedGrade;
         if ((user != null) && (movieId != 0)) {
-            votedGrade = userDAO.checkVotedLinkMovieOfUser(user.getId(), movieId);
+            votedGrade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
             if (votedGrade == NO_ENTRY_EXISTS) {
-                userDAO.addLinksMoviesOfUser(user.getId(), movieId);
-                userDAO.updateVotedLinkMovieOfUser(user.getId(), movieId, grade);
+                userDAO.addMoviesLinks(user.getId(), movieId);
+                userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             } else if (grade != votedGrade) {
-                userDAO.updateVotedLinkMovieOfUser(user.getId(), movieId, grade);
+                userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             }
         }
         String requestURL = (String) request.getSession().getAttribute(CURRENT_URL);

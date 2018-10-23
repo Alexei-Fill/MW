@@ -30,7 +30,7 @@ public class AddEditHumanService implements Service {
         Human human = new Human();
         long humanId = validateId(request.getParameter(HUMAN_ID));
         if (humanId != 0) {
-            human = humanDAO.showHumanById(humanId, LANGUAGE_ID);
+            human = humanDAO.getHumanById(humanId, LANGUAGE_ID);
         }
         human.setImageURL(request.getParameter(IMG_URL));
         human.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE), language));
@@ -51,7 +51,7 @@ public class AddEditHumanService implements Service {
                 for (String s : languages) {
                     int languageId = Integer.parseInt(s.trim());
                     setMultiLanguageParameters(human, request, languageId);
-                    humanDAO.addHumanCharacteristic(human, languageId);
+                    humanDAO.addHumanMultiLanguageParameters(human, languageId);
                 }
             }
             ROOT_LOGGER.info("Human was added " + human);

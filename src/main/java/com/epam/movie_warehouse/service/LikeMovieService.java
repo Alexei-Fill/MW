@@ -25,16 +25,16 @@ public class LikeMovieService implements Service {
         long movieId = validateId(request.getParameter(MOVIE_ID));
         Integer like = null;
         if ((user != null) && (movieId != 0)) {
-            like = userDAO.checkLikedLinkMovieOfUser(user.getId(), movieId);
+            like = userDAO.checkMoviesLinksByLikedField(user.getId(), movieId);
             if (like == NO_ENTRY_EXISTS) {
-                userDAO.addLinksMoviesOfUser(user.getId(), movieId);
-                userDAO.updateLikedLinkMovieOfUser(user.getId(), movieId, ITS_LIKED);
+                userDAO.addMoviesLinks(user.getId(), movieId);
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED);
                 like = ITS_LIKED;
             } else if (like == ITS_LIKED) {
-                userDAO.updateLikedLinkMovieOfUser(user.getId(), movieId, ITS_NOT_LIKED);
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_NOT_LIKED);
                 like = ITS_NOT_LIKED;
             } else if (like == ITS_NOT_LIKED) {
-                userDAO.updateLikedLinkMovieOfUser(user.getId(), movieId, ITS_LIKED);
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED);
                 like = ITS_LIKED;
             }
         }

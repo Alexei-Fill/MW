@@ -29,7 +29,7 @@ public class AddEditGenreService implements Service {
         Genre genre = new Genre();
         long genreId = validateId(request.getParameter(GENRE_ID));
         if (genreId != 0) {
-            genre = genreDAO.showGenreById(genreId, LANGUAGE);
+            genre = genreDAO.getGenreById(genreId, LANGUAGE);
             genre.setName(validateName(request.getParameter(NAME)));
             genreDAO.updateGenre(genre, LANGUAGE);
             ROOT_LOGGER.info("Genre was changed " + genre);
@@ -51,6 +51,6 @@ public class AddEditGenreService implements Service {
     }
 
     private void getMaxGenreId() throws SQLException, ConnectionNotFoundException {
-        maxGenreId = genreDAO.getMAXGenreId();
+        maxGenreId = genreDAO.getMaxGenreId();
     }
 }

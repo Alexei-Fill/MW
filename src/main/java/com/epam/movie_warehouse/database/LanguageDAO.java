@@ -14,39 +14,39 @@ import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE;
 import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID;
 
 public class LanguageDAO {
-    private final ConnectionPull connectionPull = ConnectionPull.getUniqueInstance();
+    private final ConnectionPull CONNECTION_PULL = ConnectionPull.getUniqueInstance();
 
-    public List<Language> showAllLanguages() throws SQLException, ConnectionNotFoundException {
-        List<Language> languages = new ArrayList<>();
-        Connection connection = connectionPull.retrieve();
+    public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {
+        List<Language> languageList = new ArrayList<>();
+        Connection connection = CONNECTION_PULL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_LANGUAGE);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 Language language = new Language();
-                setLanguageParameters(language, resultSet);
-                languages.add(language);
+                setParametersToLanguage(language, resultSet);
+                languageList.add(language);
             }
         }
-        connectionPull.putBack(connection);
-        return languages;
+        CONNECTION_PULL.putBack(connection);
+        return languageList;
     }
 
-    public Language showLanguageById(int languageId) throws SQLException, ConnectionNotFoundException {
+    public Language getLanguageById(int languageId) throws SQLException, ConnectionNotFoundException {
         Language language = new Language();
-        Connection connection = connectionPull.retrieve();
+        Connection connection = CONNECTION_PULL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_LANGUAGE_BY_ID)) {
             preparedStatement.setLong(1, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                setLanguageParameters(language, resultSet);
+                setParametersToLanguage(language, resultSet);
             }
             resultSet.close();
         }
-        connectionPull.putBack(connection);
+        CONNECTION_PULL.putBack(connection);
         return language;
     }
 
-    private void setLanguageParameters(Language language, ResultSet resultSet) throws SQLException {
+    private void setParametersToLanguage(Language language, ResultSet resultSet) throws SQLException {
         language.setId(resultSet.getInt("LANGUAGE_ID"));
         language.setName(resultSet.getString("LANGUAGE_NAME"));
         language.setLocal(resultSet.getString("LANGUAGE_LOCALE"));

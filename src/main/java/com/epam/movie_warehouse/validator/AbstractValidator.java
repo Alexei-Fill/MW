@@ -10,16 +10,16 @@ import java.util.Locale;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public abstract class AbstractValidator{
+public abstract class AbstractValidator {
 
     public static Long validateId(String id) throws ValidationException {
-        if (EMPTY_STRING.equals(id)){
+        if (EMPTY_STRING.equals(id)) {
             id = "0";
         }
         return validateLong(id);
     }
 
-    public static String validateName (String name) throws ValidationException {
+    public static String validateName(String name) throws ValidationException {
         return validateString(name, STRING_MAX_LENGTH);
     }
 
@@ -27,25 +27,25 @@ public abstract class AbstractValidator{
         long longParameter;
         try {
             longParameter = Long.parseLong(stringParameter);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new ValidationException(INCORRECT_DATA);
         }
         return longParameter;
     }
 
-    static Integer validateInteger (String stringParameter) throws ValidationException {
+    static Integer validateInteger(String stringParameter) throws ValidationException {
         int intParameter;
         try {
             intParameter = Integer.parseInt(stringParameter);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new ValidationException(INCORRECT_DATA);
         }
         return intParameter;
     }
 
-    static String validateString (String stringParameter, Integer maxLength) throws ValidationException {
+    static String validateString(String stringParameter, Integer maxLength) throws ValidationException {
         if ((stringParameter == null) || (EMPTY_STRING.equals(stringParameter) || (SPACE.equals(stringParameter)) ||
-                (stringParameter.length() > maxLength))){
+                (stringParameter.length() > maxLength))) {
             throw new ValidationException(INCORRECT_DATA);
         }
         return stringParameter;
@@ -55,9 +55,9 @@ public abstract class AbstractValidator{
         LocalDate localDateParameter;
         try {
             Locale locale = new Locale(language.getLocal());
-            final DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern(language.getDateFormat(), locale);
+            final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(language.getDateFormat(), locale);
             localDateParameter = LocalDate.parse(stringParameter, dateTimeFormatter);
-        } catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             throw new ValidationException(INCORRECT_DATA);
         }
         return localDateParameter;

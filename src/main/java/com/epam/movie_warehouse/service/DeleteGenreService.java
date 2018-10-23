@@ -24,11 +24,11 @@ public class DeleteGenreService implements Service {
         final int LANGUAGE = getLanguageId(request, response);
         long genreId = validateId(request.getParameter(GENRE_ID));
         GenreDAO genreDAO = new GenreDAO();
-        if (genreDAO.showGenreById(genreId, LANGUAGE).getId() == 0) {
+        if (genreDAO.getGenreById(genreId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            if (!genreDAO.checkLinksGenreToMovie(genreId)) {
+            if (!genreDAO.checkForMovieLinks(genreId)) {
                 genreDAO.deleteGenre(genreId);
                 ROOT_LOGGER.info("Genre was deleted  genreId =" + genreId);
                 response.sendRedirect(LIST_GENRE_URI);

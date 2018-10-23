@@ -16,54 +16,54 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 public class AccessToServiceFilter implements Filter {
     private static final String ACTIVE_INIT_PARAM_NAME = "active";
-    private static final Map<String, Integer> SERVICE_MAP = new HashMap<>();
+    private static final Map<String, Integer> ACCESS_MAP = new HashMap<>();
     private boolean active = false;
 
     @Override
     public void init(FilterConfig filterConfig) {
         String activeString = filterConfig.getInitParameter(ACTIVE_INIT_PARAM_NAME);
-        if (activeString != null){
+        if (activeString != null) {
             active = (activeString.equalsIgnoreCase("true"));
         }
-        SERVICE_MAP.put(LIST_MOVIES_ADMIN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(SHOW_EDIT_MOVIE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(EDIT_MOVIE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(DELETE_MOVIE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(ADD_MOVIE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(SHOW_USER_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(DELETE_USER_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(LIST_USER_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(UPLOAD_MOVIE_IMAGE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(UPLOAD_HUMAN_IMAGE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(LIST_EDIT_GENRE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(EDIT_GENRE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(ADD_GENRE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(DELETE_GENRE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(LIST_GENRE_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(LIST_HUMAN_ADMIN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(DELETE_HUMAN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(SHOW_EDIT_HUMAN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(EDIT_HUMAN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(ADD_HUMAN_URI, UserRole.ADMIN.getId());
-        SERVICE_MAP.put(LOG_OUT_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(SHOW_MY_USER_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(SHOW_USER_EDIT_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(EDIT_USER_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(LIKE_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(PUT_A_GRADE_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(DELETE_MY_USER_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(EDIT_USER_PASSWORD_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(UPLOAD_USER_IMAGE_URI, UserRole.USER.getId());
-        SERVICE_MAP.put(LIST_MOVIES_URI, UserRole.GUEST.getId());
-        SERVICE_MAP.put(MOVIE_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(LIST_MOVIE_BY_GENRE_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(LIST_MOVIE_BY_NAME_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(LOG_IN_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(AUTHORIZATION_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(REGISTRATION_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(SET_LOCAL_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(LIST_HUMAN_URI,  UserRole.GUEST.getId());
-        SERVICE_MAP.put(HUMAN_URI,  UserRole.GUEST.getId());
+        ACCESS_MAP.put(LIST_MOVIES_ADMIN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(SHOW_EDIT_MOVIE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(EDIT_MOVIE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(DELETE_MOVIE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(ADD_MOVIE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(SHOW_USER_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(DELETE_USER_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(LIST_USER_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(UPLOAD_MOVIE_IMAGE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(UPLOAD_HUMAN_IMAGE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(LIST_EDIT_GENRE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(EDIT_GENRE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(ADD_GENRE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(DELETE_GENRE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(LIST_GENRE_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(LIST_HUMAN_ADMIN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(DELETE_HUMAN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(SHOW_EDIT_HUMAN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(EDIT_HUMAN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(ADD_HUMAN_URI, UserRole.ADMIN.getId());
+        ACCESS_MAP.put(LOG_OUT_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(SHOW_MY_USER_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(SHOW_USER_EDIT_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(EDIT_USER_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(LIKE_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(PUT_A_GRADE_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(DELETE_MY_USER_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(EDIT_USER_PASSWORD_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(UPLOAD_USER_IMAGE_URI, UserRole.USER.getId());
+        ACCESS_MAP.put(LIST_MOVIES_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(MOVIE_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(LIST_MOVIE_BY_GENRE_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(LIST_MOVIE_BY_NAME_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(LOG_IN_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(AUTHORIZATION_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(REGISTRATION_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(SET_LOCAL_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(LIST_HUMAN_URI, UserRole.GUEST.getId());
+        ACCESS_MAP.put(HUMAN_URI, UserRole.GUEST.getId());
 
     }
 
@@ -73,12 +73,12 @@ public class AccessToServiceFilter implements Filter {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
             User user = (User) httpServletRequest.getSession().getAttribute(AUTHORIZED_USER);
-            if (user == null){
+            if (user == null) {
                 user = new User();
                 user.setRoleId(UserRole.GUEST);
             }
             String reqURI = httpServletRequest.getRequestURI();
-            Integer accessLevel = SERVICE_MAP.get(reqURI);
+            Integer accessLevel = ACCESS_MAP.get(reqURI);
             if (accessLevel != null) {
                 if (accessLevel <= user.getRoleId().getId()) {
                     filterChain.doFilter(httpServletRequest, httpServletResponse);

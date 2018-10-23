@@ -30,7 +30,7 @@
 	 <div class = "imgPageDiv">
 <img src = "${movie.imageURL}" onerror="this.src = '/css/img/default-user-img.jpg'"  class = "imgPage"/>
 <div id = "movie_id" hidden="false">${movie.id}</div>
-                      <b id =  "vote_count" style = "font-size:24px;">${movie.countOfLikes}</b>
+                      <b id =  "vote_count" style = "font-size:24px;">${movie.countOfLike}</b>
                       <input id =  "vote_status" height= "20px" width= "20px" src=
                          <c:if test="${liked == notLike}">"/css/img/notLike.png" value = "notLike" </c:if>
                         <c:if test="${liked == like}">"/css/img/like.png"   value = "like"</c:if>

@@ -44,7 +44,7 @@ public class AddEditMovieService implements Service {
         List<Genre> genres = new ArrayList<>();
         long movieId = validateId(request.getParameter(MOVIE_ID));
         if (movieId != 0) {
-            movie = movieDAO.showMovieById(movieId, LANGUAGE_ID);
+            movie = movieDAO.getMovieById(movieId, LANGUAGE_ID);
         }
         movie.setImageURL(request.getParameter(IMG_URL));
         movie.setImdbID(validateImdbId(request.getParameter(IMDB_ID)));
@@ -57,7 +57,7 @@ public class AddEditMovieService implements Service {
         if (genreIdString != null) {
             for (String s : genreIdString) {
                 long genreId = Long.parseLong(s.trim());
-                genre = genreDAO.showGenreById(genreId, LANGUAGE_ID);
+                genre = genreDAO.getGenreById(genreId, LANGUAGE_ID);
                 genres.add(genre);
             }
         }
@@ -75,22 +75,22 @@ public class AddEditMovieService implements Service {
                 }
             }
             movieDAO.updateMovie(movie, LANGUAGE_ID);
-            movieDAO.deleteLinksGenresOnMovie(movie.getId());
-            movieDAO.deleteLinksHumansOnMovie(movie.getId());
-            movieDAO.addLinksGenresOnMovie(movie);
-            movieDAO.addLinksHumansOnMovie(movie);
+            movieDAO.deleteGenresLinks(movie.getId());
+            movieDAO.deleteHumansLinks(movie.getId());
+            movieDAO.addGenresLinks(movie);
+            movieDAO.addHumansLinks(movie);
             ROOT_LOGGER.info("Movie was changed " + movie);
         } else {
             movie.setUploadDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
             movieDAO.addMovie(movie);
-            movieDAO.addLinksGenresOnMovie(movie);
-            movieDAO.addLinksHumansOnMovie(movie);
+            movieDAO.addGenresLinks(movie);
+            movieDAO.addHumansLinks(movie);
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
             if (languages != null) {
                 for (String s : languages) {
                     int languageId = Integer.parseInt(s.trim());
                     movie = setMultiLanguageParameters(request, movie, languageId);
-                    movieDAO.addCharacteristicsOfMovie(movie, languageId);
+                    movieDAO.addMovieMultiLanguageParameters(movie, languageId);
                 }
             }
             ROOT_LOGGER.info("Movie was added " + movie);
@@ -107,7 +107,7 @@ public class AddEditMovieService implements Service {
         if (movieCrew != null) {
             for (String s : movieCrew) {
                 long humanId = Long.parseLong(s.trim());
-                human = humanDAO.showHumanById(humanId, languageId);
+                human = humanDAO.getHumanById(humanId, languageId);
                 human.setRoleId(roleId);
                 humans.add(human);
             }

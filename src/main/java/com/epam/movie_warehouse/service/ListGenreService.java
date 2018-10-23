@@ -29,7 +29,7 @@ public class ListGenreService implements Service {
     }
 
     public List<Genre> listGenre() throws SQLException, ConnectionNotFoundException {
-        return genreDAO.showAllAvailableGenres(languageId);
+        return genreDAO.listGenres(languageId);
     }
 }
 

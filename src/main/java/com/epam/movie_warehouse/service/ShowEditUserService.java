@@ -22,7 +22,7 @@ public class ShowEditUserService implements Service {
             ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
         long userId = validateId(request.getParameter(USER_ID));
-        User user = userDAO.showUserById(userId);
+        User user = userDAO.getUserById(userId);
         if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);

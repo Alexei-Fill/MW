@@ -26,14 +26,14 @@ public class DeleteMovieService implements Service {
         final int LANGUAGE = getLanguageId(request, response);
         long movieId = validateId(request.getParameter(MOVIE_ID));
         MovieDAO movieDAO = new MovieDAO();
-        if (movieDAO.showMovieById(movieId, LANGUAGE).getId() == 0) {
+        if (movieDAO.getMovieById(movieId, LANGUAGE).getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            movieDAO.deleteLinksHumansOnMovie(movieId);
-            movieDAO.deleteLinksGenresOnMovie(movieId);
-            movieDAO.deleteCharacteristicsOfMovie(movieId);
-            movieDAO.deleteLinksUsersOnMovie(movieId);
+            movieDAO.deleteHumansLinks(movieId);
+            movieDAO.deleteGenresLinks(movieId);
+            movieDAO.deleteMovieMultiLanguageParameters(movieId);
+            movieDAO.deleteUsersLinks(movieId);
             movieDAO.deleteMovie(movieId);
             ROOT_LOGGER.info("Movie was deleted movieId = " + movieId);
             response.sendRedirect(LIST_MOVIES_ADMIN_URI);

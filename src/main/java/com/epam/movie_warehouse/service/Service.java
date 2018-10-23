@@ -29,7 +29,7 @@ public interface Service {
     default Language getLanguage(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
-        return languageDAO.showLanguageById(getLanguageId(request, response));
+        return languageDAO.getLanguageById(getLanguageId(request, response));
     }
 
     default void saveCurrentPageURLToSession(HttpServletRequest request, HttpServletResponse response) {

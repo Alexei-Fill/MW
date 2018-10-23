@@ -27,9 +27,9 @@ public class ShowAddMovieService implements Service {
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         LanguageDAO languageDAO = new LanguageDAO();
-        List<Genre> genres = genreDAO.showAllAvailableGenres(LANGUAGE);
+        List<Genre> genres = genreDAO.listGenres(LANGUAGE);
         List<Human> humans = humanDAO.listHuman(LANGUAGE);
-        List<Language> languages = languageDAO.showAllLanguages();
+        List<Language> languages = languageDAO.listLanguage();
         request.setAttribute(GENRES, genres);
         request.setAttribute(HUMANS, humans);
         request.setAttribute(LANGUAGES, languages);

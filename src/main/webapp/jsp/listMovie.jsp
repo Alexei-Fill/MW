@@ -65,7 +65,7 @@
                               </c:if>
                               </c:forEach>
                               <p></p>
- <h4 >${movie.countOfLikes}<img height= "10px" width= "10px" src= "/css/img/like.png" />
+ <h4 >${movie.countOfLike}<img height= "10px" width= "10px" src= "/css/img/like.png" />
 
                  <fmt:message key = "key.ratingOfMovie" bundle = "${lang}"/>: ${movie.rating}</h4>
                 </div>

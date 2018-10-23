@@ -31,18 +31,18 @@ public class DeleteUserService implements Service {
         String requestURI = request.getRequestURI();
         if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId().equals(UserRole.ADMIN))) {
             long userId = validateId(request.getParameter(USER_ID));
-            userById = userDAO.showUserById(userId);
+            userById = userDAO.getUserById(userId);
             requestForward = LIST_USER_URI;
         } else {
             if (checkPassword(request)) {
-                userById = userDAO.showUserById(user.getId());
+                userById = userDAO.getUserById(user.getId());
             }
         }
         if (userById.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            userDAO.deleteLinksMoviesOfUser(userById);
+            userDAO.deleteMoviesLinks(userById);
             userDAO.deleteUser(userById);
             USER_LOGGER.info("User was deleted " + user);
             response.sendRedirect(requestForward);

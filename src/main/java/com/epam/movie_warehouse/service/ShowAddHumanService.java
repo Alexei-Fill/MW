@@ -20,7 +20,7 @@ public class ShowAddHumanService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
-        List<Language> languages = languageDAO.showAllLanguages();
+        List<Language> languages = languageDAO.listLanguage();
         request.setAttribute(LANGUAGES, languages);
         saveCurrentPageURLToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_HUMAN_JSP);
