@@ -79,7 +79,7 @@ public class Human {
 
     @Override
     public String toString() {
-        return "Human{" +
+        return "\nHuman{" +
                 "id=" + id +
                 ", imageURL='" + imageURL + '\'' +
                 ", name='" + name + '\'' +

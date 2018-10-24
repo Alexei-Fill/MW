@@ -42,7 +42,7 @@ public class Language {
 
     @Override
     public String toString() {
-        return "Language{" +
+        return "\nLanguage{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", local='" + local + '\'' +

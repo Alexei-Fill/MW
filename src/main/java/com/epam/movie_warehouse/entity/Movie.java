@@ -156,9 +156,9 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "\n\nMovie{" +
+        return "\nMovie{" +
                 "id=" + id +
-                ", imdbID='" + imdbID + '\'' +
+                ", imdbID='" + imdbID +
                 ", budget=" + budget +
                 ", countOfLike=" + countOfLike +
                 ", dues=" + dues +

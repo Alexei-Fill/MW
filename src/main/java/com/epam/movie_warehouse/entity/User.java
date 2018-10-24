@@ -81,11 +81,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "\n\nUser{" +
+        return "\nUser{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", mail='" + mail + '\'' +
-                ", \nbirthDate=" + birthDate +
+                ", birthDate=" + birthDate +
                 ", registrationDate=" + registrationDate +
                 ", roleId=" + roleId +
                 '}';
