@@ -6,6 +6,8 @@ import com.epam.movie_warehouse.enumiration.UserRole;
 import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import com.epam.movie_warehouse.service.ListGenreService;
 import com.epam.movie_warehouse.service.ListLanguageService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -17,6 +19,8 @@ import java.util.List;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
 public class MovieWarehouseContextListener implements ServletContextListener {
+    private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         List<Language> languageList = new ArrayList<>();
@@ -25,10 +29,8 @@ public class MovieWarehouseContextListener implements ServletContextListener {
         try {
             languageList = new ListLanguageService().listLanguage();
             genreList = new ListGenreService().listGenre();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ConnectionNotFoundException e) {
-            e.printStackTrace();
+        } catch (SQLException | ConnectionNotFoundException e) {
+            ROOT_LOGGER.error(e);
         }
         context.setAttribute(SITE_LANGUAGE_ATTRIBUTE, languageList);
         context.setAttribute(GENRES_ATTRIBUTE, genreList);
