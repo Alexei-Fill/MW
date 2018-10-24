@@ -17,9 +17,9 @@ import java.sql.SQLException;
 import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class AddEditGenreService implements Service {
+public class EditOrUploadGenreService implements Service {
     private static volatile Long maxGenreId;
-    private final GenreDAO genreDAO = new GenreDAO();
+    private final GenreDAO GENRE_DAO = new GenreDAO();
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     @Override
@@ -29,28 +29,33 @@ public class AddEditGenreService implements Service {
         Genre genre = new Genre();
         long genreId = validateId(request.getParameter(GENRE_ID_ATTRIBUTE));
         if (genreId != 0) {
-            genre = genreDAO.getGenreById(genreId, LANGUAGE);
+            genre = GENRE_DAO.getGenreById(genreId, LANGUAGE);
             genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE)));
-            genreDAO.updateGenre(genre, LANGUAGE);
+            GENRE_DAO.updateGenre(genre, LANGUAGE);
             ROOT_LOGGER.info("Genre was changed " + genre);
         } else {
             getMaxGenreId();
             genre.setId(maxGenreId);
-            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
-            if (languages != null) {
-                for (String s : languages) {
-                    int languageId = Integer.parseInt(s.trim());
-                    genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
-                    genreDAO.addGenre(genre, languageId);
-                }
-            }
+            addGenre(request, response, genre);
             ROOT_LOGGER.info("Genre was added " + genre);
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);
         requestDispatcher.forward(request, response);
     }
 
+    private void addGenre(HttpServletRequest request, HttpServletResponse response, Genre genre) throws ValidationException,
+            ConnectionNotFoundException, SQLException {
+        String[] languageIdValue = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
+        if (languageIdValue != null) {
+            for (String s : languageIdValue) {
+                int languageId = Integer.parseInt(s.trim());
+                genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
+                GENRE_DAO.addGenre(genre, languageId);
+            }
+        }
+    }
+
     private void getMaxGenreId() throws SQLException, ConnectionNotFoundException {
-        maxGenreId = genreDAO.getMaxGenreId();
+        maxGenreId = GENRE_DAO.getMaxGenreId();
     }
 }

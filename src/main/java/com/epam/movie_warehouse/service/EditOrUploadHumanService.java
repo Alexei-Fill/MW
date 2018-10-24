@@ -18,40 +18,38 @@ import java.sql.SQLException;
 import static com.epam.movie_warehouse.validator.HumanValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class AddEditHumanService implements Service {
+public class EditOrUploadHumanService implements Service {
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
+    private final HumanDAO HUMAN_DAO = new HumanDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
         final Language language = getLanguage(request, response);
         final int LANGUAGE_ID = language.getId();
-        HumanDAO humanDAO = new HumanDAO();
         Human human = new Human();
         long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
         if (humanId != 0) {
-            human = humanDAO.getHumanById(humanId, LANGUAGE_ID);
-        }
-        human.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
-        human.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE_ATTRIBUTE), language));
-        if (humanId != 0) {
-            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
-            if (languages != null) {
-                for (String s : languages) {
+            setHumanParameters(human, request, response, language);
+            human = HUMAN_DAO.getHumanById(humanId, LANGUAGE_ID);
+            String[] languageIdValue = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
+            if (languageIdValue != null) {
+                for (String s : languageIdValue) {
                     int languageId = Integer.parseInt(s.trim());
-                    setMultiLanguageParameters(human, request, languageId);
+                    setHumanMultiLanguageParameters(human, request, response, languageId);
                 }
             }
-            humanDAO.updateHuman(human, LANGUAGE_ID);
+            HUMAN_DAO.updateHuman(human, LANGUAGE_ID);
             ROOT_LOGGER.info("Human was changed " + human);
         } else {
-            humanDAO.addHuman(human);
-            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
-            if (languages != null) {
-                for (String s : languages) {
+            setHumanParameters(human, request, response, language);
+            HUMAN_DAO.addHuman(human);
+            String[] languageIdValue = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
+            if (languageIdValue != null) {
+                for (String s : languageIdValue) {
                     int languageId = Integer.parseInt(s.trim());
-                    setMultiLanguageParameters(human, request, languageId);
-                    humanDAO.addHumanMultiLanguageParameters(human, languageId);
+                    setHumanMultiLanguageParameters(human, request, response, languageId);
+                    HUMAN_DAO.addHumanMultiLanguageParameters(human, languageId);
                 }
             }
             ROOT_LOGGER.info("Human was added " + human);
@@ -61,7 +59,14 @@ public class AddEditHumanService implements Service {
         requestDispatcher.forward(request, response);
     }
 
-    private void setMultiLanguageParameters(Human human, HttpServletRequest request, int languageId) throws ValidationException {
+    private void setHumanParameters(Human human, HttpServletRequest request, HttpServletResponse response, Language language)
+            throws ValidationException {
+        human.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
+        human.setBirthDate(validateBirthDate(request.getParameter(BIRTH_DATE_ATTRIBUTE), language));
+    }
+
+    private void setHumanMultiLanguageParameters(Human human, HttpServletRequest request, HttpServletResponse response,
+                                                 int languageId) throws ValidationException {
         human.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
         human.setSurname(validateSurname(request.getParameter(SURNAME_ATTRIBUTE + languageId)));
         human.setPatronymic(validatePatronymic(request.getParameter(PATRONYMIC_ATTRIBUTE + languageId)));

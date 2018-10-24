@@ -24,19 +24,19 @@ public class ShowHumanService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             SQLException, ValidationException, ConnectionNotFoundException {
-        final int LANGUAGE = getLanguageId(request, response);
-        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
+        final int LANGUAGE_ID = getLanguageId(request, response);
         HumanDAO humanDAO = new HumanDAO();
-        MovieDAO movieDAO = new MovieDAO();
-        Human human = humanDAO.getHumanById(humanId, LANGUAGE);
+        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
+        Human human = humanDAO.getHumanById(humanId, LANGUAGE_ID);
         if (human.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            List<Movie> movies = movieDAO.listMovieByHuman(humanId, LANGUAGE);
+            MovieDAO movieDAO = new MovieDAO();
+            List<Movie> movieList = movieDAO.listMovieByHuman(humanId, LANGUAGE_ID);
             request.setAttribute(HUMAN_ATTRIBUTE, human);
-            request.setAttribute(MOVIES_ATTRIBUTE, movies);
-            saveCurrentPageURLToSession(request, response);
+            request.setAttribute(MOVIES_ATTRIBUTE, movieList);
+            writeCurrentPageToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(HUMAN_JSP);
             requestDispatcher.forward(request, response);
         }

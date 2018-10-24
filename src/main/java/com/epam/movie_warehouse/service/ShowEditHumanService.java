@@ -24,21 +24,21 @@ public class ShowEditHumanService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ValidationException, ConnectionNotFoundException {
-        final int LANGUAGE = getLanguageId(request, response);
-        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
+        final int LANGUAGE_ID = getLanguageId(request, response);
         HumanDAO humanDAO = new HumanDAO();
-        Human human = humanDAO.getHumanById(humanId, LANGUAGE);
+        long humanId = validateId(request.getParameter(HUMAN_ID_ATTRIBUTE));
+        Human human = humanDAO.getHumanById(humanId, LANGUAGE_ID);
         if (human.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
             request.setAttribute(HUMAN_ATTRIBUTE, human);
             LanguageDAO languageDAO = new LanguageDAO();
-            List<Language> languages = new ArrayList<>();
-            languages.add(languageDAO.getLanguageById(LANGUAGE));
+            List<Language> languageList = new ArrayList<>();
+            languageList.add(languageDAO.getLanguageById(LANGUAGE_ID));
             request.setAttribute(HUMAN_ATTRIBUTE, human);
-            request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
-            saveCurrentPageURLToSession(request, response);
+            request.setAttribute(LANGUAGES_ATTRIBUTE, languageList);
+            writeCurrentPageToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_HUMAN_JSP);
             requestDispatcher.forward(request, response);
         }

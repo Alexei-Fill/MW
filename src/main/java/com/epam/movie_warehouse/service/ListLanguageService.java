@@ -15,8 +15,8 @@ public class ListLanguageService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ConnectionNotFoundException {
-        List<Language> languages = listLanguage();
-        request.getServletContext().setAttribute(SITE_LANGUAGE_ATTRIBUTE, languages);
+        List<Language> languageList = listLanguage();
+        request.getServletContext().setAttribute(SITE_LANGUAGE_ATTRIBUTE, languageList);
     }
 
     public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {

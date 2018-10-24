@@ -16,7 +16,7 @@ import static com.epam.movie_warehouse.validator.AbstractValidator.validateId;
 import static com.epam.movie_warehouse.validator.MovieValidator.validateGrade;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class PutGradeMovieService implements Service {
+public class RateMovieService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
@@ -25,13 +25,13 @@ public class PutGradeMovieService implements Service {
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
         int grade = validateGrade(request.getParameter(GRADE_ATTRIBUTE));
-        Integer votedGrade;
+        Integer movieGrade;
         if ((user != null) && (movieId != 0)) {
-            votedGrade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
-            if (votedGrade == NO_ENTRY_EXISTS_VALUE) {
+            movieGrade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
+            if (movieGrade == NO_ENTRY_EXISTS_VALUE) {
                 userDAO.addMoviesLinks(user.getId(), movieId);
                 userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
-            } else if (grade != votedGrade) {
+            } else if (grade != movieGrade) {
                 userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             }
         }

@@ -26,30 +26,30 @@ public class ShowEditMovieService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ConnectionNotFoundException {
-        final int LANGUAGE = getLanguageId(request, response);
-        long movieId = Long.parseLong(request.getParameter(MOVIE_ID_ATTRIBUTE));
+        final int LANGUAGE_ID = getLanguageId(request, response);
         MovieDAO movieDAO = new MovieDAO();
-        GenreDAO genreDAO = new GenreDAO();
-        HumanDAO humanDAO = new HumanDAO();
-        LanguageDAO languageDAO = new LanguageDAO();
-        Movie movie = movieDAO.getMovieById(movieId, LANGUAGE);
+        long movieId = Long.parseLong(request.getParameter(MOVIE_ID_ATTRIBUTE));
+        Movie movie = movieDAO.getMovieById(movieId, LANGUAGE_ID);
         if (movie.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            List<Genre> movieGenres = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE);
-            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE);
-            List<Genre> genres = genreDAO.listGenres(LANGUAGE);
-            List<Human> humans = humanDAO.listHuman(LANGUAGE);
-            List<Language> languages = new ArrayList<>();
-            languages.add(languageDAO.getLanguageById(LANGUAGE));
-            movie.setGenres(movieGenres);
+            GenreDAO genreDAO = new GenreDAO();
+            HumanDAO humanDAO = new HumanDAO();
+            LanguageDAO languageDAO = new LanguageDAO();
+            List<Genre> movieGenre = genreDAO.listGenresOfTheMovie(movie.getId(), LANGUAGE_ID);
+            List<Human> movieCrew = humanDAO.listMovieCrew(movie.getId(), LANGUAGE_ID);
+            List<Genre> genreList = genreDAO.listGenres(LANGUAGE_ID);
+            List<Human> humanList = humanDAO.listHuman(LANGUAGE_ID);
+            List<Language> languageList = new ArrayList<>();
+            languageList.add(languageDAO.getLanguageById(LANGUAGE_ID));
+            movie.setGenres(movieGenre);
             movie.setMovieCrew(movieCrew);
             request.setAttribute(MOVIE_ATTRIBUTE, movie);
-            request.setAttribute(GENRES_ATTRIBUTE, genres);
-            request.setAttribute(HUMANS_ATTRIBUTE, humans);
-            request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
-            saveCurrentPageURLToSession(request, response);
+            request.setAttribute(GENRES_ATTRIBUTE, genreList);
+            request.setAttribute(HUMANS_ATTRIBUTE, humanList);
+            request.setAttribute(LANGUAGES_ATTRIBUTE, languageList);
+            writeCurrentPageToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_MOVIE_JSP);
             requestDispatcher.forward(request, response);
         }

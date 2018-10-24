@@ -19,16 +19,16 @@ public class SetLocalService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ConnectionNotFoundException {
         LanguageDAO languageDAO = new LanguageDAO();
-        Language language;
-        String localIdString = request.getParameter(LOCAL_ID_ATTRIBUTE);
-        if ((localIdString != null) && (!EMPTY_STRING.equals(localIdString.trim()))) {
-            int localId = Integer.parseInt(localIdString);
+        Language language = new Language();
+        String localIdRequestParameter = request.getParameter(LOCAL_ID_ATTRIBUTE);
+        if ((localIdRequestParameter != null) && (!EMPTY_STRING.equals(localIdRequestParameter.trim()))) {
+            int localId = Integer.parseInt(localIdRequestParameter);
             language = languageDAO.getLanguageById(localId);
-            if (language.getId() != 0) {
-                request.getSession().setAttribute(SESSION_LANGUAGE_ID_ATTRIBUTE, language.getId());
-                request.getSession().setAttribute(LOCALE_ATTRIBUTE, language.getLocal());
-                request.getSession().setAttribute(DATE_FORMAT_ATTRIBUTE, language.getDateFormat());
-            }
+        }
+        if (language.getId() != 0) {
+            request.getSession().setAttribute(SESSION_LANGUAGE_ID_ATTRIBUTE, language.getId());
+            request.getSession().setAttribute(LOCALE_ATTRIBUTE, language.getLocal());
+            request.getSession().setAttribute(DATE_FORMAT_ATTRIBUTE, language.getDateFormat());
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);
         requestDispatcher.forward(request, response);

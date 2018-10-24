@@ -84,7 +84,6 @@ public class User {
         return "\n\nUser{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 ", mail='" + mail + '\'' +
                 ", \nbirthDate=" + birthDate +
                 ", registrationDate=" + registrationDate +

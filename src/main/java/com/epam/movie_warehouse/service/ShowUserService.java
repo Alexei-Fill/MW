@@ -21,21 +21,27 @@ public class ShowUserService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        User userById = new User();
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
+        User user;
+        User authorizedUser = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         String requestURI = request.getRequestURI();
-        if (requestURI.equalsIgnoreCase(SHOW_USER_URI)) {
-            long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
-            userById = userDAO.getUserById(userId);
-        } else if (requestURI.equalsIgnoreCase(SHOW_MY_USER_URI)) {
-            userById = userDAO.getUserById(user.getId());
+        switch (requestURI) {
+            case (SHOW_USER_URI): {
+                long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
+                user = userDAO.getUserById(userId);
+                break;
+            }
+            case (SHOW_MY_USER_URI):
+            default: {
+                user = userDAO.getUserById(authorizedUser.getId());
+                break;
+            }
         }
-        if (userById.getId() == 0) {
+        if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            saveCurrentPageURLToSession(request, response);
-            request.setAttribute(USER_ATTRIBUTE, userById);
+            writeCurrentPageToSession(request, response);
+            request.setAttribute(USER_ATTRIBUTE, user);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(USER_JSP);
             requestDispatcher.forward(request, response);
         }

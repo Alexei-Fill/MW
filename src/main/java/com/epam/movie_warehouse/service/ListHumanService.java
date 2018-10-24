@@ -20,14 +20,14 @@ public class ListHumanService implements Service {
             IOException, ConnectionNotFoundException {
         final int LANGUAGE = getLanguageId(request, response);
         HumanDAO humanDAO = new HumanDAO();
-        List<Human> humans = humanDAO.listHuman(LANGUAGE);
-        request.setAttribute(HUMANS_ATTRIBUTE, humans);
+        List<Human> humanList = humanDAO.listHuman(LANGUAGE);
         String serviceRequest = request.getRequestURI();
         String requestDispatch = LIST_HUMAN_JSP;
         if (serviceRequest.equalsIgnoreCase(LIST_HUMAN_ADMIN_URI)) {
             requestDispatch = LIST_HUMAN_ADMIN_JSP;
         }
-        saveCurrentPageURLToSession(request, response);
+        request.setAttribute(HUMANS_ATTRIBUTE, humanList);
+        writeCurrentPageToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(requestDispatch);
         requestDispatcher.forward(request, response);
     }

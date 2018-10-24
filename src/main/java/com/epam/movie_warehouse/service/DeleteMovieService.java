@@ -32,8 +32,8 @@ public class DeleteMovieService implements Service {
         } else {
             movieDAO.deleteHumansLinks(movieId);
             movieDAO.deleteGenresLinks(movieId);
-            movieDAO.deleteMovieMultiLanguageParameters(movieId);
             movieDAO.deleteUsersLinks(movieId);
+            movieDAO.deleteMovieMultiLanguageParameters(movieId);
             movieDAO.deleteMovie(movieId);
             ROOT_LOGGER.info("Movie was deleted movieId = " + movieId);
             response.sendRedirect(LIST_MOVIES_ADMIN_URI);

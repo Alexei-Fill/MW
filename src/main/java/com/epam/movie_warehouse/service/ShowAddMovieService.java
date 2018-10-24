@@ -23,17 +23,17 @@ public class ShowAddMovieService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException,
             IOException, ConnectionNotFoundException {
-        final int LANGUAGE = getLanguageId(request, response);
+        final int LANGUAGE_ID = getLanguageId(request, response);
         GenreDAO genreDAO = new GenreDAO();
         HumanDAO humanDAO = new HumanDAO();
         LanguageDAO languageDAO = new LanguageDAO();
-        List<Genre> genres = genreDAO.listGenres(LANGUAGE);
-        List<Human> humans = humanDAO.listHuman(LANGUAGE);
+        List<Genre> genreList = genreDAO.listGenres(LANGUAGE_ID);
+        List<Human> humanList = humanDAO.listHuman(LANGUAGE_ID);
         List<Language> languages = languageDAO.listLanguage();
-        request.setAttribute(GENRES_ATTRIBUTE, genres);
-        request.setAttribute(HUMANS_ATTRIBUTE, humans);
+        request.setAttribute(GENRES_ATTRIBUTE, genreList);
+        request.setAttribute(HUMANS_ATTRIBUTE, humanList);
         request.setAttribute(LANGUAGES_ATTRIBUTE, languages);
-        saveCurrentPageURLToSession(request, response);
+        writeCurrentPageToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_MOVIE_JSP);
         requestDispatcher.forward(request, response);
     }

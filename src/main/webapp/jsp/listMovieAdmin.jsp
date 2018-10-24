@@ -23,14 +23,16 @@
 			</c:forEach>
 		</ul>
 	</div>
-        <c:if test="${hiddenMessage == 1}">
-            <h1><fmt:message key = "key.notFound" bundle = "${lang}"/></h1>
-         </c:if>
+
 		   <div class="item4">
             <a href="/addMovie"><fmt:message key = "key.addMovie" bundle = "${lang}"/></a>
 			 </div>
-           <c:forEach items="${movies}" var="movie">
 		      <div class="item3">
+		        <c:if test="${hiddenMessage == 1}">
+                          <h1><fmt:message key = "key.notFound" bundle = "${lang}"/></h1>
+                       </c:if>
+		                 <c:forEach items="${movies}" var="movie">
+
                           <div class = "pageContent" >
                            <img src = "${movie.imageURL}" onerror="this.src = '/css/img/thumb.png'" class = "imgList"/>
                            <h hidden="false" >${movie.id}</h>

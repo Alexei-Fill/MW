@@ -8,6 +8,7 @@ import com.epam.movie_warehouse.exception.ValidationException;
 import com.epam.movie_warehouse.util.MovieWarehouseConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,26 +26,24 @@ public class DeleteUserService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException,
             ValidationException, ConnectionNotFoundException {
-        User userById = new User();
+        User user = new User();
         String requestForward = LOG_OUT_URI;
-        User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
+        User authorizedUser = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
         String requestURI = request.getRequestURI();
-        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (user.getRoleId().equals(UserRole.ADMIN))) {
+        if ((requestURI.equalsIgnoreCase(DELETE_USER_URI)) && (authorizedUser.getRoleId().equals(UserRole.ADMIN))) {
             long userId = validateId(request.getParameter(USER_ID_ATTRIBUTE));
-            userById = userDAO.getUserById(userId);
+            user = userDAO.getUserById(userId);
             requestForward = LIST_USER_URI;
-        } else {
-            if (checkPassword(request)) {
-                userById = userDAO.getUserById(user.getId());
-            }
+        } else if (checkPassword(request)) {
+            user = authorizedUser;
         }
-        if (userById.getId() == 0) {
+        if (user.getId() == 0) {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            userDAO.deleteMoviesLinks(userById);
-            userDAO.deleteUser(userById);
-            USER_LOGGER.info("User was deleted " + user);
+            userDAO.deleteMoviesLinks(user);
+            userDAO.deleteUser(user);
+            USER_LOGGER.info("User was deleted " + authorizedUser);
             response.sendRedirect(requestForward);
         }
     }
@@ -54,13 +53,9 @@ public class DeleteUserService implements Service {
         String password = request.getParameter(PASSWORD_ATTRIBUTE);
         String passwordRepeat = request.getParameter(PASSWORD_REPEAT_ATTRIBUTE);
         User user = (User) request.getSession().getAttribute(AUTHORIZED_USER_ATTRIBUTE);
-        if (((password != null) && (!password.trim().equals(EMPTY_STRING))) &&
-                ((passwordRepeat != null) && (!passwordRepeat.trim().equals(EMPTY_STRING)))) {
-            if (password.equals(passwordRepeat)) {
-                if (user.getPassword().equals(password)) {
-                    isCheck = true;
-                }
-            }
+        if ((password != null) && (!EMPTY_STRING.equals(password.trim())) && (passwordRepeat != null) &&
+                (!EMPTY_STRING.equals(passwordRepeat.trim())) && (password.equals(passwordRepeat))) {
+            isCheck = BCrypt.checkpw(password, user.getPassword());
         }
         return isCheck;
     }

@@ -32,7 +32,7 @@ public interface Service {
         return languageDAO.getLanguageById(getLanguageId(request, response));
     }
 
-    default void saveCurrentPageURLToSession(HttpServletRequest request, HttpServletResponse response) {
+    default void writeCurrentPageToSession(HttpServletRequest request, HttpServletResponse response) {
         String requestURL = request.getRequestURI() +
                 (request.getQueryString() != null ? QUESTION_MARK + request.getQueryString() : EMPTY_STRING);
         request.getSession().setAttribute(CURRENT_URL_ATTRIBUTE, requestURL);

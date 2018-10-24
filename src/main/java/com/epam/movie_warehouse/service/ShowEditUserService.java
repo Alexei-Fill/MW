@@ -28,7 +28,7 @@ public class ShowEditUserService implements Service {
             response.sendError(SC_NOT_FOUND);
         } else {
             request.setAttribute(USER_ATTRIBUTE, user);
-            saveCurrentPageURLToSession(request, response);
+            writeCurrentPageToSession(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(EDIT_USER_JSP);
             requestDispatcher.forward(request, response);
         }

@@ -26,26 +26,78 @@ import java.util.List;
 import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
 
-public class AddEditMovieService implements Service {
+public class EditOrUploadMovieService implements Service {
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
-    private List<Human> humans;
-    private final HumanDAO humanDAO = new HumanDAO();
+    private List<Human> humanList;
+    private final HumanDAO HUMAN_DAO = new HumanDAO();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             ValidationException, SQLException, ConnectionNotFoundException {
-        final Language language = getLanguage(request, response);
-        final int LANGUAGE_ID = language.getId();
+        final Language LANGUAGE = getLanguage(request, response);
+        final int LANGUAGE_ID = LANGUAGE.getId();
         MovieDAO movieDAO = new MovieDAO();
-        GenreDAO genreDAO = new GenreDAO();
         Movie movie = new Movie();
-        Genre genre;
-        humans = new ArrayList<>();
-        List<Genre> genres = new ArrayList<>();
+        humanList = new ArrayList<>();
         long movieId = validateId(request.getParameter(MOVIE_ID_ATTRIBUTE));
+
         if (movieId != 0) {
             movie = movieDAO.getMovieById(movieId, LANGUAGE_ID);
+            setMovieParameters(movie, request, response, LANGUAGE);
+
+            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
+            if (languages != null) {
+                for (String s : languages) {
+                    int languageId = Integer.parseInt(s.trim());
+                    setMultiLanguageParameters(movie, request, response, languageId);
+                }
+            }
+            movieDAO.updateMovie(movie, LANGUAGE_ID);
+            movieDAO.deleteGenresLinks(movie.getId());
+            movieDAO.deleteHumansLinks(movie.getId());
+            movieDAO.addGenresLinks(movie);
+            movieDAO.addHumansLinks(movie);
+            ROOT_LOGGER.info("Movie was changed " + movie);
+        } else {
+            setMovieParameters(movie, request, response, LANGUAGE);
+            movie.setUploadDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
+            movieDAO.addMovie(movie);
+            movieDAO.addGenresLinks(movie);
+            movieDAO.addHumansLinks(movie);
+            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
+            if (languages != null) {
+                for (String s : languages) {
+                    int languageId = Integer.parseInt(s.trim());
+                    setMultiLanguageParameters(movie, request, response, languageId);
+                    movieDAO.addMovieMultiLanguageParameters(movie, languageId);
+                }
+            }
+            ROOT_LOGGER.info("Movie was added " + movie);
         }
+        request.setAttribute(MOVIE_ATTRIBUTE, movie);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_MOVIE_BY_ID_URL + movie.getId());
+        requestDispatcher.forward(request, response);
+    }
+
+    private void setMovieCrew(HttpServletRequest request, HttpServletResponse response, String parameterName, int roleId, int languageId)
+            throws SQLException, ConnectionNotFoundException {
+        Human human;
+        String[] movieCrew = request.getParameterValues(parameterName);
+        if (movieCrew != null) {
+            for (String s : movieCrew) {
+                long humanId = Long.parseLong(s.trim());
+                human = HUMAN_DAO.getHumanById(humanId, languageId);
+                human.setRoleId(roleId);
+                humanList.add(human);
+            }
+        }
+    }
+
+    private void setMovieParameters(Movie movie, HttpServletRequest request, HttpServletResponse response, Language language)
+            throws ValidationException, ConnectionNotFoundException, SQLException {
+        GenreDAO genreDAO = new GenreDAO();
+        Genre genre;
+        List<Genre> genreList = new ArrayList<>();
         movie.setImageURL(request.getParameter(IMG_URL_ATTRIBUTE));
         movie.setImdbID(validateImdbId(request.getParameter(IMDB_ID_ATTRIBUTE)));
         movie.setBudget(validateBudget(request.getParameter(BUDGET_ATTRIBUTE)));
@@ -57,68 +109,22 @@ public class AddEditMovieService implements Service {
         if (genreIdString != null) {
             for (String s : genreIdString) {
                 long genreId = Long.parseLong(s.trim());
-                genre = genreDAO.getGenreById(genreId, LANGUAGE_ID);
-                genres.add(genre);
+                genre = genreDAO.getGenreById(genreId, language.getId());
+                genreList.add(genre);
             }
         }
-        movie.setGenres(genres);
-        setMovieCrew(request, ACTOR_ATTRIBUTE, ACTOR_ROLE_ID, LANGUAGE_ID);
-        setMovieCrew(request, DIRECTOR_ATTRIBUTE, DIRECTOR_ROLE_ID, LANGUAGE_ID);
-        setMovieCrew(request, SCREENWRITER_ATTRIBUTE, SCREENWRITER_ROLE_ID, LANGUAGE_ID);
-        movie.setMovieCrew(humans);
-        if (movieId != 0) {
-            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
-            if (languages != null) {
-                for (String s : languages) {
-                    int languageId = Integer.parseInt(s.trim());
-                    movie = setMultiLanguageParameters(request, movie, languageId);
-                }
-            }
-            movieDAO.updateMovie(movie, LANGUAGE_ID);
-            movieDAO.deleteGenresLinks(movie.getId());
-            movieDAO.deleteHumansLinks(movie.getId());
-            movieDAO.addGenresLinks(movie);
-            movieDAO.addHumansLinks(movie);
-            ROOT_LOGGER.info("Movie was changed " + movie);
-        } else {
-            movie.setUploadDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
-            movieDAO.addMovie(movie);
-            movieDAO.addGenresLinks(movie);
-            movieDAO.addHumansLinks(movie);
-            String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
-            if (languages != null) {
-                for (String s : languages) {
-                    int languageId = Integer.parseInt(s.trim());
-                    movie = setMultiLanguageParameters(request, movie, languageId);
-                    movieDAO.addMovieMultiLanguageParameters(movie, languageId);
-                }
-            }
-            ROOT_LOGGER.info("Movie was added " + movie);
-        }
-        request.setAttribute(MOVIE_ATTRIBUTE, movie);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(SHOW_MOVIE_BY_ID_URL + movie.getId());
-        requestDispatcher.forward(request, response);
+        movie.setGenres(genreList);
+        setMovieCrew(request, response, ACTOR_ATTRIBUTE, ACTOR_ROLE_ID, language.getId());
+        setMovieCrew(request, response, DIRECTOR_ATTRIBUTE, DIRECTOR_ROLE_ID, language.getId());
+        setMovieCrew(request, response, SCREENWRITER_ATTRIBUTE, SCREENWRITER_ROLE_ID, language.getId());
+        movie.setMovieCrew(humanList);
     }
 
-    private void setMovieCrew(HttpServletRequest request, String parameterName, int roleId, int languageId)
-            throws SQLException, ConnectionNotFoundException  {
-        Human human;
-        String[] movieCrew = request.getParameterValues(parameterName);
-        if (movieCrew != null) {
-            for (String s : movieCrew) {
-                long humanId = Long.parseLong(s.trim());
-                human = humanDAO.getHumanById(humanId, languageId);
-                human.setRoleId(roleId);
-                humans.add(human);
-            }
-        }
-    }
-
-    private Movie setMultiLanguageParameters(HttpServletRequest request, Movie movie, int languageId) throws ValidationException {
+    private void setMultiLanguageParameters(Movie movie, HttpServletRequest request, HttpServletResponse response, int languageId)
+            throws ValidationException {
         movie.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
         movie.setDescription(validateDescription(
                 request.getParameter(DESCRIPTION_ATTRIBUTE + languageId)));
         movie.setCountry(validateCountry(request.getParameter(COUNTRY_ATTRIBUTE + languageId)));
-        return movie;
     }
 }

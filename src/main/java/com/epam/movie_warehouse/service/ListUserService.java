@@ -20,9 +20,9 @@ public class ListUserService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
             SQLException, ConnectionNotFoundException {
         UserDAO userDAO = new UserDAO();
-        List<User> users = userDAO.listUser();
-        request.setAttribute(USERS_ATTRIBUTE, users);
-        saveCurrentPageURLToSession(request, response);
+        List<User> userList = userDAO.listUser();
+        request.setAttribute(USERS_ATTRIBUTE, userList);
+        writeCurrentPageToSession(request, response);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_USER_JSP);
         requestDispatcher.forward(request, response);
     }

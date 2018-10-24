@@ -26,16 +26,24 @@ public class LikeMovieService implements Service {
         Integer like = null;
         if ((user != null) && (movieId != 0)) {
             like = userDAO.checkMoviesLinksByLikedField(user.getId(), movieId);
-            if (like == NO_ENTRY_EXISTS_VALUE) {
+        }
+        switch (like) {
+            case (ITS_LIKED_VALUE): {
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_NOT_LIKED_VALUE);
+                like = ITS_NOT_LIKED_VALUE;
+                break;
+            }
+            case (ITS_NOT_LIKED_VALUE): {
+                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
+                like = ITS_LIKED_VALUE;
+                break;
+            }
+            case (NO_ENTRY_EXISTS_VALUE):
+            default: {
                 userDAO.addMoviesLinks(user.getId(), movieId);
                 userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
                 like = ITS_LIKED_VALUE;
-            } else if (like == ITS_LIKED_VALUE) {
-                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_NOT_LIKED_VALUE);
-                like = ITS_NOT_LIKED_VALUE;
-            } else if (like == ITS_NOT_LIKED_VALUE) {
-                userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
-                like = ITS_LIKED_VALUE;
+                break;
             }
         }
         String requestURL = (String) request.getSession().getAttribute(CURRENT_URL_ATTRIBUTE);
