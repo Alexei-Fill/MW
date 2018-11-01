@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.CONNECTION_NOT_FOUND_EXCEPTION;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.DEFAULT_LOCALE;
@@ -28,7 +29,7 @@ public class ConnectionPool {
     private final String PASSWORD = BUNDLE.getString(CONNECTION_PULL_PASSWORD);
     private final String DRIVER = BUNDLE.getString(CONNECTION_PULL_DRIVER);
     private final int INIT_CONNECTION_COUNT = Integer.parseInt(BUNDLE.getString(CONNECTION_PULL_INIT_CONNECTION_COUNT));
-    private final ArrayBlockingQueue<Connection> CONNECTION_QUEUE = new ArrayBlockingQueue<>(INIT_CONNECTION_COUNT);
+    private final BlockingQueue<Connection> CONNECTION_QUEUE = new ArrayBlockingQueue<>(INIT_CONNECTION_COUNT);
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
     private ConnectionPool() {
