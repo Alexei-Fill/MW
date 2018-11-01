@@ -13,14 +13,14 @@ import java.util.concurrent.ArrayBlockingQueue;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.CONNECTION_NOT_FOUND_EXCEPTION;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.DEFAULT_LOCALE;
 
-public class ConnectionPull {
+public class ConnectionPool {
     private static final String CONNECTION_PULL_BUNDLE = "connectionPull";
     private static final String CONNECTION_PULL_URL = "url";
     private static final String CONNECTION_PULL_USER = "user";
     private static final String CONNECTION_PULL_PASSWORD = "password";
     private static final String CONNECTION_PULL_DRIVER = "driver";
     private static final String CONNECTION_PULL_INIT_CONNECTION_COUNT = "initConnectionCount";
-    private static final ConnectionPull UNIQUE_INSTANCE = new ConnectionPull();
+    private static final ConnectionPool UNIQUE_INSTANCE = new ConnectionPool();
     private final Locale LOCALE = new Locale(DEFAULT_LOCALE);
     private final ResourceBundle BUNDLE = ResourceBundle.getBundle(CONNECTION_PULL_BUNDLE, LOCALE);
     private final String URL = BUNDLE.getString(CONNECTION_PULL_URL);
@@ -31,7 +31,7 @@ public class ConnectionPull {
     private final ArrayBlockingQueue<Connection> CONNECTION_QUEUE = new ArrayBlockingQueue<>(INIT_CONNECTION_COUNT);
     private static final Logger ROOT_LOGGER = LogManager.getRootLogger();
 
-    private ConnectionPull() {
+    private ConnectionPool() {
         try {
             Class.forName(DRIVER);
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ConnectionPull {
         }
     }
 
-    public static ConnectionPull getUniqueInstance() {
+    public static ConnectionPool getUniqueInstance() {
         return UNIQUE_INSTANCE;
     }
 

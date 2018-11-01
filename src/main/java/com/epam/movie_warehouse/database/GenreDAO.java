@@ -10,7 +10,7 @@ import java.util.List;
 import static com.epam.movie_warehouse.util.DAOConstant.*;
 
 public class GenreDAO {
-    private final ConnectionPull CONNECTION_PULL = ConnectionPull.getUniqueInstance();
+    private final ConnectionPool CONNECTION_PULL = ConnectionPool.getUniqueInstance();
 
     public List<Genre> listGenresOfTheMovie(long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         List<Genre> genreList = new ArrayList<>();

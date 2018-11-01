@@ -16,7 +16,7 @@ import java.util.Map;
 import static com.epam.movie_warehouse.util.DAOConstant.*;
 
 public class MovieDAO {
-    private final ConnectionPull CONNECTION_PULL = ConnectionPull.getUniqueInstance();
+    private final ConnectionPool CONNECTION_PULL = ConnectionPool.getUniqueInstance();
 
     public Movie getMovieById(long movieId, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_PULL.retrieve();
