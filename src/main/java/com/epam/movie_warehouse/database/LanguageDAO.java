@@ -14,11 +14,11 @@ import static com.epam.movie_warehouse.util.DAOConstant.SHOW_ALL_LANGUAGE_SQL_QU
 import static com.epam.movie_warehouse.util.DAOConstant.SHOW_LANGUAGE_BY_ID_SQL_QUERY;
 
 public class LanguageDAO {
-    private final ConnectionPool CONNECTION_PULL = ConnectionPool.getUniqueInstance();
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getUniqueInstance();
 
     public List<Language> listLanguage() throws SQLException, ConnectionNotFoundException {
         List<Language> languageList = new ArrayList<>();
-        Connection connection = CONNECTION_PULL.retrieve();
+        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_ALL_LANGUAGE_SQL_QUERY);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -26,14 +26,15 @@ public class LanguageDAO {
                 setParametersToLanguage(language, resultSet);
                 languageList.add(language);
             }
+        } finally {
+            CONNECTION_POOL.putBack(connection);
         }
-        CONNECTION_PULL.putBack(connection);
         return languageList;
     }
 
     public Language getLanguageById(int languageId) throws SQLException, ConnectionNotFoundException {
         Language language = new Language();
-        Connection connection = CONNECTION_PULL.retrieve();
+        Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SHOW_LANGUAGE_BY_ID_SQL_QUERY)) {
             preparedStatement.setLong(1, languageId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -41,8 +42,9 @@ public class LanguageDAO {
                 setParametersToLanguage(language, resultSet);
             }
             resultSet.close();
+        } finally {
+            CONNECTION_POOL.putBack(connection);
         }
-        CONNECTION_PULL.putBack(connection);
         return language;
     }
 
