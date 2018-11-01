@@ -7,6 +7,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.epam.movie_warehouse.util.DAOConstant.*;
 
@@ -83,47 +84,61 @@ public class HumanDAO {
 
     public void deleteHuman(long humanId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN_SQL_QUERY)) {
-            pr.setLong(1, humanId);
-            pr.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HUMAN_SQL_QUERY)) {
+            preparedStatement.setLong(1, humanId);
+            connection.setAutoCommit(false);
+            deleteHumanMultiLanguageParameters(humanId, connection);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void deleteHumanMultiLanguageParameters(long humanId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(DELETE_HUMAN_CHARACTERISTIC_SQL_QUERY)) {
-            pr.setLong(1, humanId);
-            pr.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
+    private void deleteHumanMultiLanguageParameters(long humanId, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HUMAN_CHARACTERISTIC_SQL_QUERY)) {
+            preparedStatement.setLong(1, humanId);
+            preparedStatement.executeUpdate();
         }
     }
 
-    public void addHuman(Human human) throws SQLException, ConnectionNotFoundException {
+    public void addHuman(Human human, Map multiLanguageHumanMap) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMAN_SQL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             getHumanParameters(human, preparedStatement);
+            connection.setAutoCommit(false);
             preparedStatement.executeUpdate();
+            long newHumanId = 0;
             ResultSet humanId = preparedStatement.getGeneratedKeys();
             if (humanId.next()) {
-                human.setId(humanId.getLong(1));
+                newHumanId = humanId.getLong(1);
+                human.setId(newHumanId);
             }
+            addHumanMultiLanguageParameters(multiLanguageHumanMap, newHumanId, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addHumanMultiLanguageParameters(Human human, int languageId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_HUMAN_SQL_QUERY)) {
-            getHumanMultiLanguageParameters(human, preparedStatement);
-            preparedStatement.setLong(5, human.getId());
-            preparedStatement.setLong(6, languageId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
+    private void addHumanMultiLanguageParameters(Map multiLanguageHumanMap, long humanId, Connection connection) throws SQLException {
+        for (Object o : multiLanguageHumanMap.keySet()) {
+            Integer languageId = (Integer) o;
+            Human human = (Human) multiLanguageHumanMap.get(languageId);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_HUMAN_SQL_QUERY)) {
+                getHumanMultiLanguageParameters(human, preparedStatement);
+                preparedStatement.setLong(5, humanId);
+                preparedStatement.setLong(6, languageId);
+                preparedStatement.executeUpdate();
+            }
         }
     }
 

@@ -52,8 +52,26 @@ public class MovieDAO {
         return movieList;
     }
 
-    public void updateMovie(Movie movie, int languageId) throws SQLException, ConnectionNotFoundException {
+    public void updateMovieCompletely(Movie movie, int languageId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            connection.setAutoCommit(false);
+            updateMovie(movie, languageId, connection);
+            deleteGenresLinks(movie.getId(), connection);
+            deleteHumansLinks(movie.getId(), connection);
+            addGenresLinks(movie, connection);
+            addHumansLinks(movie, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void updateMovie(Movie movie, int languageId, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIE_SQL_QUERY)) {
             getMovieParameters(movie, preparedStatement);
             preparedStatement.setString(9, movie.getName());
@@ -62,95 +80,65 @@ public class MovieDAO {
             preparedStatement.setLong(12, movie.getId());
             preparedStatement.setLong(13, languageId);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void deleteGenresLinks(long movieId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRES_LINKS_SQL_QUERY)) {
-            preparedStatement.setLong(1, movieId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-    }
-
-    public void deleteHumansLinks(long movieId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HUMANS_LINKS_SQL_QUERY)) {
-            preparedStatement.setLong(1, movieId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-    }
-
-    public void deleteUsersLinks(long movieId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERS_LINKS_SQL_QUERY)) {
-            preparedStatement.setLong(1, movieId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-    }
-
-    public void addGenresLinks(Movie movie) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try {
-            for (Genre genre : movie.getGenres()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_GENRES_LINKS_SQL_QUERY)) {
-                    preparedStatement.setLong(1, movie.getId());
-                    preparedStatement.setLong(2, genre.getId());
-                    preparedStatement.executeUpdate();
-                }
+    private void addGenresLinks(Movie movie, Connection connection) throws SQLException {
+        for (Genre genre : movie.getGenres()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_GENRES_LINKS_SQL_QUERY)) {
+                preparedStatement.setLong(1, movie.getId());
+                preparedStatement.setLong(2, genre.getId());
+                preparedStatement.executeUpdate();
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addHumansLinks(Movie movie) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try {
-            for (Human human : movie.getMovieCrew()) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMANS_LINKS_SQL_QUERY)) {
-                    preparedStatement.setLong(1, human.getId());
-                    preparedStatement.setLong(2, movie.getId());
-                    preparedStatement.setInt(3, human.getRoleId());
-                    preparedStatement.executeUpdate();
-                }
+    private void addHumansLinks(Movie movie, Connection connection) throws SQLException {
+        for (Human human : movie.getMovieCrew()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_HUMANS_LINKS_SQL_QUERY)) {
+                preparedStatement.setLong(1, human.getId());
+                preparedStatement.setLong(2, movie.getId());
+                preparedStatement.setInt(3, human.getRoleId());
+                preparedStatement.executeUpdate();
             }
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addMovie(Movie movie) throws SQLException, ConnectionNotFoundException {
+    public void addMovie(Movie movie, Map multiLanguageMovieMap) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_MOVIE_SQL_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             getMovieParameters(movie, preparedStatement);
+            connection.setAutoCommit(false);
             preparedStatement.executeUpdate();
+            long newMovieId = 0;
             ResultSet movieId = preparedStatement.getGeneratedKeys();
             if (movieId.next()) {
-                movie.setId(movieId.getLong(1));
+                newMovieId = movieId.getLong(1);
+                movie.setId(newMovieId);
             }
+            addMovieMultiLanguageParameters(multiLanguageMovieMap, newMovieId, connection);
+            addGenresLinks(movie, connection);
+            addHumansLinks(movie, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addMovieMultiLanguageParameters(Movie movie, int languageId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_MOVIE_SQL_QUERY)) {
-            getMovieMultiLanguageParameters(movie, preparedStatement);
-            preparedStatement.setLong(4, languageId);
-            preparedStatement.setLong(5, movie.getId());
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
+    private void addMovieMultiLanguageParameters(Map multiLanguageMovieMap, long movieId, Connection connection) throws SQLException {
+        for (Object o : multiLanguageMovieMap.keySet()) {
+            Integer languageId = (Integer) o;
+            Movie movie = (Movie) multiLanguageMovieMap.get(languageId);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_CHARACTERISTIC_OF_MOVIE_SQL_QUERY)) {
+                getMovieMultiLanguageParameters(movie, preparedStatement);
+                preparedStatement.setLong(4, languageId);
+                preparedStatement.setLong(5, movieId);
+                preparedStatement.executeUpdate();
+            }
         }
     }
 
@@ -158,19 +146,47 @@ public class MovieDAO {
         Connection connection = CONNECTION_POOL.retrieve();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MOVIE_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
+            connection.setAutoCommit(false);
+            deleteHumansLinks(movieId, connection);
+            deleteGenresLinks(movieId, connection);
+            deleteUsersLinks(movieId, connection);
+            deleteMovieMultiLanguageParameters(movieId, connection);
             preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void deleteMovieMultiLanguageParameters(long movieId) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    private void deleteMovieMultiLanguageParameters(long movieId, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CHARACTERISTIC_OF_MOVIE_SQL_QUERY)) {
             preparedStatement.setLong(1, movieId);
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void deleteUsersLinks(long movieId, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERS_LINKS_SQL_QUERY)) {
+            preparedStatement.setLong(1, movieId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    private void deleteGenresLinks(long movieId, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GENRES_LINKS_SQL_QUERY)) {
+            preparedStatement.setLong(1, movieId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    private void deleteHumansLinks(long movieId, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_HUMANS_LINKS_SQL_QUERY)) {
+            preparedStatement.setLong(1, movieId);
+            preparedStatement.executeUpdate();
         }
     }
 

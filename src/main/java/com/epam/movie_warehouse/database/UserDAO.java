@@ -85,34 +85,111 @@ public class UserDAO {
         }
     }
 
-    public void deleteUser(User user) throws SQLException, ConnectionNotFoundException {
+    public void deleteUserCompletely(User user) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            connection.setAutoCommit(false);
+            deleteMoviesLinks(user, connection);
+            deleteUser(user, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void deleteUser(User user, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_SQL_QUERY)) {
             preparedStatement.setLong(1, user.getId());
             preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void deleteMoviesLinks(User user) throws SQLException, ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
+    private void deleteMoviesLinks(User user, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS_MOVIES_OF_USER_SQL_QUERY)) {
             preparedStatement.setLong(1, user.getId());
             preparedStatement.executeUpdate();
+        }
+    }
+
+    public void addMoviesLikedLinks(long userId, long movieId, int itsLiked) throws SQLException, ConnectionNotFoundException {
+        Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            connection.setAutoCommit(false);
+            addMoviesLinks(userId, movieId, connection);
+            updateMoviesLinksByLikedField(userId, movieId, itsLiked, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }
 
-    public void addMoviesLinks(long userId, long movieId) throws SQLException, ConnectionNotFoundException {
+    public void addMoviesVotedLinks(long userId, long movieId, int grade) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            connection.setAutoCommit(false);
+            addMoviesLinks(userId, movieId, connection);
+            updateMoviesLinksByVotedField(userId, movieId, grade, connection);
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void addMoviesLinks(long userId, long movieId, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_LINKS_MOVIES_OF_USER_SQL_QUERY)) {
             preparedStatement.setLong(1, userId);
             preparedStatement.setLong(2, movieId);
             preparedStatement.executeUpdate();
+        }
+    }
+
+    public void updateMoviesLinksByVotedField(long userId, long movieId, int grade) throws SQLException,
+            ConnectionNotFoundException {
+        Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            updateMoviesLinksByVotedField(userId, movieId, grade, connection);
         } finally {
             CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void updateMoviesLinksByVotedField(long userId, long movieId, int grade, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIES_LINKS_BY_VOTED_FIELD_SQL_QUERY)) {
+            preparedStatement.setLong(1, grade);
+            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(3, movieId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void updateMoviesLinksByLikedField(long userId, long movieId, int itsLiked) throws SQLException,
+            ConnectionNotFoundException {
+        Connection connection = CONNECTION_POOL.retrieve();
+        try {
+            updateMoviesLinksByLikedField(userId, movieId, itsLiked, connection);
+        } finally {
+            CONNECTION_POOL.putBack(connection);
+        }
+    }
+
+    private void updateMoviesLinksByLikedField(long userId, long movieId, int itsLiked, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIES_LINKS_BY_LIKED_FIELD_SQL_QUERY)) {
+            preparedStatement.setLong(1, itsLiked);
+            preparedStatement.setLong(2, userId);
+            preparedStatement.setLong(3, movieId);
+            preparedStatement.executeUpdate();
         }
     }
 
@@ -146,32 +223,6 @@ public class UserDAO {
             CONNECTION_POOL.putBack(connection);
         }
         return itsVoted;
-    }
-
-    public void updateMoviesLinksByLikedField(long userId, long movieId, int itsLiked) throws SQLException,
-            ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIES_LINKS_BY_LIKED_FIELD_SQL_QUERY)) {
-            preparedStatement.setLong(1, itsLiked);
-            preparedStatement.setLong(2, userId);
-            preparedStatement.setLong(3, movieId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
-    }
-
-    public void updateMoviesLinksByVotedField(long userId, long movieId, int grade) throws SQLException,
-            ConnectionNotFoundException {
-        Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOVIES_LINKS_BY_VOTED_FIELD_SQL_QUERY)) {
-            preparedStatement.setLong(1, grade);
-            preparedStatement.setLong(2, userId);
-            preparedStatement.setLong(3, movieId);
-            preparedStatement.executeUpdate();
-        } finally {
-            CONNECTION_POOL.putBack(connection);
-        }
     }
 
     private User setParametersToUser(User user, ResultSet resultSet) throws SQLException {

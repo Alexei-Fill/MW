@@ -29,7 +29,6 @@ public class DeleteHumanService implements Service {
             response.sendError(SC_NOT_FOUND);
         } else {
             if (!humanDAO.checkForMovieLinks(humanId)) {
-                humanDAO.deleteHumanMultiLanguageParameters(humanId);
                 humanDAO.deleteHuman(humanId);
                 ROOT_LOGGER.info("Human was deleted humanId = " + humanId);
             } else {

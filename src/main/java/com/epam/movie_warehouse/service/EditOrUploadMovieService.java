@@ -21,7 +21,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
@@ -44,7 +46,6 @@ public class EditOrUploadMovieService implements Service {
         if (movieId != 0) {
             movie = movieDAO.getMovieById(movieId, LANGUAGE_ID);
             setMovieParameters(movie, request, response, LANGUAGE);
-
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
             if (languages != null) {
                 for (String s : languages) {
@@ -52,26 +53,22 @@ public class EditOrUploadMovieService implements Service {
                     setMultiLanguageParameters(movie, request, response, languageId);
                 }
             }
-            movieDAO.updateMovie(movie, LANGUAGE_ID);
-            movieDAO.deleteGenresLinks(movie.getId());
-            movieDAO.deleteHumansLinks(movie.getId());
-            movieDAO.addGenresLinks(movie);
-            movieDAO.addHumansLinks(movie);
+            movieDAO.updateMovieCompletely(movie, LANGUAGE_ID);
             ROOT_LOGGER.info("Movie was changed " + movie);
         } else {
+            Map<Integer, Movie> multiLanguageMovieMap = new HashMap<>();
             setMovieParameters(movie, request, response, LANGUAGE);
             movie.setUploadDate(LocalDate.now(ZoneId.of(DEFAULT_TIME_ZONE)));
-            movieDAO.addMovie(movie);
-            movieDAO.addGenresLinks(movie);
-            movieDAO.addHumansLinks(movie);
             String[] languages = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
             if (languages != null) {
                 for (String s : languages) {
                     int languageId = Integer.parseInt(s.trim());
-                    setMultiLanguageParameters(movie, request, response, languageId);
-                    movieDAO.addMovieMultiLanguageParameters(movie, languageId);
+                    Movie multiLanguageMovie = new Movie();
+                    setMultiLanguageParameters(multiLanguageMovie, request, response, languageId);
+                    multiLanguageMovieMap.put(languageId, multiLanguageMovie);
                 }
             }
+            movieDAO.addMovie(movie, multiLanguageMovieMap);
             ROOT_LOGGER.info("Movie was added " + movie);
         }
         request.setAttribute(MOVIE_ATTRIBUTE, movie);

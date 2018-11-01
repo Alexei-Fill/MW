@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.epam.movie_warehouse.validator.HumanValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
@@ -42,16 +44,18 @@ public class EditOrUploadHumanService implements Service {
             HUMAN_DAO.updateHuman(human, LANGUAGE_ID);
             ROOT_LOGGER.info("Human was changed " + human);
         } else {
+            Map<Integer, Human> multiLanguageHumanMap = new HashMap<>();
             setHumanParameters(human, request, response, language);
-            HUMAN_DAO.addHuman(human);
             String[] languageIdValue = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
             if (languageIdValue != null) {
                 for (String s : languageIdValue) {
                     int languageId = Integer.parseInt(s.trim());
-                    setHumanMultiLanguageParameters(human, request, response, languageId);
-                    HUMAN_DAO.addHumanMultiLanguageParameters(human, languageId);
+                    Human multiLanguageHuman = new Human();
+                    setHumanMultiLanguageParameters(multiLanguageHuman, request, response, languageId);
+                    multiLanguageHumanMap.put(languageId, multiLanguageHuman);
                 }
             }
+            HUMAN_DAO.addHuman(human, multiLanguageHumanMap);
             ROOT_LOGGER.info("Human was added " + human);
         }
         request.setAttribute(HUMAN_ATTRIBUTE, human);

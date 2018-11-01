@@ -41,8 +41,7 @@ public class DeleteUserService implements Service {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            userDAO.deleteMoviesLinks(user);
-            userDAO.deleteUser(user);
+            userDAO.deleteUserCompletely(user);
             USER_LOGGER.info("User was deleted " + authorizedUser);
             response.sendRedirect(requestForward);
         }

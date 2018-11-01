@@ -6,6 +6,7 @@ import com.epam.movie_warehouse.exception.ConnectionNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.epam.movie_warehouse.util.DAOConstant.*;
 
@@ -90,14 +91,26 @@ public class GenreDAO {
         return genreId;
     }
 
-    public void addGenre(Genre genre, int languageId) throws SQLException, ConnectionNotFoundException {
+    public void addGenre(Map multiLanguageGenreMap, long genreId) throws SQLException, ConnectionNotFoundException {
         Connection connection = CONNECTION_POOL.retrieve();
-        try (PreparedStatement pr = connection.prepareStatement(ADD_GENRE_SQL_QUERY)) {
-            pr.setLong(1, genre.getId());
-            pr.setString(2, genre.getName());
-            pr.setInt(3, languageId);
-            pr.executeUpdate();
+        try {
+            connection.setAutoCommit(false);
+            for (Object o : multiLanguageGenreMap.keySet()) {
+                Integer languageId = (Integer) o;
+                Genre genre = (Genre) multiLanguageGenreMap.get(languageId);
+                try (PreparedStatement pr = connection.prepareStatement(ADD_GENRE_SQL_QUERY)) {
+                    pr.setLong(1, genreId);
+                    pr.setString(2, genre.getName());
+                    pr.setInt(3, languageId);
+                    pr.executeUpdate();
+                    connection.commit();
+                } catch (SQLException e) {
+                    connection.rollback();
+                    throw e;
+                }
+            }
         } finally {
+            connection.setAutoCommit(true);
             CONNECTION_POOL.putBack(connection);
         }
     }

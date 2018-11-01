@@ -29,8 +29,7 @@ public class RateMovieService implements Service {
         if ((user != null) && (movieId != 0)) {
             movieGrade = userDAO.checkMoviesLinksByVotedField(user.getId(), movieId);
             if (movieGrade == NO_ENTRY_EXISTS_VALUE) {
-                userDAO.addMoviesLinks(user.getId(), movieId);
-                userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
+                userDAO.addMoviesVotedLinks(user.getId(), movieId, grade);
             } else if (grade != movieGrade) {
                 userDAO.updateMoviesLinksByVotedField(user.getId(), movieId, grade);
             }

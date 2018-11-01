@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.epam.movie_warehouse.validator.MovieValidator.*;
 import static com.epam.movie_warehouse.util.MovieWarehouseConstant.*;
@@ -35,24 +37,26 @@ public class EditOrUploadGenreService implements Service {
             ROOT_LOGGER.info("Genre was changed " + genre);
         } else {
             getMaxGenreId();
-            genre.setId(maxGenreId);
-            addGenre(request, response, genre);
+            addGenre(request, response, maxGenreId);
             ROOT_LOGGER.info("Genre was added " + genre);
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_GENRE_URI);
         requestDispatcher.forward(request, response);
     }
 
-    private void addGenre(HttpServletRequest request, HttpServletResponse response, Genre genre) throws ValidationException,
+    private void addGenre(HttpServletRequest request, HttpServletResponse response, long genreId) throws ValidationException,
             ConnectionNotFoundException, SQLException {
+        Map<Integer, Genre> multiLanguageGenreMap = new HashMap<>();
         String[] languageIdValue = request.getParameterValues(CHARACTERISTIC_LANGUAGE_ID);
         if (languageIdValue != null) {
             for (String s : languageIdValue) {
                 int languageId = Integer.parseInt(s.trim());
-                genre.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
-                GENRE_DAO.addGenre(genre, languageId);
+                Genre multiLanguageGenre = new Genre();
+                multiLanguageGenre.setName(validateName(request.getParameter(NAME_ATTRIBUTE + languageId)));
+                multiLanguageGenreMap.put(languageId, multiLanguageGenre);
             }
         }
+        GENRE_DAO.addGenre(multiLanguageGenreMap, genreId);
     }
 
     private void getMaxGenreId() throws SQLException, ConnectionNotFoundException {

@@ -39,8 +39,7 @@ public class LikeMovieService implements Service {
                 }
                 case (NO_ENTRY_EXISTS_VALUE):
                 default: {
-                    userDAO.addMoviesLinks(user.getId(), movieId);
-                    userDAO.updateMoviesLinksByLikedField(user.getId(), movieId, ITS_LIKED_VALUE);
+                    userDAO.addMoviesLikedLinks(user.getId(), movieId, ITS_LIKED_VALUE);
                     like = ITS_LIKED_VALUE;
                     break;
                 }

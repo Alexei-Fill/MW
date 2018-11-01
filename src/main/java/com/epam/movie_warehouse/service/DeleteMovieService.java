@@ -30,10 +30,6 @@ public class DeleteMovieService implements Service {
             request.setAttribute(EXCEPTION, SC_NOT_FOUND);
             response.sendError(SC_NOT_FOUND);
         } else {
-            movieDAO.deleteHumansLinks(movieId);
-            movieDAO.deleteGenresLinks(movieId);
-            movieDAO.deleteUsersLinks(movieId);
-            movieDAO.deleteMovieMultiLanguageParameters(movieId);
             movieDAO.deleteMovie(movieId);
             ROOT_LOGGER.info("Movie was deleted movieId = " + movieId);
             response.sendRedirect(LIST_MOVIES_ADMIN_URI);
