@@ -26,7 +26,6 @@ public class HumanDAO {
                 human.setRoleId(resultSet.getInt("HUMAN_ROLE"));
                 humanList.add(human);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -44,7 +43,6 @@ public class HumanDAO {
                 human = setParametersToHuman(human, resultSet);
                 humanList.add(human);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -62,7 +60,6 @@ public class HumanDAO {
                 human = new Human();
                 human = setParametersToHuman(human, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -78,7 +75,6 @@ public class HumanDAO {
             while (resultSet.next()) {
                 isChecked = true;
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }

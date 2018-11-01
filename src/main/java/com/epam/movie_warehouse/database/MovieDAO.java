@@ -29,7 +29,6 @@ public class MovieDAO {
                 movie = new Movie();
                 movie = setParametersToMovie(movie, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -47,7 +46,6 @@ public class MovieDAO {
                 movie = setParametersToMovie(movie, resultSet);
                 movieList.add(movie);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -185,7 +183,6 @@ public class MovieDAO {
             while (resultSet.next()) {
                 countOfLikes++;
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -205,7 +202,6 @@ public class MovieDAO {
                 int grade = resultSet.getInt("ITS_VOTED");
                 sumOfGrade = sumOfGrade + grade;
             }
-            resultSet.close();
             if ((sumOfGrade > 0) && (countOfGrade > 0)) {
                 rating = (double) sumOfGrade / countOfGrade;
             }
@@ -227,7 +223,6 @@ public class MovieDAO {
                 movie = setParametersToMovie(movie, resultSet);
                 movieList.add(movie);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -246,7 +241,6 @@ public class MovieDAO {
                 movie = setParametersToMovie(movie, resultSet);
                 movieMap.put(movie.getId(), movie);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -267,7 +261,6 @@ public class MovieDAO {
                 movie = setParametersToMovie(movie, resultSet);
                 movieList.add(movie);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }

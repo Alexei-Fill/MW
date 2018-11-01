@@ -24,7 +24,6 @@ public class GenreDAO {
                 genre = setParametersToGenre(genre, resultSet);
                 genreList.add(genre);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -42,7 +41,6 @@ public class GenreDAO {
                 genre = setParametersToGenre(genre, resultSet);
                 genreList.add(genre);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -60,7 +58,6 @@ public class GenreDAO {
                 genre = new Genre();
                 genre = setParametersToGenre(genre, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -87,7 +84,6 @@ public class GenreDAO {
             while (resultSet.next()) {
                 genreId = resultSet.getLong(1);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -125,7 +121,6 @@ public class GenreDAO {
             while (resultSet.next()) {
                 isChecked = true;
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }

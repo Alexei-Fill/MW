@@ -41,7 +41,6 @@ public class UserDAO {
                 user = new User();
                 user = setParametersToUser(user, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -58,7 +57,6 @@ public class UserDAO {
                 user = new User();
                 user = setParametersToUser(user, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -82,7 +80,6 @@ public class UserDAO {
             getUserParameters(user, preparedStatement);
             preparedStatement.setLong(USER_ID, user.getId());
             preparedStatement.executeUpdate();
-
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -129,7 +126,6 @@ public class UserDAO {
             while (resultSet.next()) {
                 itsLiked = resultSet.getInt("ITS_LIKED");
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
@@ -146,7 +142,6 @@ public class UserDAO {
             while (resultSet.next()) {
                 itsVoted = resultSet.getInt("ITS_VOTED");
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }

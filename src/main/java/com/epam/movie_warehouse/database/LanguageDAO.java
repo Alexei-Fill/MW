@@ -41,7 +41,6 @@ public class LanguageDAO {
             while (resultSet.next()) {
                 setParametersToLanguage(language, resultSet);
             }
-            resultSet.close();
         } finally {
             CONNECTION_POOL.putBack(connection);
         }
