@@ -61,7 +61,7 @@ public class ConnectionPool {
         return connection;
     }
 
-    public synchronized Connection retrieve() {
+    public Connection retrieve() {
         Connection connection = null;
         try {
             connection = CONNECTION_QUEUE.take();
@@ -71,7 +71,7 @@ public class ConnectionPool {
         return connection;
     }
 
-    public synchronized void putBack(Connection connection) throws ConnectionNotFoundException {
+    public void putBack(Connection connection) throws ConnectionNotFoundException {
         if (connection != null) {
             try {
                 CONNECTION_QUEUE.put(connection);
